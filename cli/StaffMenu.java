@@ -38,9 +38,10 @@ public class StaffMenu {
         System.out.println("1) Approve/reject company representatives");
         System.out.println("2) Approve/reject internship opportunities");
         System.out.println("3) Approve/reject student withdrawal requests");
-        System.out.println("4) Generate internship report");
-        System.out.println("5) Logout");
-        System.out.println("6) View all internship applications"); // for testing
+        System.out.println("4) Generate internship opportunity report");
+        System.out.println("5) Set internship opportunity report filters");
+        System.out.println("6) Logout");
+        System.out.println("7) View all internship applications"); // for testing
         choice = inputInt("Enter an option: ");
 
         switch (choice) {
@@ -57,9 +58,12 @@ public class StaffMenu {
                 System.out.println("Not implemented");
 				return staff;
             case 5:
+                System.out.println("Not implemented");
+				return staff;
+            case 6:
                 System.out.println("Logging out...");
 				return null;
-            case 6:
+            case 7:
                 ArrayList<InternshipApplication> applications = appController.getInternshipApplications();
                 System.out.println();
                 System.out.println("=".repeat(20));
@@ -67,8 +71,10 @@ public class StaffMenu {
                 for (InternshipApplication application: applications) {
                     System.out.println("Pending internship applications: ");
                     System.out.println("Applicant: " + application.getApplicant().getName());
-                    System.out.println("Internship Title: " + application.getInternshipOpportunity().getInternshipTitle());
-                    System.out.println("Internship Company: " + application.getInternshipOpportunity().getCompanyName());
+                    System.out.println("Internship title: " + application.getInternshipOpportunity().getInternshipTitle());
+                    System.out.println("Internship company: " + application.getInternshipOpportunity().getCompanyName());
+                    System.out.println("Placement confirmed: "+ application.getPlacementConfirmed());
+                    System.out.println("Withdrawal requested: " + application.getWithdrawalRequested());
                     System.out.println();
                 }
             default:

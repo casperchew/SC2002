@@ -41,7 +41,7 @@ public class UserController {
 		// System.out.println(name);
 		// System.out.println(passwordHash);
 		for (User user: getAllUsers()) {
-			System.out.println(user.getName());
+			// System.out.println(user.getName());
 			// System.out.println(user.getPasswordHash());
             if (Objects.equals(name, user.getName()) && Objects.equals(passwordHash, user.getPasswordHash())) {
                 return user;

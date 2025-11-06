@@ -83,7 +83,7 @@ public class CLI {
                                 password = inputString("Enter your password: ");
                                 int yearOfStudy = inputInt("Enter your year: ");
                                 String major = inputString("Enter your major: ");
-                                Student s = new Student(userID, name, password, yearOfStudy, major);
+                                Student s = new Student(userID, name, password, yearOfStudy, major, null);
                                 userController.createStudent(s);
                                 break;
                             case 2:

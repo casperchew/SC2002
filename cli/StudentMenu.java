@@ -2,6 +2,7 @@ package cli;
 
 import java.util.Scanner;
 
+import model.Status;
 import model.User;
 import model.internship.*;
 import model.user.Student;
@@ -37,26 +38,42 @@ public class StudentMenu {
         System.out.println();
         // add more options later
         System.out.println("1) Apply for internship");
-        System.out.println("2) Change Password");
-        System.out.println("3) Logout");
+        System.out.println("2) View internship applications");
+        System.out.println("3) Set filters");
+        System.out.println("4) Change Password");
+        System.out.println("5) Logout");
         choice = inputInt("Enter an option: ");
         switch (choice) {
             case 1:
                 ApplyForOpportunities();
 				return student;
             case 2:
+                viewInternshipApplications();
+                return student;
+            case 3:
+                System.out.println("Not implemented");
+                return student;
+            case 4:
                 String newPassword = inputString("Enter new password: ");
+                System.out.println("Not implemented");
                 // authManager.changePassword(newPassword);
 				return student;
-            case 3:
+            case 5:
                 System.out.println("Logging out...");
 				return null;
+
             default:
 				return student;
 		}
     }
 
     private void ApplyForOpportunities() {
+        if (student.getInternship() != null) {
+            System.out.println();
+            System.out.println("You have already accepted an internship opportunity.");
+            return;
+        }
+
         boolean loop = true;
         while (loop) {
             // Print the opportunities nicely
@@ -71,7 +88,9 @@ public class StudentMenu {
             System.out.println("Select an internship opportunity to apply for: ");
             for (InternshipOpportunity internshipOpp: opportunities) {
                 // Need to apply filtering here
-                System.out.println("- " + internshipOpp.getInternshipTitle());
+                if (Objects.equals(internshipOpp.getStatus(), Status.APPROVED)) {
+                    System.out.println("- " + internshipOpp.getInternshipTitle());
+                } 
             }
             String internshipTitle = inputString("Enter an internship title for more options (or type \"exit\" to leave this menu): ");
             if (Objects.equals(internshipTitle, "exit")) {break;}
@@ -107,7 +126,13 @@ public class StudentMenu {
                         student,
                         chosenInternshipOpp
                     );
-                    appController.createApplication(application);
+                    if (Student.MAX_APPLICATIONS > student.getInternshipApplications().size()) {
+                        appController.createApplication(application);
+                        student.addInternshipApplications(application);
+                    } else {
+                        System.out.println();
+                        System.out.println("You already have 3 applications pending.");
+                    }
                     break;
                 case 2:
                     // Select another internship
@@ -138,4 +163,82 @@ public class StudentMenu {
         
         return n;
 	}
+
+    public void viewInternshipApplications() {
+        boolean loop = true;
+        while (loop) {
+            if (student.getInternship() != null) {
+                System.out.println("You have already accepted an internship opportunity.");
+            }
+            System.out.println();
+            System.out.println("=".repeat(20));
+            System.out.println();
+            if (student.getInternshipApplications().size() == 0) {
+                System.out.println(" You have no pending applications.");
+                break; 
+            }
+            System.out.println("Internship applications: ");
+            System.out.println();
+            for (InternshipApplication application: student.getInternshipApplications()) {
+                System.out.println("- " + application.getInternshipOpportunity().getInternshipTitle());
+            }
+            InternshipApplication chosenInternshipApplication = null;
+            System.out.println();
+            String chosenInternshipTitle = inputString("Enter an internship application name for more options (or type \"exit\" to leave this menu): ");
+            if (Objects.equals(chosenInternshipTitle, "exit")) {loop = false;}
+            for (InternshipApplication application: student.getInternshipApplications()) {
+                if (Objects.equals(
+                    chosenInternshipTitle, 
+                    application.getInternshipOpportunity().getInternshipTitle()
+                )) {
+                    chosenInternshipApplication = application;
+                }
+            }
+            if (chosenInternshipApplication == null) { 
+                System.out.println("Please select a valid application.");
+                continue;
+            }
+            System.out.println();
+            System.out.println("=".repeat(20));
+            System.out.println();
+            System.out.println("Internship title: " + chosenInternshipApplication.getInternshipOpportunity().getInternshipTitle());
+            System.out.println("Internship description: " + chosenInternshipApplication.getInternshipOpportunity().getDescription());
+            System.out.println("Status: " + chosenInternshipApplication.getStatus());
+            System.out.println("Withdrawal requested: " + chosenInternshipApplication.getWithdrawalRequested());
+            
+            System.out.println("1) Accept placement");
+            System.out.println("2) Request withdrawal");
+            System.out.println("3) Exit");
+            int choice = inputInt("Enter an option: ");
+            switch (choice) {
+                case 1:
+                    chosenInternshipApplication.setStatus(Status.APPROVED); // Just for testing
+                    if (Objects.equals(chosenInternshipApplication.getStatus(), Status.APPROVED)) {
+                        // chosenInternshipApplication.setPlacementConfirmed(true);
+                        student.setInternshipOpportunity(chosenInternshipApplication.getInternshipOpportunity());
+                        // Delete all his other applications
+                        for (InternshipApplication application: student.getInternshipApplications()) {
+                            student.deleteInternshipApplication(application);
+                            appController.deleteApplication(application);
+                            System.out.println("Deleting: " + application.getInternshipOpportunity().getInternshipTitle());
+                        };
+                        System.out.println();
+                        System.out.println("Congratulations! You have been hired.");
+                        loop = false;
+                        // we probably need to keep track of the number of students accepted since InternshipOpportunity has MAX_NUM_SLOTS
+                    } else {
+                        System.out.println();
+                        System.out.println("Your application has not yet been approved");
+                    }
+                    break;
+                case 2:
+                    System.out.println();
+                    System.out.println("Sending withdrawal request...");
+                    chosenInternshipApplication.setWithdrawalRequested(true);
+                    break;
+                case 3:
+                    loop = false;
+            }
+        }
+    }
 }

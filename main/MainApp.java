@@ -49,12 +49,14 @@ public class MainApp {
                 String major = line[2];
                 int yearOfStudy = Integer.parseInt(line[3]);
                 String passwordHash = "password"; // Default password hash
+                InternshipOpportunity internship = null; // Set to null for now cuz the csv doesnt have a internship column 
                 Student student = new Student(
                     userID, 
                     name, 
                     passwordHash, 
                     yearOfStudy, 
-                    major
+                    major,
+                    internship
                 );
 				userController.createStudent(student);
             } 

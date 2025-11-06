@@ -5,9 +5,9 @@ import model.user.*;
 
 public class InternshipApplication extends Application {
     private InternshipOpportunity internshipOpportunity;
-    private boolean placementConfirmed; // after company approves, the student has to accept. So we use placementConfirmed
+    private boolean placementConfirmed; // We probably dont need this as when the student accepts we can just delete the application
     private boolean withdrawalRequested;
-    private boolean withdrawalApproved;
+    private boolean withdrawalApproved; // This one maybe dont need since the application will be deleted after the staff approves the withdrawal
 
     public InternshipApplication(Student applicant, InternshipOpportunity internshipOpportunity) {
         super(applicant);
