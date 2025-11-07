@@ -37,11 +37,11 @@ public class StudentMenu {
         System.out.println("=".repeat(20));
         System.out.println();
         // add more options later
-        System.out.println("1) Apply for internship");
-        System.out.println("2) View internship applications");
-        System.out.println("3) Set filters");
-        System.out.println("4) Change Password");
-        System.out.println("5) Logout");
+        System.out.println("1) Apply for internship.");
+        System.out.println("2) View internship applications.");
+        System.out.println("3) Set filters.");
+        System.out.println("4) Change Password.");
+        System.out.println("5) Logout.");
         choice = inputInt("Enter an option: ");
         switch (choice) {
             case 1:
@@ -115,9 +115,9 @@ public class StudentMenu {
             System.out.println("Application closing date: " + chosenInternshipOpp.getApplicationClosingDate());
 
             System.out.println();
-            System.out.println("1) Apply for this internship");
-            System.out.println("2) Select another internship");
-            System.out.println("3) Exit");
+            System.out.println("1) Apply for this internship.");
+            System.out.println("2) Select another internship.");
+            System.out.println("3) Exit.");
             int choice = inputInt("Enter an option: ");
             switch (choice) {
                 case 1:
@@ -140,6 +140,7 @@ public class StudentMenu {
                 case 3:
                     // Exit internship application menu
                     loop = false;
+                    break;
             }
         }
     }
@@ -164,7 +165,7 @@ public class StudentMenu {
         return n;
 	}
 
-    public void viewInternshipApplications() {
+    private void viewInternshipApplications() {
         boolean loop = true;
         while (loop) {
             if (student.getInternship() != null) {
@@ -206,21 +207,22 @@ public class StudentMenu {
             System.out.println("Status: " + chosenInternshipApplication.getStatus());
             System.out.println("Withdrawal requested: " + chosenInternshipApplication.getWithdrawalRequested());
             
-            System.out.println("1) Accept placement");
-            System.out.println("2) Request withdrawal");
-            System.out.println("3) Exit");
+            System.out.println("1) Accept placement.");
+            System.out.println("2) Request withdrawal.");
+            System.out.println("3) Exit.");
             int choice = inputInt("Enter an option: ");
             switch (choice) {
                 case 1:
-                    chosenInternshipApplication.setStatus(Status.APPROVED); // Just for testing
+                    // chosenInternshipApplication.setStatus(Status.APPROVED); // Just for testing
                     if (Objects.equals(chosenInternshipApplication.getStatus(), Status.APPROVED)) {
                         // chosenInternshipApplication.setPlacementConfirmed(true);
                         student.setInternshipOpportunity(chosenInternshipApplication.getInternshipOpportunity());
                         // Delete all his other applications
                         for (InternshipApplication application: student.getInternshipApplications()) {
                             student.deleteInternshipApplication(application);
-                            appController.deleteApplication(application);
-                            System.out.println("Deleting: " + application.getInternshipOpportunity().getInternshipTitle());
+                            // appController.deleteApplication(application);
+                            application.setPlacementConfirmed(true);
+                            // System.out.println("Deleting: " + application.getInternshipOpportunity().getInternshipTitle());
                         };
                         System.out.println();
                         System.out.println("Congratulations! You have been hired.");

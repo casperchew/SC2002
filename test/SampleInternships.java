@@ -59,10 +59,9 @@ public class SampleInternships {
                 LocalDate.of(2025, 1, 31),
                 "TechCorp",
                 reps1,
-                5,
-                true
+                5
         );
-        opp1.setStatus(Status.APPROVED);
+        // opp1.setStatus(Status.APPROVED);
         internships.add(opp1);
 
         InternshipOpportunity opp2 = new InternshipOpportunity(
@@ -74,10 +73,9 @@ public class SampleInternships {
                 LocalDate.of(2025, 5, 30),
                 "RetailEase",
                 reps6,
-                4,
-                true
+                4
         );
-        opp2.setStatus(Status.APPROVED);
+        // opp2.setStatus(Status.APPROVED);
         internships.add(opp2);
 
         InternshipOpportunity opp3 = new InternshipOpportunity(
@@ -89,10 +87,9 @@ public class SampleInternships {
                 LocalDate.of(2025, 2, 28),
                 "FinTech Innovations",
                 reps2,
-                3,
-                true
+                3
         );
-        opp3.setStatus(Status.APPROVED);
+        // opp3.setStatus(Status.APPROVED);
         internships.add(opp3);
 
         InternshipOpportunity opp4 = new InternshipOpportunity(
@@ -104,10 +101,9 @@ public class SampleInternships {
                 LocalDate.of(2025, 7, 15),
                 "EduFuture",
                 reps7,
-                3,
-                true
+                3
         );
-        opp4.setStatus(Status.APPROVED);
+        // opp4.setStatus(Status.APPROVED);
         internships.add(opp4);
 
         InternshipOpportunity opp5 = new InternshipOpportunity(
@@ -119,10 +115,9 @@ public class SampleInternships {
                 LocalDate.of(2025, 7, 31),
                 "TechCorp",
                 reps1,
-                7,
-                true
+                7
         );
-        opp5.setStatus(Status.APPROVED);
+        // opp5.setStatus(Status.APPROVED);
         internships.add(opp5);
 
         InternshipOpportunity opp6 = new InternshipOpportunity(
@@ -134,10 +129,9 @@ public class SampleInternships {
                 LocalDate.of(2025, 2, 15),
                 "HealthPlus",
                 reps3,
-                4,
-                true
+                4
         );
-        opp6.setStatus(Status.APPROVED);
+        // opp6.setStatus(Status.APPROVED);
         internships.add(opp6);
 
         InternshipOpportunity opp7 = new InternshipOpportunity(
@@ -149,10 +143,9 @@ public class SampleInternships {
                 LocalDate.of(2025, 3, 30),
                 "AeroSys",
                 reps4,
-                2,
-                true
+                2
         );
-        opp7.setStatus(Status.APPROVED);
+        // opp7.setStatus(Status.APPROVED);
         internships.add(opp7);
 
         InternshipOpportunity opp8 = new InternshipOpportunity(
@@ -164,10 +157,9 @@ public class SampleInternships {
                 LocalDate.of(2025, 4, 20),
                 "MedSignals",
                 reps5,
-                6,
-                true
+                6
         );
-        opp8.setStatus(Status.APPROVED);
+        // opp8.setStatus(Status.APPROVED);
         internships.add(opp8);
 
         return internships;

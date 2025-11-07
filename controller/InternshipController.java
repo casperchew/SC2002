@@ -3,6 +3,7 @@ package controller;
 import model.internship.*;
 import model.InternshipLevel;
 import model.user.*;
+import model.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -29,6 +30,22 @@ public class InternshipController {
                 && (studentLevel.greaterThanOrEqualTo(internshipOpp.getInternshipLevel()))
                 && (internshipOpp.isVisible)
             ) {
+                opportunities.add(internshipOpp);
+            }
+        }
+        return opportunities;
+    }
+
+    // Overloading
+    public ArrayList<InternshipOpportunity> getInternshipOpportunities() {
+        return db.getInternshipOpportunities();
+    }
+
+    // Overloading
+    public ArrayList<InternshipOpportunity> getInternshipOpportunities(Status status) {
+        ArrayList<InternshipOpportunity> opportunities = new ArrayList<InternshipOpportunity>();
+        for (InternshipOpportunity internshipOpp: db.getInternshipOpportunities()) {
+            if (Objects.equals(status, internshipOpp.getStatus())) {
                 opportunities.add(internshipOpp);
             }
         }
