@@ -27,8 +27,26 @@ import model.user.CompanyRepresentative;
  * @version 1.0
  */
 public class RepMenu {
+
+	/** 
+     * A shared {@link Scanner} instance for reading user input from the console. 
+     */
     private static Scanner sc = new Scanner(System.in);
 
+	/**
+     * Displays the menu options available to a {@link CompanyRepresentative} 
+     * and processes the user's selection.
+     * <p>
+     * Currently, the menu supports one option:
+     * <ul>
+     *     <li>1) Logout</li>
+     * </ul>
+     * </p>
+     *
+     * @param rep the {@link CompanyRepresentative} who is currently logged in
+     * @return {@code null} if the user chooses to log out, 
+     *         otherwise returns the same {@code CompanyRepresentative} instance
+     */
     public static User runMenu(CompanyRepresentative rep) {
         int choice;
         System.out.println();
@@ -45,6 +63,20 @@ public class RepMenu {
         }
     }
 
+	 /**
+     * Displays the menu options available to a {@link CompanyRepresentative} 
+     * and processes the user's selection.
+     * <p>
+     * Currently, the menu supports one option:
+     * <ul>
+     *     <li>1) Logout</li>
+     * </ul>
+     * </p>
+     *
+     * @param rep the {@link CompanyRepresentative} who is currently logged in
+     * @return {@code null} if the user chooses to log out, 
+     *         otherwise returns the same {@code CompanyRepresentative} instance
+     */
     private static String inputString(String text) {
         System.out.println(text);
         String s = sc.nextLine();
@@ -54,6 +86,15 @@ public class RepMenu {
         return s;
     }
 
+	 /**
+     * Prompts the user for an integer input with the given message.
+     * <p>
+     * If the user enters 0, the program terminates.
+     * </p>
+     *
+     * @param text the prompt message to display
+     * @return the integer entered by the user
+     */
     private static int inputInt(String text) {
         System.out.println(text);
         int n = sc.nextInt();
