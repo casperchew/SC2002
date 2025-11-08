@@ -52,18 +52,16 @@ public class Database {
      * sample internship opportunities for testing purposes.
      */
     public Database() {
+        // For testing
         internshipOpportunities = SampleInternships.getSampleList();
     }
-
-    // ============================================================
-    // CREATE METHODS
-    // ============================================================
 
     /**
      * Adds a new student record to the database.
      *
      * @param student the {@link Student} object to be added
      */
+    //create
     public void createStudent(Student student) {
         students.add(student);
     }
@@ -103,10 +101,6 @@ public class Database {
     public void createInternshipApplication(InternshipApplication application) {
         internshipApplications.add(application);
     }
-
-    // ============================================================
-    // READ METHODS
-    // ============================================================
 
     /**
      * Retrieves the list of all registered students.
@@ -153,10 +147,6 @@ public class Database {
         return internshipApplications;
     }
 
-    // ============================================================
-    // DELETE METHODS
-    // ============================================================
-
     /**
      * Removes a student record from the database.
      *
@@ -202,12 +192,9 @@ public class Database {
         internshipApplications.remove(application);
     }
 
-    // ============================================================
-    // FUTURE WORK
-    // ============================================================
-
     /**
      * TODO: Implement full CRUD operations (including update and search filters)
      * for all model classes to enable complete database functionality.
      */
+    // TODO make CRUD for all models
 }
