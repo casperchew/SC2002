@@ -10,18 +10,78 @@ import model.user.CompanyRepresentative;
 import model.user.Student;
 import java.util.List;
 
+/**
+ * The {@code CLI} class provides the main command-line interface for the internship
+ * management system. It handles user authentication, account creation, and menu
+ * navigation for different user roles, including {@link Student}, {@link CompanyRepresentative},
+ * and {@link CareerCenterStaff}.
+ * <p>
+ * Depending on the type of the logged-in user, it launches the corresponding
+ * submenu (e.g., {@code StudentMenu}, {@code RepMenu}, {@code StaffMenu}).
+ * </p>
+ * 
+ * <p><strong>Usage:</strong></p>
+ * <pre>
+ *     Database db = new Database();
+ *     CLI cli = new CLI(db);
+ *     cli.main();
+ * </pre>
+ * 
+ * <p>
+ * The program continues to run until the user logs out or exits.
+ * </p>
+ * 
+ * @author 
+ * @version 1.0
+ */
 public class CLI {
+
+    /** Scanner instance used for reading user input from the console. */
     private Scanner sc = new Scanner(System.in);
-	private UserController userController;
+
+    /** Controller for managing user-related operations such as login and registration. */
+    private UserController userController;
+
+    /** Controller for handling internship applications. */
     private ApplicationController appController;
+
+    /** Controller for managing internship postings and related data. */
     private InternshipController internshipController;
 
+    /**
+     * Constructs a {@code CLI} instance and initializes the system controllers.
+     *
+     * @param db the shared {@link Database} instance used by all controllers
+     */
     public CLI(Database db) {
         this.userController = new UserController(db);
         this.appController = new ApplicationController(db);
         this.internshipController = new InternshipController(db);
     }
 
+	 /**
+     * Launches the main CLI loop of the system.
+     * <p>
+     * This method repeatedly presents menus to the user, allowing login, account creation,
+     * and navigation to role-specific menus until the user exits the program.
+     * </p>
+     * 
+     * <ul>
+     *     <li>If no user is logged in, options include:
+     *         <ul>
+     *             <li>Login</li>
+     *             <li>Create a new account</li>
+     *             <li>Exit the program</li>
+     *         </ul>
+     *     </li>
+     *     <li>Once logged in, users are redirected to their respective menus based on role:</li>
+     *         <ul>
+     *             <li>{@link Student} → {@code StudentMenu}</li>
+     *             <li>{@link CompanyRepresentative} → {@code RepMenu}</li>
+     *             <li>{@link CareerCenterStaff} → {@code StaffMenu}</li>
+     *         </ul>
+     * </ul>
+     */
     public void main() {
         int choice;
         int userID;
@@ -139,6 +199,15 @@ public class CLI {
     }
 
 
+    /**
+     * Prompts the user to input a string value with a specified message.
+     * <p>
+     * If the user presses ENTER without entering text, the program exits.
+     * </p>
+     *
+     * @param text the message to display to the user
+     * @return the string input entered by the user
+     */
     private String inputString(String text) {
 		System.out.println(text);
 		String s = sc.nextLine();
@@ -148,6 +217,15 @@ public class CLI {
 		return s;
 	}
 
+	 /**
+     * Prompts the user to input an integer value with a specified message.
+     * <p>
+     * If the user enters 0, the program terminates.
+     * </p>
+     *
+     * @param text the message to display to the user
+     * @return the integer input entered by the user
+     */
     private int inputInt(String text) {
         System.out.println(text);
         int n = sc.nextInt();
