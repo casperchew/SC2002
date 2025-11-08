@@ -9,7 +9,7 @@ import controller.UserController;
 import model.User;
 import model.user.CareerCenterStaff;
 import model.user.Student;
-import model.internship.InternshipApplication;
+import model.internship.*;
 
 /**
  * The {@code StaffMenu} class provides the command-line interface (CLI) menu
