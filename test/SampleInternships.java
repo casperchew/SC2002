@@ -7,10 +7,37 @@ import model.internship.InternshipOpportunity;
 import model.user.CompanyRepresentative;
 import model.InternshipLevel;
 
+/**
+ * Provides a sample set of internship opportunities for testing purposes.
+ * <p>
+ * This class generates predefined {@link InternshipOpportunity} objects along with 
+ * associated {@link CompanyRepresentative} instances. It is intended to facilitate
+ * testing of the internship management system without requiring a full database setup.
+ * </p>
+ *
+ * <p>
+ * The sample data includes multiple internship opportunities with different titles,
+ * companies, and representative assignments. Dates and other attributes are pre-filled
+ * for convenience.
+ * </p>
+ *
+ * @see model.internship.InternshipOpportunity
+ * @see model.user.CompanyRepresentative
+ */
 public class SampleInternships {
 
+    /**
+     * Returns a list of sample internship opportunities.
+     * <p>
+     * Each {@link InternshipOpportunity} is associated with one or more
+     * {@link CompanyRepresentative} objects and has predefined attributes such as
+     * internship level, preferred majors, application dates, and visibility status.
+     * </p>
+     *
+     * @return an {@link ArrayList} containing sample {@link InternshipOpportunity} objects
+     */
     public static ArrayList<InternshipOpportunity> getSampleList() {
-
+        
         // Company representatives
         CompanyRepresentative rep1 = new CompanyRepresentative(1, "Alice Tan", "hashedPW1", "TechCorp");
         CompanyRepresentative rep2 = new CompanyRepresentative(2, "Ben Wong", "hashedPW2", "FinTech Innovations");
