@@ -1,10 +1,11 @@
 package model.internship;
 
+import java.util.ArrayList;
+import java.util.List;     
+import java.time.LocalDate;
+
 import model.*;
 import model.user.CompanyRepresentative;
-import java.time.LocalDate;
-import java.util.List;     
-import java.util.ArrayList;
 
 public class InternshipOpportunity {
     private String internshipTitle;
@@ -22,7 +23,7 @@ public class InternshipOpportunity {
 
     public InternshipOpportunity(String internshipTitle, String description, InternshipLevel internshipLevel, 
                                  ArrayList<String> preferredMajors, LocalDate applicationOpeningDate, LocalDate applicationClosingDate, 
-                                 String companyName, List<CompanyRepresentative> companyRepresentatives, int numberOfSlots, boolean isVisible) {
+                                 String companyName, List<CompanyRepresentative> companyRepresentatives, int numberOfSlots) {
         
         // input validation
         if (applicationOpeningDate == null || applicationClosingDate == null || applicationClosingDate.isBefore(applicationOpeningDate)) {
@@ -41,7 +42,7 @@ public class InternshipOpportunity {
         this.applicationClosingDate = applicationClosingDate;
         this.companyName = companyName;
         this.numberOfSlots = numberOfSlots;
-        this.isVisible = isVisible;
+        this.isVisible = false;
         
         if (companyRepresentatives != null) {
         this.companyRepresentatives = new ArrayList<>(companyRepresentatives);

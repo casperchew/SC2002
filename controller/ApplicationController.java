@@ -1,9 +1,9 @@
 package controller;
 
+import java.util.ArrayList;
+
 import model.internship.*;
 import model.user.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ApplicationController {
     private Database db;
@@ -18,6 +18,10 @@ public class ApplicationController {
 
     public void createApplication(InternshipApplication application) {
         db.createInternshipApplication(application);
+    }
+
+    public void deleteApplication(InternshipApplication application) {
+        db.deleteInternshipApplication(application);
     }
 
     // process application function should work for both types of applications
