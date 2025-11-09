@@ -13,6 +13,7 @@ import utils.Utils;
 
 public class StudentMenu {
     private static Scanner sc = new Scanner(System.in);
+
     private Student student;
     private UserController userController;
     private ApplicationController appController;
