@@ -85,6 +85,8 @@ public class CLI {
                                 userController.createStudent(s);
 								user = userController.login(name, password);
 								Utils.clear();
+								System.out.println("Logged in as " + user.getName());
+								System.out.println();
                                 break;
                             case 2:
                                 System.out.println("Not implemented");
@@ -97,7 +99,12 @@ public class CLI {
                     
                     case 3:
                         loop = false;
+						break;
+
                     default:
+						Utils.clear();
+						System.out.println("Invalid option!");
+						System.out.println("");
                         break;
                 }
             } else if (user instanceof Student) {

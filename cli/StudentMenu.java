@@ -22,7 +22,7 @@ public class StudentMenu {
 	// TODO filters
 
     public StudentMenu(
-        Student student, 
+        Student student,
         UserController userController,
         ApplicationController appController,
         InternshipController internshipController
@@ -65,9 +65,13 @@ public class StudentMenu {
 				return student;
 
             case 5:
+				Utils.clear();
 				return null;
 
             default:
+				Utils.clear();
+				System.out.println("Invalid option!");
+				System.out.println("");
 				return student;
 		}
     }
