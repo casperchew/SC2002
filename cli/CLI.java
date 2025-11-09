@@ -10,6 +10,7 @@ import model.internship.InternshipApplication;
 import model.user.CareerCenterStaff;
 import model.user.CompanyRepresentative;
 import model.user.Student;
+import utils.Utils;
 
 public class CLI {
     private Scanner sc = new Scanner(System.in);
@@ -29,63 +30,63 @@ public class CLI {
         String userIDString;
         String name;
         String password;
+
         User user = null;
 
+		Utils.clear();
         boolean loop = true;
-        System.out.println("To exit or logout of the program at any time, press ENTER");
         do {
             if (user == null) {
-				System.out.println();
-				System.out.println("=".repeat(20));
-				System.out.println();
-				System.out.println("1) Login");
-				System.out.println("2) Create a new account");
-                System.out.println("3) Exit");
-				choice = inputInt("Select an option: ");
+				System.out.println("Internship Placement Management System");
+				System.out.println("--------------------------------------");
+				System.out.println("\t1) Login");
+				System.out.println("\t2) Create a new account");
+                System.out.println("\t3) Exit");
+                System.out.println("");
+				choice = Utils.inputInt("Select an option: ");
                 switch (choice) {
                     // login
                     case 1:
-                        System.out.println();
-                        System.out.println("=".repeat(20));
-                        System.out.println();
-                        name = inputString("Enter your name: ");
-                        password = inputString("Enter your password: ");
+                        name = Utils.inputString("Enter your name: ");
+                        password = Utils.inputString("Enter your password: ");
 
 						user = userController.login(name, password);  // Returns null if cannot login
 
                         if (user == null) {
+							Utils.clear();
                             System.out.println("Account not found!");
+							System.out.println();
                         } else {
+							Utils.clear();
 							System.out.println("Logged in as " + user.getName());
+							System.out.println();
 						}
 
                         break;
 
                     // create new account
                     case 2:
-                        System.out.println();
-                        System.out.println("=".repeat(20));
-                        System.out.println();
+						Utils.clear();
                         System.out.println("Are you a:");
-                        System.out.println("1) Student");
-                        System.out.println("2) Company Representative");
-                        System.out.println("3) Career Center Staff");
-                        choice = inputInt("Enter a choice: ");
+                        System.out.println("\t1) Student");
+                        System.out.println("\t2) Company Representative");
+                        System.out.println("\t3) Career Center Staff");
+                        choice = Utils.inputInt("Enter a choice: ");
 
                         switch (choice) {
                             case 1:
-                                System.out.println();
-                                System.out.println("=".repeat(20));
-                                System.out.println();
-
-                                userIDString = inputString("Enter your student ID: ");
+                                userIDString = Utils.inputString("Enter your student ID: ");
                                 userID = Integer.parseInt(userIDString.substring(1, userIDString.length() - 1));
-                                name = inputString("Enter your name: ");
-                                password = inputString("Enter your password: ");
-                                int yearOfStudy = inputInt("Enter your year: ");
-                                String major = inputString("Enter your major: ");
+                                name = Utils.inputString("Enter your name: ");
+                                password = Utils.inputString("Enter your password: ");
+                                int yearOfStudy = Utils.inputInt("Enter your year: ");
+                                String major = Utils.inputString("Enter your major: ");
                                 Student s = new Student(userID, name, password, yearOfStudy, major, null);
                                 userController.createStudent(s);
+								user = userController.login(name, password);
+								Utils.clear();
+								System.out.println("Logged in as " + user.getName());
+								System.out.println();
                                 break;
                             case 2:
                                 System.out.println("Not implemented");
@@ -98,7 +99,12 @@ public class CLI {
                     
                     case 3:
                         loop = false;
+						break;
+
                     default:
+						Utils.clear();
+						System.out.println("Invalid option!");
+						System.out.println("");
                         break;
                 }
             } else if (user instanceof Student) {
@@ -134,29 +140,6 @@ public class CLI {
                 System.out.println("Not implemented");
                 loop = false;
             }
-
-
         } while (loop);
     }
-
-
-    private String inputString(String text) {
-		System.out.println(text);
-		String s = sc.nextLine();
-		if (s.isEmpty()) {
-			System.exit(0);
-		}
-		return s;
-	}
-
-    private int inputInt(String text) {
-        System.out.println(text);
-        int n = sc.nextInt();
-        sc.nextLine();
-        if (n == 0) {
-            System.exit(0);
-        }
-        
-        return n;
-	}
 }
