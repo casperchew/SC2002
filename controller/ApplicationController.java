@@ -1,9 +1,9 @@
 package controller;
 
+import java.util.ArrayList;
+
 import model.internship.*;
 import model.user.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ApplicationController {
     private Database db;

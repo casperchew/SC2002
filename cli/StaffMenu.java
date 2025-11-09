@@ -1,18 +1,18 @@
 package cli;
 
-import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Scanner;
 
 import controller.ApplicationController;
 import controller.InternshipController;
 import controller.UserController;
-import model.Status;
 import model.User;
+import model.Status;
+import model.internship.*;
 import model.user.CareerCenterStaff;
 import model.user.CompanyRepresentative;
 import model.user.Student;
-import model.internship.*;
-import java.util.Objects;
 
 public class StaffMenu {
     private Scanner sc = new Scanner(System.in);

@@ -1,12 +1,12 @@
 package controller;
 
-import model.internship.*;
-import model.InternshipLevel;
-import model.user.*;
-import model.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import model.*;
+import model.internship.*;
+import model.user.*;
 
 public class InternshipController {
     private Database db;

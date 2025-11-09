@@ -1,14 +1,14 @@
 package cli;
 
-import java.util.Scanner;
-
-import model.Status;
-import model.User;
-import model.internship.*;
-import model.user.Student;
-import controller.*;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Scanner;
+
+import controller.*;
+import model.User;
+import model.Status;
+import model.internship.*;
+import model.user.Student;
 
 public class StudentMenu {
     private static Scanner sc = new Scanner(System.in);

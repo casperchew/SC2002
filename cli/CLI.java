@@ -1,14 +1,15 @@
 package cli;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+
 import controller.*;
 import model.*;
 import model.internship.InternshipApplication;
 import model.user.CareerCenterStaff;
 import model.user.CompanyRepresentative;
 import model.user.Student;
-import java.util.List;
 
 public class CLI {
     private Scanner sc = new Scanner(System.in);

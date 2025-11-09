@@ -1,10 +1,11 @@
 package model.internship;
 
+import java.util.ArrayList;
+import java.util.List;     
+import java.time.LocalDate;
+
 import model.*;
 import model.user.CompanyRepresentative;
-import java.time.LocalDate;
-import java.util.List;     
-import java.util.ArrayList;
 
 public class InternshipOpportunity {
     private String internshipTitle;
