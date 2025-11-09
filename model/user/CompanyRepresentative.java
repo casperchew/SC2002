@@ -22,6 +22,10 @@ public class CompanyRepresentative extends User {
 		return status;
 	}
 
+	public void setCompany(String company) {
+		this.company = company;
+	}
+
 	public void setStatus(Status status) {
 		this.status = status;
 	}
