@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import cli.*;
+import cli.CLI;
 import controller.*;
 import model.user.*;
 import model.internship.*;
@@ -14,12 +14,9 @@ import model.internship.*;
 public class MainApp {
 	private static Database db = new Database();
 	private static UserController userController = new UserController(db);
-    // private static ApplicationController appController = new ApplicationController(db);
-    // private static InternshipController = new internshipController(db);
 	private static CLI cli = new CLI(db);
 
 	public static void main(String[] args) {
-        // System.out.println("testing");
 		init();
 		cli.main();
 	}
@@ -42,7 +39,7 @@ public class MainApp {
             while (studentScanner.hasNextLine()) {
                 String[] line = studentScanner.nextLine().split(",");
 
-                // parse the last 7 digits of the StudentID 
+                // Parse the last 7 digits of the StudentID 
                 String studentIDString = line[0].substring(1, line[0].length() - 1); 
                 int userID = Integer.parseInt(studentIDString); 
                 String name = line[1];
@@ -58,8 +55,10 @@ public class MainApp {
                     major,
                     internship
                 );
+
 				userController.createStudent(student);
             } 
+
 			studentScanner.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -82,6 +81,7 @@ public class MainApp {
                 CareerCenterStaff staff = new CareerCenterStaff(userID, name, passwordHash);
                 userController.createCareerCenterStaff(staff);
             }
+
             staffScanner.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
