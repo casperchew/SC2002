@@ -23,11 +23,8 @@ public class CLI {
     }
 
     public void main() {
-        int choice;
-        int userID;
-        String userIDString;
-        String name;
-        String password;
+        int choice, userID;
+        String userIDString, name, password, company;
         User user = null;
 
         boolean loop = true;
@@ -42,8 +39,8 @@ public class CLI {
                 System.out.println("3) Exit");
 				choice = inputInt("Select an option: ");
                 switch (choice) {
-                    // login
                     case 1:
+                        // login
                         System.out.println();
                         System.out.println("=".repeat(20));
                         System.out.println();
@@ -60,8 +57,9 @@ public class CLI {
 
                         break;
 
-                    // create new account
+                    
                     case 2:
+                        // create new account
                         System.out.println();
                         System.out.println("=".repeat(20));
                         System.out.println();
@@ -73,6 +71,7 @@ public class CLI {
 
                         switch (choice) {
                             case 1:
+                                // Handles student cases
                                 System.out.println();
                                 System.out.println("=".repeat(20));
                                 System.out.println();
@@ -85,17 +84,28 @@ public class CLI {
                                 String major = inputString("Enter your major: ");
                                 Student s = new Student(userID, name, password, yearOfStudy, major);
                                 userController.createStudent(s);
+                                System.out.println("Student account created successfully!");
                                 break;
                             case 2:
-                                System.out.println("Not implemented");
+                                // Handles company rep cases
+                                userIDString = inputString("Enter your student ID: ");
+                                userID = Integer.parseInt(userIDString.substring(1, userIDString.length() - 1));
+                                name = inputString("Enter your name: ");
+                                password = inputString("Enter your password: ");
+                                company = inputString("Enter your company name: ");
+                                CompanyRepresentative r = new CompanyRepresentative(userID, name, password, company);
+                                userController.createCompanyRep(r);
+                                System.out.println("Company representative account created successfully!");
                                 break;
                             case 3:
+                                // Handles career centre staff cases
                                 System.out.println("Not implemented");
                                 break;
                         }
                         break;
                     
                     case 3:
+                        // Exit
                         loop = false;
                     default:
                         break;
@@ -108,17 +118,17 @@ public class CLI {
             } else if (user instanceof CompanyRepresentative) {
                 CompanyRepresentative rep = (CompanyRepresentative)user;
                 switch (rep.getStatus()) {
-                    case Status.APPROVED:
+                    case APPROVED:
                         // render the CompanyRepresentative menu if his application was accepted
                         user = RepMenu.runMenu(rep); // need to be changed to non static
                         break;
-                    case Status.PENDING:
+                    case PENDING:
                         System.out.println("Your application is pending");
                         break;
-                    case Status.REJECTED:
+                    case REJECTED:
                         System.out.println("Your application has been rejected");
                         break;
-                    case Status.FILLED:
+                    case FILLED:
                         System.out.println("Your application has been filled");
                         break;
                 }
