@@ -11,7 +11,7 @@ import src.controller.*;
 import src.model.internship.*;
 import src.model.user.*;
 
-public class MainApp {
+public class Main {
 	private static Database db = new Database();
 	private static UserController userController = new UserController(db);
 	private static CLI cli = new CLI(db);
