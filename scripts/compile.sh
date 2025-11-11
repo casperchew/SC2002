@@ -1,1 +1,1 @@
-javac -d out main/MainApp.java
+javac -d out src/main/Main.java
