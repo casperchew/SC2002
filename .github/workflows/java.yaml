@@ -3,7 +3,8 @@ name: java
 on: [push]
 
 jobs:
-  Compile-src-package-with-javac:
+  build:
+    name: "Compile src package with javac"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
