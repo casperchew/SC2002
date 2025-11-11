@@ -1,9 +1,9 @@
-name: Compile Java with `javac`
+name: java
 
 on: [push]
 
 jobs:
-  java:
+  Compile-src-package-with-javac:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
