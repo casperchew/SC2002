@@ -17,11 +17,3 @@ jobs:
 
       - name: Compile src
         run: javac src/main/Main.java
-
-      - name: Compilation success
-        if : success()
-        run: echo "Compilation success"
-
-      - name: Compilation failed
-        if : failure()
-        run: echo "Compilation failed"
