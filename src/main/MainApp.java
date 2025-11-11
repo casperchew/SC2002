@@ -1,4 +1,4 @@
-package main;
+package src.main;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import cli.CLI;
-import controller.*;
-import model.user.*;
-import model.internship.*;
+import src.cli.CLI;
+import src.controller.*;
+import src.model.internship.*;
+import src.model.user.*;
 
 public class MainApp {
 	private static Database db = new Database();
@@ -31,7 +31,7 @@ public class MainApp {
         // ArrayList<InternshipOpportunity> internshipOpportunities = new ArrayList<InternshipOpportunity>();
 
         // Load Students
-        File studentsFile = new File("data/sample_student_list.csv");
+        File studentsFile = new File("src/data/sample_student_list.csv");
         try {
             Scanner studentScanner = new Scanner(studentsFile);
             studentScanner.nextLine(); // Skip header row
@@ -66,7 +66,7 @@ public class MainApp {
         }
 
         // Load CareerCenterStaffs
-        File staffFile = new File("data/sample_staff_list.csv");
+        File staffFile = new File("src/data/sample_staff_list.csv");
         try {
             Scanner staffScanner = new Scanner(staffFile);
             staffScanner.nextLine(); // Skip header row

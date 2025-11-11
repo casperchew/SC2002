@@ -1,12 +1,12 @@
-package test;
+package src.test;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import model.internship.InternshipOpportunity;
-import model.user.CompanyRepresentative;
-import model.InternshipLevel;
-import model.Status; 
+import src.model.InternshipLevel;
+import src.model.Status;
+import src.model.internship.InternshipOpportunity;
+import src.model.user.CompanyRepresentative; 
 
 public class SampleInternships {
 

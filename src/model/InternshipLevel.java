@@ -1,4 +1,4 @@
-package model;
+package src.model;
 
 public enum InternshipLevel {
     BASIC(1),

@@ -1,10 +1,10 @@
-package model.user;
+package src.model.user;
 
-import model.User;
-import model.internship.InternshipApplication;
-import model.internship.InternshipOpportunity;
+import java.util.ArrayList;
 
-import java.util.ArrayList; 
+import src.model.User;
+import src.model.internship.InternshipApplication;
+import src.model.internship.InternshipOpportunity; 
 
 public class Student extends User {
     private int YearOfStudy;

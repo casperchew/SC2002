@@ -1,9 +1,9 @@
-package cli;
+package src.cli;
 
 import java.util.Scanner;
 
-import model.User;
-import model.user.CompanyRepresentative;
+import src.model.User;
+import src.model.user.CompanyRepresentative;
 
 public class RepMenu {
     private static Scanner sc = new Scanner(System.in);

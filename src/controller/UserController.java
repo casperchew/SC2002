@@ -1,10 +1,10 @@
-package controller;
+package src.controller;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-import model.*;
-import model.user.*;
+import src.model.*;
+import src.model.user.*;
 
 public class UserController {
 	private Database db;

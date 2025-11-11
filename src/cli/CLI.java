@@ -1,16 +1,16 @@
-package cli;
+package src.cli;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import controller.*;
-import model.*;
-import model.internship.InternshipApplication;
-import model.user.CareerCenterStaff;
-import model.user.CompanyRepresentative;
-import model.user.Student;
-import utils.Utils;
+import src.controller.*;
+import src.model.*;
+import src.model.internship.InternshipApplication;
+import src.model.user.CareerCenterStaff;
+import src.model.user.CompanyRepresentative;
+import src.model.user.Student;
+import src.utils.Utils;
 
 public class CLI {
     private Scanner sc = new Scanner(System.in);

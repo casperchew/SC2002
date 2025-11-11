@@ -1,7 +1,7 @@
-package model.user;
+package src.model.user;
 
-import model.User;
-import model.Status;
+import src.model.Status;
+import src.model.User;
 
 public class CompanyRepresentative extends User {
 	private String company;

@@ -1,12 +1,12 @@
-package controller;
+package src.controller;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import model.*;
-import model.internship.*;
-import model.user.*;
+import src.model.*;
+import src.model.internship.*;
+import src.model.user.*;
 
 public class InternshipController {
     private Database db;

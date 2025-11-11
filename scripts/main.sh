@@ -1,2 +1,2 @@
-javac -d out main/MainApp.java
-java -cp out main.MainApp
+javac -d out src/main/MainApp.java
+java -cp out src/main.MainApp

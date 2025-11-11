@@ -1,6 +1,6 @@
-package model.user;
+package src.model.user;
 
-import model.User;
+import src.model.User;
 
 public class CareerCenterStaff extends User {
 	

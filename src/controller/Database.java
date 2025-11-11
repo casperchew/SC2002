@@ -1,10 +1,10 @@
-package controller;
+package src.controller;
 
 import java.util.ArrayList;
 
-import model.user.*;
-import model.internship.*;
-import test.*;
+import src.model.internship.*;
+import src.model.user.*;
+import src.test.*;
 
 public class Database {
 	private ArrayList<Student> students = new ArrayList<Student>();
