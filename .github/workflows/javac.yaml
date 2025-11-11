@@ -2,6 +2,7 @@ name: Compile Java with `javac`
 
 jobs:
   java:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
