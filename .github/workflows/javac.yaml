@@ -1,21 +1,23 @@
 name: Compile Java with `javac`
 
-steps:
-  - name: Checkout repository
-    uses: actions/checkout@v5
+jobs:
+  java:
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
 
-  - name: Set up JDK
-    uses: actions/setup-java@v4
-    with:
-      java-version: "21"
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: "21"
 
-  - name: Compile src
-    run: javac src/main/Main.java
+      - name: Compile src
+        run: javac src/main/Main.java
 
-  - name: Compilation success
-    if : success()
-    run: echo "Compilation success"
+      - name: Compilation success
+        if : success()
+        run: echo "Compilation success"
 
-  - name: Compilation failed
-    if : failure()
-    run: echo "Compilation failed"
+      - name: Compilation failed
+        if : failure()
+        run: echo "Compilation failed"
