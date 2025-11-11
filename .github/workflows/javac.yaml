@@ -1,5 +1,7 @@
 name: Compile Java with `javac`
 
+on: [push]
+
 jobs:
   java:
     runs-on: ubuntu-latest
