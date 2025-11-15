@@ -15,6 +15,11 @@ public class InternshipController {
         this.db = db;
     }
 
+    public void createInternshipOpportunity(InternshipOpportunity opportunity) {
+        // Used by company representative
+        db.createInternshipOpportunity(opportunity);
+    }
+
     public ArrayList<InternshipOpportunity> getInternshipOpportunities(Student student) {
         InternshipLevel studentLevel;
         ArrayList<InternshipOpportunity> opportunities = new ArrayList<InternshipOpportunity>();
@@ -36,6 +41,11 @@ public class InternshipController {
         return opportunities;
     }
 
+    public void createInternshipApplication(InternshipApplication internshipApplication) {
+        // Used by student
+        db.createInternshipApplication(internshipApplication);
+    }
+
     // Overloading
     public ArrayList<InternshipOpportunity> getInternshipOpportunities() {
         return db.getInternshipOpportunities();
@@ -48,6 +58,20 @@ public class InternshipController {
             if (Objects.equals(status, internshipOpp.getStatus())) {
                 opportunities.add(internshipOpp);
             }
+        }
+        return opportunities;
+    }
+
+    // Overloading
+    public ArrayList<InternshipOpportunity> getInternshipOpportunities(CompanyRepresentative companyRepresentative) {
+        ArrayList<InternshipOpportunity> opportunities = new ArrayList<InternshipOpportunity>();
+        for (InternshipOpportunity internshipOpp: db.getInternshipOpportunities()) {
+            for (CompanyRepresentative oppCompanyRepresentative: db.getCompanyRepresentatives()) {
+                if (companyRepresentative.getUserID() == oppCompanyRepresentative.getUserID()) {
+                    opportunities.add(internshipOpp);
+                }
+            }
+            
         }
         return opportunities;
     }

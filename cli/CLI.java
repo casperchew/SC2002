@@ -116,12 +116,14 @@ public class CLI {
                 Student student = (Student)user;
                 StudentMenu studentMenu = new StudentMenu(student, userController, appController, internshipController);
                 user = studentMenu.runMenu();
+
             } else if (user instanceof CompanyRepresentative) {
                 CompanyRepresentative rep = (CompanyRepresentative)user;
                 switch (rep.getStatus()) {
                     case APPROVED:
                         // render the CompanyRepresentative menu if his application was accepted
-                        user = RepMenu.runMenu(rep); // need to be changed to non static
+                        RepMenu tempRepMenu = new RepMenu(rep, userController, appController, internshipController);
+                        user = tempRepMenu.runMenu(rep);
                         break;
                     case PENDING:
                         System.out.println("Your application is pending");

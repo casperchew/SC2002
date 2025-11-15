@@ -130,22 +130,39 @@ public class InternshipOpportunity {
         return new ArrayList<>(this.companyRepresentatives); 
     }
 
-public int addCompanyRepresentative(CompanyRepresentative repToAdd) {
-    if (repToAdd == null) {
-        // FAILURE!!!
-        return 1;
+    public void printCompanyRepresentatives() {
+        System.out.print("Company representatives: ");
+        for (CompanyRepresentative rep: companyRepresentatives) {
+            System.out.print(rep.getName() + " ");
+        } System.out.println("\n");
     }
 
-    // Check for duplicates using the List's built-in method
-    if (this.companyRepresentatives.contains(repToAdd)) {
-        // FAILURE!!!
-        return 1; 
+    public void printOpportunityDetails() {
+        System.out.println(this.getInternshipTitle());
+        System.out.println("Status: " + this.getStatus());
+        this.printCompanyRepresentatives();
+        System.out.println("Application opening date: " + this.getApplicationOpeningDate());
+        System.out.println("Application closing date: " + this.getApplicationClosingDate());
+        System.out.println("Number of slots: " + this.getNumberOfSlots());
+        System.out.println("Status: " + this.getStatus());
     }
-    this.companyRepresentatives.add(repToAdd);
-    
-    // success
-    return 0;
-    }
+
+    public int addCompanyRepresentative(CompanyRepresentative repToAdd) {
+        if (repToAdd == null) {
+            // FAILURE!!!
+            return 1;
+        }
+
+        // Check for duplicates using the List's built-in method
+        if (this.companyRepresentatives.contains(repToAdd)) {
+            // FAILURE!!!
+            return 1; 
+        }
+        this.companyRepresentatives.add(repToAdd);
+        
+        // success
+        return 0;
+        }
 
     public int deleteCompanyRepresentative(CompanyRepresentative repToDelete) {
         if (repToDelete == null) {

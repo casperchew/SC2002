@@ -1,6 +1,9 @@
 package cli;
 
 import java.util.Scanner;
+
+import controller.*;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -12,15 +15,31 @@ import model.internship.InternshipOpportunity;
 import model.InternshipLevel;
 
 public class RepMenu {
-    private static Scanner sc = new Scanner(System.in);
+    private Scanner sc = new Scanner(System.in);
+    private CompanyRepresentative rep;
+    private UserController userController;
+    private ApplicationController appController;
+    private InternshipController internshipController;
 
-    public static User runMenu(CompanyRepresentative rep) {
+    public RepMenu(
+        CompanyRepresentative rep,
+        UserController userController,
+        ApplicationController appController,
+        InternshipController internshipController) {
+            this.rep = rep;
+            this.userController = userController;
+            this.appController = appController;
+            this.internshipController = internshipController;
+    }
+
+    public User runMenu(CompanyRepresentative rep) {
         int choice;
         System.out.println();
         System.out.println("=".repeat(20));
         System.out.println();
         System.out.println("1) Log out");
         System.out.println("2) Create internship opportunity");
+        System.out.println("3) View created internship opportunities");
         choice = inputInt("Enter an option: ");
         switch (choice) {
             case 1:
@@ -35,7 +54,6 @@ public class RepMenu {
                 LocalDate openingDate, closingDate;
                 List<CompanyRepresentative> companyRepresenatives;
                 int numOfSlots, levelInt, numMajors;
-                boolean isVisible;
 
                 internshipTitle = inputString("Set the internship title: ");
                 description = inputString("Set the description for the internship: ");
@@ -65,22 +83,31 @@ public class RepMenu {
                     numOfSlots = inputInt("Enter number of available slots: ");
                 }
 
-                // Get visibility
-                String visibleInput = inputString("Make this internship visible immediately? (y/n): ");
-                isVisible = visibleInput.equalsIgnoreCase("y");
-
                 // Initialize the list of representatives and add the creator
                 companyRepresenatives = new ArrayList<>();
                 companyRepresenatives.add(rep);
 
                 InternshipOpportunity opportunity = new InternshipOpportunity(
                         internshipTitle, description, level, preferredMajors, openingDate,
-                        closingDate, rep.getCompany(), companyRepresenatives, numOfSlots, isVisible
+                        closingDate, rep.getCompany(), companyRepresenatives, numOfSlots
                 );
+
+                // Submit internship opportunity to career staff for approval
+                internshipController.createInternshipOpportunity(opportunity);
 
                 // Provide feedback to the user
                 System.out.println("\nInternship opportunity '" + internshipTitle + "' created successfully!");
                 break;
+
+            case 3:
+                // View internship opportunity status
+                ArrayList<InternshipOpportunity> opportunities = internshipController.getInternshipOpportunities(rep);
+                
+                for (InternshipOpportunity opp: opportunities) {
+                    opp.printOpportunityDetails();
+                }
+                break;
+
             default:
 				System.out.println("Invalid option, please try again.");
                 break;
@@ -88,7 +115,7 @@ public class RepMenu {
         return rep;
     }
 
-    private static LocalDate inputDate(String text) {
+    private LocalDate inputDate(String text) {
         LocalDate date = null;
         while (date == null) {
             String dateString = inputString(text);
@@ -101,7 +128,7 @@ public class RepMenu {
         return date;
     }
 
-    private static String inputString(String text) {
+    private String inputString(String text) {
         System.out.println(text);
         String s = sc.nextLine();
         if (s.isEmpty()) {
@@ -110,7 +137,7 @@ public class RepMenu {
         return s;
     }
 
-    private static int inputInt(String text) {
+    private int inputInt(String text) {
         System.out.println(text);
         int n = sc.nextInt();
         sc.nextLine();
