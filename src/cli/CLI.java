@@ -2,6 +2,7 @@ package src.cli;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 import src.controller.*;
@@ -54,7 +55,7 @@ public class CLI {
 
                         if (user == null) {
 							Utils.clear();
-                            System.out.println("Account not found!");
+                            System.out.println("Invalid username or password.");
 							System.out.println();
                         } else {
 							Utils.clear();
@@ -89,7 +90,16 @@ public class CLI {
 								System.out.println();
                                 break;
                             case 2:
-                                System.out.println("Not implemented");
+                                Random rand = new Random();
+                                int repID = rand.nextInt(9000000) + 1000000;
+                                name = Utils.inputString("Enter your name: ");
+                                String companyName = Utils.inputString("Company name: ");
+                                password = Utils.inputString("Enter your password: ");
+                                CompanyRepresentative rep = new CompanyRepresentative(repID, name, password, companyName);
+                                userController.createCompanyRep(rep);
+								Utils.clear();
+								System.out.println("Your account is pending approval.");
+                                System.out.println();
                                 break;
                             case 3:
                                 System.out.println("Not implemented");
@@ -120,13 +130,19 @@ public class CLI {
                         user = RepMenu.runMenu(rep); // need to be changed to non static
                         break;
                     case Status.PENDING:
-                        System.out.println("Your application is pending");
+                        System.out.println("Your account is pending approval.");
+                        System.out.println();
+                        user = null;
                         break;
                     case Status.REJECTED:
-                        System.out.println("Your application has been rejected");
+                        System.out.println("Your account has been rejected.");
+                        System.out.println();
+                        user = null;
                         break;
                     case Status.FILLED:
-                        System.out.println("Your application has been filled");
+                        System.out.println("Your application has been filled.");
+                        System.out.println();
+                        user = null;
                         break;
                 }
 

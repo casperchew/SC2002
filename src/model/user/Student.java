@@ -41,7 +41,7 @@ public class Student extends User {
         return this.internship;
     }
 
-    public void setInternshipOpportunity(InternshipOpportunity internship) {
+    public void setInternship(InternshipOpportunity internship) {
         this.internship = internship;
     }
 

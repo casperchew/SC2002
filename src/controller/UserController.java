@@ -13,13 +13,36 @@ public class UserController {
 		this.db = db;
 	}
 
-    public ArrayList<User> getAllUsers() {
+
+    public ArrayList<User> getUsers() {
         ArrayList<User> allUsers = new ArrayList<>();
         
         allUsers.addAll(db.getStudents());
         allUsers.addAll(db.getCompanyRepresentatives());
         allUsers.addAll(db.getCareerCenterStaffs());
         return allUsers; // Return the combined list
+    }
+    
+    public ArrayList<Student> getStudents() {
+        return db.getStudents();
+    }
+
+    public ArrayList<CompanyRepresentative> getCompanyRepresentatives() {
+        return db.getCompanyRepresentatives();
+    }
+    public ArrayList<CompanyRepresentative> getCompanyRepresentatives(Status status) {
+        ArrayList<CompanyRepresentative> reps = new ArrayList<>();
+        for (CompanyRepresentative rep : db.getCompanyRepresentatives()) {
+            if (Objects.equals(rep.getStatus(), status)) {
+                // System.out.println(rep.getName());
+                reps.add(rep);
+            }
+        }
+        return reps;
+    }
+
+    public ArrayList<CareerCenterStaff> CareerCenterStaff() {
+        return db.getCareerCenterStaffs();
     }
 
     public void createStudent(Student student) {
@@ -37,22 +60,14 @@ public class UserController {
         db.createCareerCenterStaff(staff);
     }
 
-	public User login(String name, String passwordHash) {
-		// System.out.println("=".repeat(20));
-		// System.out.println(name);
-		// System.out.println(passwordHash);
-		for (User user: getAllUsers()) {
-			// System.out.println(user.getName());
-			// System.out.println(user.getPasswordHash());
+    public User login(String name, String passwordHash) {
+        for (User user : getUsers()) {
             if (Objects.equals(name, user.getName()) && Objects.equals(passwordHash, user.getPasswordHash())) {
                 return user;
             }
         }
-		System.out.println("=".repeat(20));
-
-        // Return null if no match is found
         return null;
-	}
+    }
 
     public void saveAllUsers() {
         // save all user information to a csv file
