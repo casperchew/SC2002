@@ -2,6 +2,7 @@ package cli;
 
 import java.util.Scanner;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,26 +39,66 @@ public class RepMenu {
 
                 internshipTitle = inputString("Set the internship title: ");
                 description = inputString("Set the description for the internship: ");
-                System.out.println("\nBasic - 1\nIntermediate - 2\nAdvanced");
+                System.out.println("\n1) Basic\n2) Intermediate\n3) Advanced");
                 levelInt = inputInt("Set the internship level: ");
                 level = InternshipLevel.fromValue(levelInt);
                 numMajors = inputInt("Enter number of preferred majors you want to set for this internship: ");
-                sc.nextLine();
 
                 for (int i = 0; i < numMajors; i++) {
-                    preferredMajors.add(inputString("Enter preferred major " + i + ": "));
+                    preferredMajors.add(inputString("Enter preferred major " + (i + 1) + ": "));
                 }
 
-                
+                // Get dates
+                openingDate = inputDate("Enter opening date (YYYY-MM-DD): ");
+                closingDate = inputDate("Enter closing date (YYYY-MM-DD): ");
+
+                // Validate date logic
+                while (closingDate.isBefore(openingDate)) {
+                    System.out.println("Error: Closing date cannot be before opening date.");
+                    closingDate = inputDate("Enter closing date (YYYY-MM-DD): ");
+                }
+
+                // Get number of slots
+                numOfSlots = inputInt("Enter number of available slots: ");
+                while (numOfSlots <= 0) {
+                    System.out.println("Error: Number of slots must be positive.");
+                    numOfSlots = inputInt("Enter number of available slots: ");
+                }
+
+                // Get visibility
+                String visibleInput = inputString("Make this internship visible immediately? (y/n): ");
+                isVisible = visibleInput.equalsIgnoreCase("y");
+
+                // Initialize the list of representatives and add the creator
+                companyRepresenatives = new ArrayList<>();
+                companyRepresenatives.add(rep);
 
                 InternshipOpportunity opportunity = new InternshipOpportunity(
-                    internshipTitle, description, level, preferredMajors, openingDate,
-                    closingDate, rep.getCompany(), companyRepresenatives, numOfSlots, isVisible
+                        internshipTitle, description, level, preferredMajors, openingDate,
+                        closingDate, rep.getCompany(), companyRepresenatives, numOfSlots, isVisible
                 );
+
+                // Provide feedback to the user
+                System.out.println("\nInternship opportunity '" + internshipTitle + "' created successfully!");
                 break;
             default:
-				return rep;
+				System.out.println("Invalid option, please try again.");
+                break;
         }
+        return rep;
+    }
+
+    private static LocalDate inputDate(String text) {
+        LocalDate date = null;
+        while (date == null) {
+            String dateString = inputString(text);
+            try {
+                date = LocalDate.parse(dateString); // Uses default YYYY-MM-DD format
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid date format. Please use YYYY-MM-DD.");
+            }
+        }
+        return date;
     }
 
     private static String inputString(String text) {
