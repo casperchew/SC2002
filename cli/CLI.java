@@ -1,14 +1,15 @@
 package cli;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+
 import controller.*;
 import model.*;
 import model.internship.InternshipApplication;
 import model.user.CareerCenterStaff;
 import model.user.CompanyRepresentative;
 import model.user.Student;
-import java.util.List;
 
 public class CLI {
     private Scanner sc = new Scanner(System.in);
@@ -82,7 +83,7 @@ public class CLI {
                                 password = inputString("Enter your password: ");
                                 int yearOfStudy = inputInt("Enter your year: ");
                                 String major = inputString("Enter your major: ");
-                                Student s = new Student(userID, name, password, yearOfStudy, major);
+                                Student s = new Student(userID, name, password, yearOfStudy, major, null);
                                 userController.createStudent(s);
                                 System.out.println("Student account created successfully!");
                                 break;

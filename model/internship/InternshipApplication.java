@@ -5,10 +5,9 @@ import model.user.*;
 
 public class InternshipApplication extends Application {
     private InternshipOpportunity internshipOpportunity;
-    private boolean placementConfirmed; // after company approves, the student has to accept. So we use placementConfirmed
+    private boolean placementConfirmed; 
     private boolean withdrawalRequested;
     private boolean withdrawalApproved;
-
     public InternshipApplication(Student applicant, InternshipOpportunity internshipOpportunity) {
         super(applicant);
         this.internshipOpportunity = internshipOpportunity;
