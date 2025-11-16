@@ -127,7 +127,8 @@ public class CLI {
                 switch (rep.getStatus()) {
                     case Status.APPROVED:
                         // render the CompanyRepresentative menu if his application was accepted
-                        user = RepMenu.runMenu(rep); // need to be changed to non static
+                        RepMenu repMenu = new RepMenu(rep, userController, appController, internshipController);
+                        user = repMenu.runMenu(rep); // need to be changed to non static
                         break;
                     case Status.PENDING:
                         System.out.println("Your account is pending approval.");

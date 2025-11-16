@@ -1,5 +1,6 @@
 package src.utils;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Utils {
@@ -27,6 +28,19 @@ public class Utils {
 		System.out.println();
         return n;
 	}
+
+    public static LocalDate inputDate(String text) {
+        LocalDate date = null;
+        while (date == null) {
+            String s = Utils.inputString(text);
+            try {
+                date = LocalDate.parse(s);
+            } catch (Exception e) {
+                System.out.println("Invalid date format. Please use YYYY-MM-DD.");
+            }
+        }
+        return date;
+    }
 
 	public static void clear() {
 		System.out.print("\033[?1049h");

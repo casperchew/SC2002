@@ -208,6 +208,7 @@ public class StaffMenu {
             );
 
             if (choice == -1) {
+                Utils.clear();
                 break;
             }
 
