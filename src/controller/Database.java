@@ -83,6 +83,4 @@ public class Database {
 	public void deleteInternshipApplication(InternshipApplication application) {
 		internshipApplications.remove(application);
 	}
-
-	// TODO make CRUD for all models
 }

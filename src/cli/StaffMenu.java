@@ -79,7 +79,7 @@ public class StaffMenu {
         Utils.clear();
         boolean loop = true;
         while (loop) {
-            ArrayList<CompanyRepresentative> pendingReps = (ArrayList<CompanyRepresentative>) userController.getCompanyRepresentatives(Status.PENDING);
+            ArrayList<CompanyRepresentative> pendingReps = userController.getCompanyRepresentativesByStatus(Status.PENDING);
             if (pendingReps.isEmpty()) {
                 Utils.clear();
                 System.out.println("There are no pending company representative accounts.");
