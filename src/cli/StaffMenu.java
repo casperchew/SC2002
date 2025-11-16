@@ -36,17 +36,14 @@ public class StaffMenu {
 
     public User runMenu(CareerCenterStaff staff) {
         int choice;
-        System.out.println();
-        // System.out.println("=".repeat(20));
-        // System.out.println();
-        System.out.println("1) Approve/reject company representatives."); 
-        System.out.println("2) Approve/reject internship opportunities."); 
+        System.out.println("1) Approve/reject company representatives.");
+        System.out.println("2) Approve/reject internship opportunities.");
         System.out.println("3) Approve/reject student withdrawal requests.");
-        System.out.println("4) Generate internship opportunity report."); 
-        System.out.println("5) Set internship opportunity report filters."); // TODO
-        System.out.println("6) View all internship applications."); // for testing
+        System.out.println("4) Generate internship opportunity report.");
+        System.out.println("5) Set internship opportunity report filters.");  // TODO
+        System.out.println("6) View all internship applications.");  // For testing
         System.out.println("7) Logout.");
-        choice = inputInt("Enter an option: ");
+        choice = Utils.inputInt("Enter an option: ");
 
         switch (choice) {
             case 1:
@@ -77,25 +74,6 @@ public class StaffMenu {
 				return staff;
         }
     }
-
-    private String inputString(String text) {
-        System.out.println(text);
-        String s = sc.nextLine();
-        if (s.isEmpty()) {
-            System.exit(0);
-        }
-        return s;
-    }
-
-    private int inputInt(String text) {
-        System.out.println(text);
-        int n = sc.nextInt();
-        sc.nextLine();
-        if (n == 0) {
-            System.exit(0);
-        }
-        return n;
-	}
 
     private void approveCompanyReps() {
         Utils.clear();
