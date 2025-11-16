@@ -89,7 +89,7 @@ public class CLI {
                                 break;
                             case 2:
                                 // Handles company rep cases
-                                userIDString = inputString("Enter your student ID: ");
+                                userIDString = inputString("Enter your user ID: ");
                                 userID = Integer.parseInt(userIDString.substring(1, userIDString.length() - 1));
                                 name = inputString("Enter your name: ");
                                 password = inputString("Enter your password: ");
@@ -135,6 +135,7 @@ public class CLI {
                         System.out.println("Your application has been filled");
                         break;
                 }
+                user = null;
 
             } else if (user instanceof CareerCenterStaff) {
                 // render CareerCenterStaff Menu
