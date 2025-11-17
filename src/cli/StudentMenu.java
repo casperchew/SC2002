@@ -1,10 +1,13 @@
 package src.cli;
 
+import java.rmi.registry.LocateRegistry;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
 import src.controller.*;
+import src.model.InternshipLevel;
 import src.model.Status;
 import src.model.User;
 import src.model.internship.*;
@@ -19,7 +22,6 @@ public class StudentMenu {
     private ApplicationController appController;
     private InternshipController internshipController;
 
-	// TODO filters
 
     public StudentMenu(
         Student student,
@@ -38,8 +40,8 @@ public class StudentMenu {
 
         System.out.println("\t1) Apply for internship."); 
         System.out.println("\t2) View internship applications."); 
-        System.out.println("\t3) Set filters."); // TODO
-        System.out.println("\t4) Change Password."); // TODO
+        System.out.println("\t3) Set filters."); 
+        System.out.println("\t4) Change Password.");
         System.out.println("\t5) Logout."); 
         System.out.println("");
         choice = Utils.inputInt("Enter an option: ");
@@ -54,24 +56,25 @@ public class StudentMenu {
 
             case 3:
 				// Utils.clear();
-                System.out.println("Not implemented");
-				System.out.println();
+                setFilter();
                 return student;
 
             case 4:
 				// Utils.clear();
-                System.out.println("Not implemented");
-				System.out.println();
+                // System.out.println("Not implemented");
+                changePassword();
 				return student;
 
             case 5:
 				Utils.clear();
+                System.out.println("Logging out...");
+                System.out.println();
 				return null;
 
             default:
-				// Utils.clear();
+				Utils.clear();
 				System.out.println("Invalid option!");
-				System.out.println("");
+				System.out.println();
 				return student;
 		}
     }
@@ -88,7 +91,37 @@ public class StudentMenu {
         while (loop) {
             // Utils.clear();
             ArrayList<InternshipOpportunity> opportunities = internshipController.getInternshipOpportunities(student);
-            if (opportunities.isEmpty()) {
+            ArrayList<InternshipOpportunity> filtered = new ArrayList<>();
+
+            // This loop is added for the filtering
+            for (InternshipOpportunity opp : opportunities) {
+
+                // Filter by internship level
+                if (!student.getInternshipLevelFilter().isEmpty()) {
+                    if (!student.getInternshipLevelFilter().contains(opp.getInternshipLevel())) {
+                        continue;
+                    }
+                }
+
+                // Filter by company name
+                if (!student.getCompanyNameFilter().isEmpty()) {
+                    if (!student.getCompanyNameFilter().contains(opp.getCompanyName())) {
+                        continue;
+                    }
+                }
+
+                // Filter by opening/closing date
+                if (opp.getApplicationOpeningDate().isBefore(student.getApplicationOpeningDateFilter())) {
+                    continue;
+                }
+                if (opp.getApplicationClosingDate().isAfter(student.getApplicationClosingDateFilter())) {
+                    continue;
+                }
+
+                filtered.add(opp);
+            }
+
+            if (filtered.isEmpty()) {
                 Utils.clear();
                 System.out.println("There are currently no available internship opportunities for you.");
                 System.out.println("");
@@ -96,8 +129,9 @@ public class StudentMenu {
             }
 
             ArrayList<InternshipOpportunity> approvedList = new ArrayList<>();
+            
             System.out.println("Select an internship opportunity to apply for: ");
-            for (InternshipOpportunity internshipOpp: opportunities) {
+            for (InternshipOpportunity internshipOpp: filtered) {
                 if (Objects.equals(internshipOpp.getStatus(), Status.APPROVED)) {
                     approvedList.add(internshipOpp);
                 }
@@ -124,8 +158,11 @@ public class StudentMenu {
             InternshipOpportunity chosenInternshipOpp = approvedList.get(choice - 1);
 
             System.out.println("Title: " + chosenInternshipOpp.getInternshipTitle());
+            System.out.println("Company name: " + chosenInternshipOpp.getCompanyName());
+            System.out.println("Internship level: " + chosenInternshipOpp.getInternshipLevel());
             System.out.println("Description: " + chosenInternshipOpp.getDescription());
             System.out.println("Available slots: " + chosenInternshipOpp.getNumberOfSlots());
+            System.out.println("Application opening date: " + chosenInternshipOpp.getApplicationOpeningDate());
             System.out.println("Application closing date: " + chosenInternshipOpp.getApplicationClosingDate());
 
             System.out.println();
@@ -259,4 +296,220 @@ public class StudentMenu {
             }
         }
     }
+
+    private void setFilter() {
+        boolean loop = true;
+        Utils.clear();
+
+        while (loop) {
+            System.out.println("Current filters:");
+            System.out.print("Internship levels: ");
+            if (student.getInternshipLevelFilter().isEmpty()) System.out.println("None");
+            else System.out.println(student.getInternshipLevelFilter());
+
+            System.out.print("Company names: ");
+            if (student.getCompanyNameFilter().isEmpty()) System.out.println("None");
+            else System.out.println(student.getCompanyNameFilter());
+
+            // We should not display the MIN date because it doesnt make any sense
+            if (Objects.equals(student.getApplicationOpeningDateFilter(), LocalDate.MIN)) {
+                System.out.println("Application opening date (min): None");
+            } else {
+                System.out.println("Application opening date (min): " + student.getApplicationOpeningDateFilter());
+            }
+            // We should not display the MAX date because it doesnt make any sense
+            if (Objects.equals(student.getApplicationClosingDateFilter(), LocalDate.MAX)) {
+                System.out.println("Application closing date (max): None");
+            } else {
+                System.out.println("Application closing date (max): " + student.getApplicationClosingDateFilter());
+            }
+            
+            System.out.println();
+
+            System.out.println("1) Add internship level filter"); // works
+            System.out.println("2) Remove internship level filter"); // works
+            System.out.println("3) Add company name filter"); // works
+            System.out.println("4) Remove company name filter"); // works
+            System.out.println("5) Set application opening date filter");
+            System.out.println("6) Set application closing date filter");
+            System.out.println("7) Reset all filters");
+            System.out.println("8) Exit");
+            int choice = Utils.inputInt("Enter an option: ");
+            Utils.clear();
+
+            switch (choice) {
+                case 1:
+                    InternshipLevel[] levels = InternshipLevel.values();
+                    System.out.println("Available internship levels:");
+                    for (int i = 0; i < levels.length; i++) {
+                        System.out.println((i + 1) + ") " + levels[i]);
+                    }
+                    System.out.println();
+
+                    int lvlChoice = Utils.inputInt("Enter the number of the level to add: ");
+
+                    if (lvlChoice < 1 || lvlChoice > levels.length) {
+                        Utils.clear();
+                        System.out.println("Invalid option.\n");
+                        System.out.println();
+                        break;
+                    }
+
+                    InternshipLevel levelToAdd = levels[lvlChoice - 1];
+
+                    // Add only if it has not already be added (TODO: this should probably be handled within student.AddInternshipLevelFilter)
+                    if (!student.getInternshipLevelFilter().contains(levelToAdd)) {
+                        student.AddInternshipLevelFilter(levelToAdd);
+                        Utils.clear();
+                    } else {
+                        Utils.clear();
+                    }
+                    break;
+
+                case 2:
+                    if (student.getInternshipLevelFilter().isEmpty()) {
+                        Utils.clear();
+                        System.out.println("No internship level filters to remove.\n");
+                        System.out.println();
+                        break;
+                    }
+
+                    System.out.println("Current internship level filters:");
+                    for (int i = 0; i < student.getInternshipLevelFilter().size(); i++) {
+                        System.out.println((i + 1) + ") " + student.getInternshipLevelFilter().get(i));
+                    }
+                    System.out.println();
+
+                    int lvlRemoveChoice = Utils.inputInt("Enter the number of the level to remove: ");
+                    Utils.clear();
+                    
+                    // TODO: these checks should probably be handled within the student.removeInternshipFilter()
+                    if (lvlRemoveChoice < 1 || lvlRemoveChoice > student.getInternshipLevelFilter().size()) {
+                        Utils.clear();
+                        System.out.println("Invalid option.\n");
+                        System.out.println();
+                        break;
+                    }
+
+                    InternshipLevel removedLvl = student.RemoveInternshipLevelFilter(lvlRemoveChoice - 1);
+                    System.out.println("Removed: " + removedLvl + "\n");
+                    break;
+
+                case 3:
+                    String companyName = Utils.inputString("Enter company name to add: ");
+                    // TODO: Likewise, these checks should probably also be handled within student.AddCompanyNameFilter()
+                    if (!student.getCompanyNameFilter().contains(companyName)) {
+                        student.AddCompanyNameFilter(companyName);
+                        Utils.clear();
+                        System.out.println("Company added.\n");
+                        System.out.println();
+                    } else {
+                        Utils.clear();
+                        System.out.println("Filter already added.\n");
+                        System.out.println();
+                    }
+                    break;
+
+                case 4:
+                    if (student.getCompanyNameFilter().isEmpty()) {
+                        Utils.clear();
+                        System.out.println("No company name filters to remove.\n");
+                        System.out.println();
+                        break;
+                    }
+
+                    System.out.println("Current company name filters:");
+                    for (int i = 0; i < student.getCompanyNameFilter().size(); i++) {
+                        System.out.println((i + 1) + ") " + student.getCompanyNameFilter().get(i));
+                    }
+                    System.out.println();
+
+                    int companyRemoveChoice = Utils.inputInt("Enter number of company to remove: ");
+                    Utils.clear();
+                    // TODO: Likewise, these checks should probably also be handled within student.AddCompanyNameFilter()
+                    if (companyRemoveChoice < 1 || companyRemoveChoice > student.getCompanyNameFilter().size()) {
+                        Utils.clear();
+                        System.out.println("Invalid option.\n");
+                        System.out.println();
+                        break;
+                    }
+
+                    String removedCompany = student.RemoveCompanyNameFilter(companyRemoveChoice - 1);
+                    Utils.clear();
+                    System.out.println("Removed: " + removedCompany + "\n");
+                    System.out.println();
+                    break;
+
+                case 5:
+                    // We should not display the MIN date because it doesnt make any sense
+                    if (Objects.equals(student.getApplicationOpeningDateFilter(), LocalDate.MIN)) {
+                        System.out.println("Application opening date (min): None");
+                    } else {
+                        System.out.println("Application opening date (min): " + student.getApplicationOpeningDateFilter());
+                    }                 
+                    try {
+                        LocalDate openDate = Utils.inputDate("Enter new opening date (YYYY-MM-DD): ");
+                        student.setApplicationOpeningDateFilter(openDate);
+                        Utils.clear();
+                        System.out.println("Opening date updated.\n");
+                        System.out.println();
+                    } catch (Exception e) {
+                        Utils.clear();
+                        System.out.println("Invalid date.\n");
+                        System.out.println();
+                    }
+                    break;
+
+                case 6:
+                    // We should not display the MAX date because it doesnt make any sense
+                    if (Objects.equals(student.getApplicationClosingDateFilter(), LocalDate.MAX)) {
+                        System.out.println("Application closing date (max): None");
+                    } else {
+                        System.out.println("Application closing date (max): " + student.getApplicationClosingDateFilter());
+                    }
+                    try {
+                        LocalDate closeDate = Utils.inputDate("Enter new closing date (YYYY-MM-DD): ");
+                        student.setApplicationClosingDateFilter(closeDate);
+                        Utils.clear();
+                        System.out.println("Closing date updated.\n");
+                        System.out.println();
+                    } catch (Exception e) {
+                        Utils.clear();
+                        System.out.println("Invalid date.\n");
+                        System.out.println();
+                    }
+                    break;
+
+                case 7:
+                    student.RemoveInternshipLevelFilter(-1);
+                    student.RemoveCompanyNameFilter(-1);
+                    student.setApplicationOpeningDateFilter(LocalDate.MIN);
+                    student.setApplicationClosingDateFilter(LocalDate.MAX);
+                    Utils.clear();
+                    System.out.println("All filters reset.\n");
+                    System.out.println();
+                    break;
+
+                case 8:
+                    loop = false;
+                    Utils.clear();
+                    break;
+
+                default:
+                    System.out.println("Invalid option!\n");
+                    break;
+            }
+        }
+    }
+
+    private void changePassword() {
+        Utils.clear();
+        String newPassword = Utils.inputString("Enter your new password: ");
+        student.setPasswordHash(newPassword);
+
+        Utils.clear();
+        System.out.println("Your new password has been set.");
+        System.out.println();
+    }
+
 }

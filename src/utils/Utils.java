@@ -33,11 +33,7 @@ public class Utils {
         LocalDate date = null;
         while (date == null) {
             String s = Utils.inputString(text);
-            try {
-                date = LocalDate.parse(s);
-            } catch (Exception e) {
-                System.out.println("Invalid date format. Please use YYYY-MM-DD.");
-            }
+            date = LocalDate.parse(s);
         }
         return date;
     }

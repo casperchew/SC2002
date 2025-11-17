@@ -12,7 +12,7 @@ public class InternshipOpportunity {
     private String internshipTitle;
     private String description;
     private InternshipLevel internshipLevel;
-    private ArrayList<String> preferredMajors;  // TODO change to string (only 1 preferred major is required)
+    private ArrayList<String> preferredMajors;  
     private LocalDate applicationOpeningDate;
     private LocalDate applicationClosingDate;
     private Status status;  // Career Center Staff needs to approve the internshipOpportunity first before it can become visible
