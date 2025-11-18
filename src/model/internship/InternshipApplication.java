@@ -2,8 +2,9 @@ package src.model.internship;
 
 import java.time.LocalDate;
 
-import src.model.*;
-import src.model.user.*;
+import src.enums.Status;
+import src.model.User;
+import src.model.user.Student;
 
 public class InternshipApplication {
     private InternshipOpportunity internshipOpportunity;

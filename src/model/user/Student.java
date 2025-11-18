@@ -3,25 +3,26 @@ package src.model.user;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import src.model.InternshipLevel;
+import src.enums.InternshipLevel;
 import src.model.User;
 import src.model.internship.InternshipApplication;
 import src.model.internship.InternshipOpportunity; 
 
 public class Student extends User {
+    public static final int MAX_APPLICATIONS = 3;
+
     private int YearOfStudy;
     private String Major;
     InternshipOpportunity internship;
     private ArrayList<InternshipApplication> internshipApplications = new ArrayList<InternshipApplication>();
-    public static final int MAX_APPLICATIONS = 3;
 
-    // filters (can add more filters as necessary)
+    // Filters
     ArrayList<InternshipLevel> internshipLevelFilter;
     ArrayList<String> companyNameFilter;
     private LocalDate applicationOpeningDateFilter;
     private LocalDate applicationClosingDateFilter;
 
-    public Student(int userID, String name, String passwordHash, int YearOfStudy, String Major, InternshipOpportunity internship) {
+    public Student(String userID, String name, String passwordHash, int YearOfStudy, String Major, InternshipOpportunity internship) {
         super(userID, name, passwordHash);
 
         this.YearOfStudy = YearOfStudy;
@@ -30,11 +31,13 @@ public class Student extends User {
 
         this.internshipLevelFilter = new ArrayList<InternshipLevel>();
         this.companyNameFilter = new ArrayList<String>();
-        // At initialization, we set these such that all dates fall within the range of the date filters
         this.applicationOpeningDateFilter = LocalDate.MIN; 
         this.applicationClosingDateFilter = LocalDate.MAX;
     }
 
+	// Getters and Setters
+	// -------------------
+	// YearOfStudy
     public int getYearOfStudy() {
         return YearOfStudy;
     }
@@ -43,6 +46,7 @@ public class Student extends User {
         YearOfStudy = yearOfStudy;
     }
 
+	// Major
     public String getMajor() {
         return Major;
     }
@@ -51,6 +55,7 @@ public class Student extends User {
         Major = major;
     }
 
+	// Internship
     public InternshipOpportunity getInternship() {
         return this.internship;
     }
@@ -59,47 +64,48 @@ public class Student extends User {
         this.internship = internship;
     }
 
+	// InternshipApplications
     public ArrayList<InternshipApplication> getInternshipApplications() {
         return new ArrayList<>(internshipApplications);
     }
 
+	/** 
+	 * @return 0 if success, 1 if error
+	 */
     public int addInternshipApplications(InternshipApplication internshipApplication) {
-        if (this.internshipApplications.size() < MAX_APPLICATIONS) {
-            this.internshipApplications.add(internshipApplication);
-            
-            // success
+        if (internshipApplications.size() < MAX_APPLICATIONS) {
+            internshipApplications.add(internshipApplication);
             return 0; 
-
         } else {
-
-            // FAILURE!!!
             return 1; 
         }
     }
 
-    public int deleteInternshipApplication(InternshipApplication applicationToDelete) {
-        if (applicationToDelete == null) {
-            // FAIL if the application to delete is null
+	/**
+	 * @return 0 if success, 1 if error
+	 */
+    public int deleteInternshipApplication(InternshipApplication application) {
+        if (application == null) {
             return 1; 
         }
-        boolean removed = this.internshipApplications.remove(applicationToDelete);
 
-        if (removed) {
-            // success
-            return 0; 
-        } else {
-            // FAILURE! 
-            return 1; 
-        }
+        boolean removed = this.internshipApplications.remove(application);
+		return removed ? 0 : 1;
+    }
+
+	// InternshipLevelFilter
+    public ArrayList<InternshipLevel> getInternshipLevelFilter() {
+        return internshipLevelFilter;
     }
 
     public void AddInternshipLevelFilter(InternshipLevel internshipLevel) {
         this.internshipLevelFilter.add(internshipLevel);
     }
+
     public void RemoveInternshipLevelFilter(InternshipLevel internshipLevel) {
         this.internshipLevelFilter.remove(internshipLevel);
     }
-    // overload
+
     public InternshipLevel RemoveInternshipLevelFilter(int i) {
         if (i == -1) {
             this.internshipLevelFilter.clear();
@@ -107,40 +113,45 @@ public class Student extends User {
         }
         return this.internshipLevelFilter.remove(i);
     }   
-    public ArrayList<InternshipLevel> getInternshipLevelFilter() {
-        return internshipLevelFilter;
+
+	// CompanyNameFilter
+    public ArrayList<String> getCompanyNameFilter() {
+        return companyNameFilter;
     }
 
     public void AddCompanyNameFilter(String companyName) {
         this.companyNameFilter.add(companyName);
     }
+
     public void RemoveCompanyNameFilter(String companyName) {
         this.companyNameFilter.remove(companyName);
     }
-    // overload
+
     public String RemoveCompanyNameFilter(int i) {
         if (i == -1) {
             this.companyNameFilter.clear();
             return null;
         }
+
         return this.companyNameFilter.remove(i);
     }   
-    public ArrayList<String> getCompanyNameFilter() {
-        return companyNameFilter;
+
+	// OpeningDateFilter
+    public LocalDate getApplicationOpeningDateFilter() {
+        return applicationOpeningDateFilter;
     }
 
     public void setApplicationOpeningDateFilter(LocalDate applicationOpeningDateFilter) {
         this.applicationOpeningDateFilter = applicationOpeningDateFilter;
     }
-    public LocalDate getApplicationOpeningDateFilter() {
-        return applicationOpeningDateFilter;
+
+	// ClosingDateFilter
+    public LocalDate getApplicationClosingDateFilter() {
+        return applicationClosingDateFilter;
     }
 
     public void setApplicationClosingDateFilter(LocalDate applicationClosingDateFilter) {
         this.applicationClosingDateFilter = applicationClosingDateFilter;
     }
-    public LocalDate getApplicationClosingDateFilter() {
-        return applicationClosingDateFilter;
-    }
+	// -------------------
 }
-

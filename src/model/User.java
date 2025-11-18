@@ -1,21 +1,21 @@
 package src.model;
 
 public abstract class User {
-    protected int userID;
+    protected String userID;
     protected String name;
     protected String passwordHash;
 
-    public User(int userID, String name, String passwordHash) {
+    public User(String userID, String name, String passwordHash) {
         this.userID = userID;
         this.name = name;
         this.passwordHash = passwordHash;
     }
 
-    public int getUserID() {
+    public String getUserID() {
         return this.userID;
     }
 
-    public void setUserID(int userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 

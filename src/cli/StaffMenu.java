@@ -5,11 +5,12 @@ import java.util.Objects;
 import java.util.Scanner;
 
 import src.controller.ApplicationController;
-import src.controller.InternshipController;
+import src.controller.InternshipOpportunityController;
 import src.controller.UserController;
-import src.model.Status;
+import src.enums.Status;
 import src.model.User;
-import src.model.internship.*;
+import src.model.internship.InternshipApplication;
+import src.model.internship.InternshipOpportunity;
 import src.model.user.CareerCenterStaff;
 import src.model.user.CompanyRepresentative;
 import src.model.user.Student;
@@ -20,18 +21,18 @@ public class StaffMenu {
     private CareerCenterStaff staff;
     private UserController userController;
     private ApplicationController appController;
-    private InternshipController internshipController;
+    private InternshipOpportunityController internshipOpportunityController;
 
     public StaffMenu(
         CareerCenterStaff staff, 
         UserController userController,
         ApplicationController appController,
-        InternshipController internshipController
+        InternshipOpportunityController internshipOpportunityController
     ) {
         this.staff = staff;
         this.userController = userController;
         this.appController = appController;
-        this.internshipController = internshipController;
+        this.internshipOpportunityController = internshipOpportunityController;
     }
 
     public User runMenu(CareerCenterStaff staff) {
@@ -43,6 +44,7 @@ public class StaffMenu {
         System.out.println("5) Set internship opportunity report filters.");  // TODO
         System.out.println("6) View all internship applications.");  // For testing
         System.out.println("7) Logout.");
+		System.out.println("");
         choice = Utils.inputInt("Enter an option: ");
 
         switch (choice) {
@@ -67,7 +69,6 @@ public class StaffMenu {
                 return staff;
             case 7:
                 Utils.clear();
-                System.out.println("Logging out...");
 				return null;
             default:
                 Utils.clear();
@@ -167,7 +168,7 @@ public class StaffMenu {
         while (loop) {
             Utils.clear();
             ArrayList<InternshipOpportunity> pendingOpportunities =
-                    (ArrayList<InternshipOpportunity>) internshipController.getInternshipOpportunities(Status.PENDING);
+                    (ArrayList<InternshipOpportunity>) internshipOpportunityController.getInternshipOpportunities(Status.PENDING);
 
             if (pendingOpportunities.isEmpty()) {
                 System.out.println("There are no pending internship opportunities.");
@@ -387,7 +388,7 @@ public class StaffMenu {
         while (loop) {
             // Utils.clear();
 
-            ArrayList<InternshipOpportunity> opportunities = internshipController.getInternshipOpportunities();
+            ArrayList<InternshipOpportunity> opportunities = internshipOpportunityController.getInternshipOpportunities();
 
             if (opportunities.isEmpty()) {
                 System.out.println("There are no internship opportunities yet.");

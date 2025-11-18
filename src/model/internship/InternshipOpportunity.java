@@ -1,12 +1,11 @@
 package src.model.internship;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import src.model.*;
-import src.model.user.CompanyRepresentative;
-
 import java.time.LocalDate;
+import java.util.ArrayList;
+
+import src.enums.InternshipLevel;
+import src.enums.Status;
+import src.model.user.CompanyRepresentative;
 
 public class InternshipOpportunity {
     private String internshipTitle;
@@ -17,7 +16,7 @@ public class InternshipOpportunity {
     private LocalDate applicationClosingDate;
     private Status status;  // Career Center Staff needs to approve the internshipOpportunity first before it can become visible
     private String companyName;
-    private List<CompanyRepresentative> companyRepresentatives;
+    private ArrayList<CompanyRepresentative> companyRepresentatives;
     private int numberOfSlots;
     public static final int MAX_NUM_SLOTS = 10;
 
@@ -31,7 +30,7 @@ public class InternshipOpportunity {
             LocalDate applicationOpeningDate,
             LocalDate applicationClosingDate,
             String companyName,
-            List<CompanyRepresentative> companyRepresentatives,
+            ArrayList<CompanyRepresentative> companyRepresentatives,
             int numberOfSlots
     ) {
         if (applicationOpeningDate == null || applicationClosingDate == null || applicationClosingDate.isBefore(applicationOpeningDate)) {
@@ -125,7 +124,7 @@ public class InternshipOpportunity {
         this.companyName = companyName;
     }
 
-    public List<CompanyRepresentative> getCompanyRepresentatives() { 
+    public ArrayList<CompanyRepresentative> getCompanyRepresentatives() { 
         return new ArrayList<>(this.companyRepresentatives); 
     }
 

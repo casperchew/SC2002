@@ -3,13 +3,14 @@ package src.main;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import src.cli.CLI;
-import src.controller.*;
-import src.model.internship.*;
-import src.model.user.*;
+import src.controller.UserController;
+import src.controller.Database;
+import src.model.internship.InternshipOpportunity;
+import src.model.user.Student;
+import src.model.user.CareerCenterStaff;
 
 public class Main {
 	private static Database db = new Database();
@@ -39,14 +40,12 @@ public class Main {
             while (studentScanner.hasNextLine()) {
                 String[] line = studentScanner.nextLine().split(",");
 
-                // Parse the last 7 digits of the StudentID 
-                String studentIDString = line[0].substring(1, line[0].length() - 1); 
-                int userID = Integer.parseInt(studentIDString); 
+                String userID = line[0];
                 String name = line[1];
                 String major = line[2];
-                int yearOfStudy = Integer.parseInt(line[3]);
-                String passwordHash = "password"; // Default password hash
-                InternshipOpportunity internship = null; // Set to null for now cuz the csv doesnt have a internship column 
+                int yearOfStudy = Integer.parseInt(line[3]); // TODO: error handling
+                String passwordHash = "password";  // Default password hash
+                InternshipOpportunity internship = null; // TODO: change Student contructor to allow an optional parameter for internship
                 Student student = new Student(
                     userID, 
                     name, 
@@ -74,8 +73,7 @@ public class Main {
             while (staffScanner.hasNextLine()) {
                 String[] line = staffScanner.nextLine().split(",");
 
-                String staffIDString = line[0].replaceAll("\\D", ""); // remove non-digit characters
-                int userID = Integer.parseInt(staffIDString);
+                String userID = line[0];
                 String name = line[1];
                 String passwordHash = "password"; 
                 CareerCenterStaff staff = new CareerCenterStaff(userID, name, passwordHash);

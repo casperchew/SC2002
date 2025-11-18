@@ -1,33 +1,36 @@
 package src.cli;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-import src.controller.*;
-import src.model.*;
+import src.controller.UserController;
+import src.controller.ApplicationController;
+import src.controller.InternshipOpportunityController;
+import src.controller.Database;
+import src.enums.Status;
+import src.model.User;
 import src.model.internship.InternshipApplication;
-import src.model.user.CareerCenterStaff;
-import src.model.user.CompanyRepresentative;
+import src.model.internship.InternshipOpportunity;
 import src.model.user.Student;
+import src.model.user.CompanyRepresentative;
+import src.model.user.CareerCenterStaff;
 import src.utils.Utils;
 
 public class CLI {
     private Scanner sc = new Scanner(System.in);
 	private UserController userController;
     private ApplicationController appController;
-    private InternshipController internshipController;
+    private InternshipOpportunityController internshipController;
 
     public CLI(Database db) {
         this.userController = new UserController(db);
         this.appController = new ApplicationController(db);
-        this.internshipController = new InternshipController(db);
+        this.internshipController = new InternshipOpportunityController(db);
     }
 
     public void main() {
         int choice;
-        int userID;
+        String userID;
         String userIDString;
         String name;
         String password;
@@ -40,9 +43,9 @@ public class CLI {
             if (user == null) {
 				System.out.println("Internship Placement Management System");
 				System.out.println("--------------------------------------");
-				System.out.println("\t1) Login");
-				System.out.println("\t2) Create a new account");
-                System.out.println("\t3) Exit");
+				System.out.println("1) Login");
+				System.out.println("2) Create a new account");
+                System.out.println("3) Exit");
                 System.out.println("");
 				choice = Utils.inputInt("Select an option: ");
                 switch (choice) {
@@ -69,15 +72,14 @@ public class CLI {
                     case 2:
 						Utils.clear();
                         System.out.println("Are you a:");
-                        System.out.println("\t1) Student");
-                        System.out.println("\t2) Company Representative");
-                        System.out.println("\t3) Career Center Staff");
+                        System.out.println("1) Student");
+                        System.out.println("2) Company Representative");
+                        System.out.println("3) Career Center Staff");
                         choice = Utils.inputInt("Enter a choice: ");
 
                         switch (choice) {
                             case 1:
-                                userIDString = Utils.inputString("Enter your student ID: ");
-                                userID = Integer.parseInt(userIDString.substring(1, userIDString.length() - 1));
+                                userID = Utils.inputString("Enter your student ID: ");
                                 name = Utils.inputString("Enter your name: ");
                                 password = Utils.inputString("Enter your password: ");
                                 int yearOfStudy = Utils.inputInt("Enter your year: ");
@@ -90,12 +92,11 @@ public class CLI {
 								System.out.println();
                                 break;
                             case 2:
-                                Random rand = new Random();
-                                int repID = rand.nextInt(9000000) + 1000000;
+                                userID = "1"; // Placeholder value
                                 name = Utils.inputString("Enter your name: ");
                                 String companyName = Utils.inputString("Company name: ");
                                 password = Utils.inputString("Enter your password: ");
-                                CompanyRepresentative rep = new CompanyRepresentative(repID, name, password, companyName);
+                                CompanyRepresentative rep = new CompanyRepresentative(userID, name, password, companyName);
                                 userController.createCompanyRep(rep);
 								Utils.clear();
 								System.out.println("Your account is pending approval.");

@@ -3,8 +3,11 @@ package src.controller;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import src.model.*;
-import src.model.user.*;
+import src.enums.Status;
+import src.model.User;
+import src.model.user.Student;
+import src.model.user.CompanyRepresentative;
+import src.model.user.CareerCenterStaff;
 
 public class UserController {
 	private Database db;
@@ -12,16 +15,6 @@ public class UserController {
 	public UserController(Database db) {
 		this.db = db;
 	}
-
-    public ArrayList<User> getUsers() {
-        ArrayList<User> users = new ArrayList<User>();
-
-        users.addAll(db.getStudents());
-        users.addAll(db.getCompanyRepresentatives());
-        users.addAll(db.getCareerCenterStaffs());
-
-        return users;
-    }
 
 	// CREATE
     public void createStudent(Student student) {
@@ -40,6 +33,16 @@ public class UserController {
     }
 
 	// READ
+    public ArrayList<User> getUsers() {
+        ArrayList<User> users = new ArrayList<User>();
+
+        users.addAll(db.getStudents());
+        users.addAll(db.getCompanyRepresentatives());
+        users.addAll(db.getCareerCenterStaffs());
+
+        return users;
+    }
+
     public ArrayList<Student> getStudents() {
         return db.getStudents();
     }
@@ -49,6 +52,7 @@ public class UserController {
     }
 
     public ArrayList<CompanyRepresentative> getCompanyRepresentativesByStatus(Status status) {
+		// TODO: use streams and filters instead
         ArrayList<CompanyRepresentative> reps = new ArrayList<CompanyRepresentative>();
         for (CompanyRepresentative rep: db.getCompanyRepresentatives()) {
             if (Objects.equals(rep.getStatus(), status)) {

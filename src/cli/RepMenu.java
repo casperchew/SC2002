@@ -3,33 +3,32 @@ package src.cli;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.List;
 
-import src.controller.ApplicationController;
-import src.controller.InternshipController;
 import src.controller.UserController;
-import src.model.InternshipLevel;
+import src.controller.ApplicationController;
+import src.controller.InternshipOpportunityController;
+import src.enums.InternshipLevel;
 import src.model.internship.InternshipOpportunity;
 import src.model.user.CompanyRepresentative;
-import src.model.*;
+import src.model.User;
 import src.utils.Utils;
 
 public class RepMenu {
     private CompanyRepresentative rep;
     private UserController userController;
     private ApplicationController appController;
-    private InternshipController internshipController;
+    private InternshipOpportunityController internshipOpportunityController;
 
     public RepMenu(
             CompanyRepresentative rep,
             UserController userController,
             ApplicationController appController,
-            InternshipController internshipController
+            InternshipOpportunityController internshipOpportunityController
     ) {
         this.rep = rep;
         this.userController = userController;
         this.appController = appController;
-        this.internshipController = internshipController;
+        this.internshipOpportunityController = internshipOpportunityController;
     }
 
     public User runMenu(CompanyRepresentative rep) {
@@ -110,13 +109,13 @@ public class RepMenu {
                 rep.getCompany(), reps, numSlots
         );
 
-        internshipController.createInternshipOpportunity(opportunity);
+        internshipOpportunityController.createInternshipOpportunity(opportunity);
         System.out.println("\nInternship opportunity '" + title + "' created successfully!");
     }
 
     private void viewCreatedInternships() {
         Utils.clear();
-        ArrayList<InternshipOpportunity> opportunities = internshipController.getInternshipOpportunities(rep);
+        ArrayList<InternshipOpportunity> opportunities = internshipOpportunityController.getInternshipOpportunities(rep);
         
         boolean loop = true;
         while (loop) {

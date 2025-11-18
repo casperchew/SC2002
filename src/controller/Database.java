@@ -2,9 +2,12 @@ package src.controller;
 
 import java.util.ArrayList;
 
-import src.model.internship.*;
-import src.model.user.*;
-import src.test.*;
+import src.model.internship.InternshipApplication;
+import src.model.internship.InternshipOpportunity;
+import src.model.user.Student;
+import src.model.user.CompanyRepresentative;
+import src.model.user.CareerCenterStaff;
+import src.test.SampleInternships;
 
 public class Database {
 	private ArrayList<Student> students = new ArrayList<Student>();

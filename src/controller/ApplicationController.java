@@ -2,8 +2,7 @@ package src.controller;
 
 import java.util.ArrayList;
 
-import src.model.internship.*;
-import src.model.user.*;
+import src.model.internship.InternshipApplication;
 
 public class ApplicationController {
     private Database db;

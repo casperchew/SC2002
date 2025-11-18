@@ -1,16 +1,18 @@
 package src.cli;
 
-import java.rmi.registry.LocateRegistry;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
-import src.controller.*;
-import src.model.InternshipLevel;
-import src.model.Status;
+import src.controller.UserController;
+import src.controller.ApplicationController;
+import src.controller.InternshipOpportunityController;
+import src.enums.InternshipLevel;
+import src.enums.Status;
 import src.model.User;
-import src.model.internship.*;
+import src.model.internship.InternshipApplication;
+import src.model.internship.InternshipOpportunity;
 import src.model.user.Student;
 import src.utils.Utils;
 
@@ -20,19 +22,19 @@ public class StudentMenu {
     private Student student;
     private UserController userController;
     private ApplicationController appController;
-    private InternshipController internshipController;
+    private InternshipOpportunityController internshipOpportunityController;
 
 
     public StudentMenu(
         Student student,
         UserController userController,
         ApplicationController appController,
-        InternshipController internshipController
+        InternshipOpportunityController internshipOpportunityController
     ) {
         this.student = student;
         this.userController = userController;
         this.appController = appController;
-        this.internshipController = internshipController;
+        this.internshipOpportunityController = internshipOpportunityController;
     }
    
     public User runMenu() {
@@ -90,7 +92,7 @@ public class StudentMenu {
         boolean loop = true;
         while (loop) {
             // Utils.clear();
-            ArrayList<InternshipOpportunity> opportunities = internshipController.getInternshipOpportunities(student);
+            ArrayList<InternshipOpportunity> opportunities = internshipOpportunityController.getInternshipOpportunities(student);
             ArrayList<InternshipOpportunity> filtered = new ArrayList<>();
 
             // This loop is added for the filtering
