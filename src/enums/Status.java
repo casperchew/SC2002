@@ -1,4 +1,4 @@
-package model;
+package src.enums;
 
 public enum Status {
     PENDING,

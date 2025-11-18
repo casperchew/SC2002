@@ -1,10 +1,13 @@
-package controller;
+package src.controller;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-import model.*;
-import model.user.*;
+import src.enums.Status;
+import src.model.User;
+import src.model.user.Student;
+import src.model.user.CompanyRepresentative;
+import src.model.user.CareerCenterStaff;
 
 public class UserController {
 	private Database db;
@@ -13,15 +16,7 @@ public class UserController {
 		this.db = db;
 	}
 
-    public ArrayList<User> getAllUsers() {
-        ArrayList<User> allUsers = new ArrayList<>();
-        
-        allUsers.addAll(db.getStudents());
-        allUsers.addAll(db.getCompanyRepresentatives());
-        allUsers.addAll(db.getCareerCenterStaffs());
-        return allUsers; // Return the combined list
-    }
-
+	// CREATE
     public void createStudent(Student student) {
         // technically we should check if the account already exists
         db.createStudent(student);
@@ -37,25 +32,55 @@ public class UserController {
         db.createCareerCenterStaff(staff);
     }
 
-	public User login(String name, String passwordHash) {
-		// System.out.println("=".repeat(20));
-		// System.out.println(name);
-		// System.out.println(passwordHash);
-		for (User user: getAllUsers()) {
-			// System.out.println(user.getName());
-			// System.out.println(user.getPasswordHash());
+	// READ
+    public ArrayList<User> getUsers() {
+        ArrayList<User> users = new ArrayList<User>();
+
+        users.addAll(db.getStudents());
+        users.addAll(db.getCompanyRepresentatives());
+        users.addAll(db.getCareerCenterStaffs());
+
+        return users;
+    }
+
+    public ArrayList<Student> getStudents() {
+        return db.getStudents();
+    }
+
+    public ArrayList<CompanyRepresentative> getCompanyRepresentatives() {
+        return db.getCompanyRepresentatives();
+    }
+
+    public ArrayList<CompanyRepresentative> getCompanyRepresentativesByStatus(Status status) {
+		// TODO: use streams and filters instead
+        ArrayList<CompanyRepresentative> reps = new ArrayList<CompanyRepresentative>();
+        for (CompanyRepresentative rep: db.getCompanyRepresentatives()) {
+            if (Objects.equals(rep.getStatus(), status)) {
+                reps.add(rep);
+            }
+        }
+
+        return reps;
+    }
+
+    public ArrayList<CareerCenterStaff> getCareerCenterStaff() {
+        return db.getCareerCenterStaffs();
+    }
+
+	// OTHER METHODS
+    public User login(String name, String passwordHash) {
+        for (User user: getUsers()) {
             if (Objects.equals(name, user.getName()) && Objects.equals(passwordHash, user.getPasswordHash())) {
                 return user;
             }
         }
-		System.out.println("=".repeat(20));
 
-        // Return null if no match is found
         return null;
-	}
+    }
 
     public void saveAllUsers() {
-        // save all user information to a csv file
+        // TODO: write users to csv
+		// This method should be moved to Database.java
     }
 
 }

@@ -1,25 +1,31 @@
-package controller;
+package src.controller;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
-import model.*;
-import model.internship.*;
-import model.user.*;
+import src.enums.InternshipLevel;
+import src.enums.Status;
+import src.model.User;
+import src.model.internship.InternshipOpportunity;
+import src.model.internship.InternshipApplication;
+import src.model.user.Student;
+import src.model.user.CompanyRepresentative;
 
-public class InternshipController {
+public class InternshipOpportunityController {
     private Database db;
 
-    public InternshipController(Database db) {
+    public InternshipOpportunityController(Database db) {
         this.db = db;
     }
 
+	// CRUD
+	// Create
     public void createInternshipOpportunity(InternshipOpportunity opportunity) {
         // Used by company representative
         db.createInternshipOpportunity(opportunity);
     }
 
+	// Read
     public ArrayList<InternshipOpportunity> getInternshipOpportunities(Student student) {
         InternshipLevel studentLevel;
         ArrayList<InternshipOpportunity> opportunities = new ArrayList<InternshipOpportunity>();
@@ -46,7 +52,6 @@ public class InternshipController {
         db.createInternshipApplication(internshipApplication);
     }
 
-    // Overloading
     public ArrayList<InternshipOpportunity> getInternshipOpportunities() {
         return db.getInternshipOpportunities();
     }
@@ -62,17 +67,20 @@ public class InternshipController {
         return opportunities;
     }
 
-    // Overloading
+    // overloading
+    // The project requirements are a bit vague on whether there are multiple reps incharge per opportunity.
+    // So I will just handle the case where there are multiple reps
     public ArrayList<InternshipOpportunity> getInternshipOpportunities(CompanyRepresentative companyRepresentative) {
         ArrayList<InternshipOpportunity> opportunities = new ArrayList<InternshipOpportunity>();
         for (InternshipOpportunity internshipOpp: db.getInternshipOpportunities()) {
-            for (CompanyRepresentative oppCompanyRepresentative: db.getCompanyRepresentatives()) {
-                if (companyRepresentative.getUserID() == oppCompanyRepresentative.getUserID()) {
+            for (CompanyRepresentative oppCompanyRepresentative: internshipOpp.getCompanyRepresentatives()) {
+                if (Objects.equals(companyRepresentative.getUserID(), oppCompanyRepresentative.getUserID())) {
                     opportunities.add(internshipOpp);
+                    break;
                 }
             }
-            
         }
+
         return opportunities;
     }
 }

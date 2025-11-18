@@ -1,0 +1,20 @@
+name: java
+
+on: [push]
+
+jobs:
+  build:
+    name: "Compile src package with javac"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: "21"
+          distribution: "temurin"
+
+      - name: Compile src
+        run: javac src/main/Main.java

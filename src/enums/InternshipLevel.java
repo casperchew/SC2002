@@ -1,4 +1,4 @@
-package model;
+package src.enums;
 
 public enum InternshipLevel {
     BASIC(1),
@@ -17,14 +17,5 @@ public enum InternshipLevel {
 
     public boolean greaterThanOrEqualTo(InternshipLevel other) {
         return this.levelValue >= other.levelValue;
-    }
-
-    public static InternshipLevel fromValue(int value) {
-        for (InternshipLevel level : values()) {
-            if (level.levelValue == value) {
-                return level;
-            }
-        }
-        throw new IllegalArgumentException("Invalid level value: " + value);
     }
 }

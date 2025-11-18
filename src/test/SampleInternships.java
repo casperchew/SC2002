@@ -1,25 +1,24 @@
-package test;
+package src.test;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import model.internship.InternshipOpportunity;
-import model.user.CompanyRepresentative;
-import model.InternshipLevel;
-import model.Status; 
+import src.enums.InternshipLevel;
+import src.enums.Status;
+import src.model.internship.InternshipOpportunity;
+import src.model.user.CompanyRepresentative; 
 
 public class SampleInternships {
-
     public static ArrayList<InternshipOpportunity> getSampleList() {
 
         // Company representatives
-        CompanyRepresentative rep1 = new CompanyRepresentative(1, "Alice Tan", "hashedPW1", "TechCorp");
-        CompanyRepresentative rep2 = new CompanyRepresentative(2, "Ben Wong", "hashedPW2", "FinTech Innovations");
-        CompanyRepresentative rep3 = new CompanyRepresentative(3, "Chloe Lee", "hashedPW3", "HealthPlus");
-        CompanyRepresentative rep4 = new CompanyRepresentative(4, "Derek Lim", "hashedPW4", "AeroSys");
-        CompanyRepresentative rep5 = new CompanyRepresentative(5, "Eva Koh", "hashedPW5", "MedSignals");
-        CompanyRepresentative rep6 = new CompanyRepresentative(6, "Frank Chen", "hashedPW6", "RetailEase");
-        CompanyRepresentative rep7 = new CompanyRepresentative(7, "Grace Ho", "hashedPW7", "EduFuture");
+        CompanyRepresentative rep1 = new CompanyRepresentative("1", "Alice Tan", "hashedPW1", "TechCorp");
+        CompanyRepresentative rep2 = new CompanyRepresentative("2", "Ben Wong", "hashedPW2", "FinTech Innovations");
+        CompanyRepresentative rep3 = new CompanyRepresentative("3", "Chloe Lee", "hashedPW3", "HealthPlus");
+        CompanyRepresentative rep4 = new CompanyRepresentative("4", "Derek Lim", "hashedPW4", "AeroSys");
+        CompanyRepresentative rep5 = new CompanyRepresentative("5", "Eva Koh", "hashedPW5", "MedSignals");
+        CompanyRepresentative rep6 = new CompanyRepresentative("6", "Frank Chen", "hashedPW6", "RetailEase");
+        CompanyRepresentative rep7 = new CompanyRepresentative("7", "Grace Ho", "hashedPW7", "EduFuture");
 
         ArrayList<CompanyRepresentative> reps1 = new ArrayList<>();
         reps1.add(rep1);

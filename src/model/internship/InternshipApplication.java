@@ -1,19 +1,51 @@
-package model.internship;
+package src.model.internship;
 
-import model.*;
-import model.user.*;
+import java.time.LocalDate;
 
-public class InternshipApplication extends Application {
+import src.enums.Status;
+import src.model.User;
+import src.model.user.Student;
+
+public class InternshipApplication {
     private InternshipOpportunity internshipOpportunity;
     private boolean placementConfirmed; 
     private boolean withdrawalRequested;
     private boolean withdrawalApproved;
+    private Student applicant;
+    private Status status;
+    private LocalDate dateApplied;
+
     public InternshipApplication(Student applicant, InternshipOpportunity internshipOpportunity) {
-        super(applicant);
+        if (applicant == null) {
+            throw new IllegalArgumentException("Applicant cannot be null.");
+        }
+        this.applicant = applicant;
+        this.dateApplied = LocalDate.now(); 
+        this.status = Status.PENDING; 
         this.internshipOpportunity = internshipOpportunity;
         this.placementConfirmed = false;
         this.withdrawalRequested = false;
         this.withdrawalApproved = false;
+    }
+
+    public Student getApplicant() {
+        return this.applicant;
+    }
+
+    public void setApplicant(Student applicant) {
+        this.applicant = applicant;
+    }
+
+    public Status getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public LocalDate getDateApplied() {
+        return this.dateApplied;
     }
 
     public InternshipOpportunity getInternshipOpportunity() {

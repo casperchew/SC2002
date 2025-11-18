@@ -1,10 +1,13 @@
-package controller;
+package src.controller;
 
 import java.util.ArrayList;
 
-import model.user.*;
-import model.internship.*;
-import test.*;
+import src.model.internship.InternshipApplication;
+import src.model.internship.InternshipOpportunity;
+import src.model.user.Student;
+import src.model.user.CompanyRepresentative;
+import src.model.user.CareerCenterStaff;
+import src.test.SampleInternships;
 
 public class Database {
 	private ArrayList<Student> students = new ArrayList<Student>();
@@ -83,6 +86,4 @@ public class Database {
 	public void deleteInternshipApplication(InternshipApplication application) {
 		internshipApplications.remove(application);
 	}
-
-	// TODO make CRUD for all models
 }

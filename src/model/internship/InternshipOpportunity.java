@@ -1,35 +1,42 @@
-package model.internship;
+package src.model.internship;
 
-import java.util.ArrayList;
-import java.util.List;     
 import java.time.LocalDate;
+import java.util.ArrayList;
 
-import model.*;
-import model.user.CompanyRepresentative;
+import src.enums.InternshipLevel;
+import src.enums.Status;
+import src.model.user.CompanyRepresentative;
 
 public class InternshipOpportunity {
     private String internshipTitle;
     private String description;
     private InternshipLevel internshipLevel;
-    private ArrayList<String> preferredMajors;
+    private ArrayList<String> preferredMajors;  
     private LocalDate applicationOpeningDate;
     private LocalDate applicationClosingDate;
-    private Status status; // Career Center Staff needs to approve the internshipOpportunity first before it can become visible
+    private Status status;  // Career Center Staff needs to approve the internshipOpportunity first before it can become visible
     private String companyName;
-    private List<CompanyRepresentative> companyRepresentatives;    
+    private ArrayList<CompanyRepresentative> companyRepresentatives;
     private int numberOfSlots;
-    public boolean isVisible;
     public static final int MAX_NUM_SLOTS = 10;
 
-    public InternshipOpportunity(String internshipTitle, String description, InternshipLevel internshipLevel, 
-                                 ArrayList<String> preferredMajors, LocalDate applicationOpeningDate, LocalDate applicationClosingDate, 
-                                 String companyName, List<CompanyRepresentative> companyRepresentatives, int numberOfSlots) {
-        
-        // input validation
+    public boolean isVisible = false;
+
+    public InternshipOpportunity(
+            String internshipTitle,
+            String description,
+            InternshipLevel internshipLevel,
+            ArrayList<String> preferredMajors,
+            LocalDate applicationOpeningDate,
+            LocalDate applicationClosingDate,
+            String companyName,
+            ArrayList<CompanyRepresentative> companyRepresentatives,
+            int numberOfSlots
+    ) {
         if (applicationOpeningDate == null || applicationClosingDate == null || applicationClosingDate.isBefore(applicationOpeningDate)) {
-            // throw an exception if dates are null or closing date is before opening date
             throw new IllegalArgumentException("Invalid date range: Opening and closing dates must be provided, and closing date must be on or after opening date.");
         }
+
         if (numberOfSlots <= 0 || numberOfSlots > MAX_NUM_SLOTS) {
             throw new IllegalArgumentException("Number of slots must be between 1 and " + MAX_NUM_SLOTS + ".");
         }
@@ -42,18 +49,17 @@ public class InternshipOpportunity {
         this.applicationClosingDate = applicationClosingDate;
         this.companyName = companyName;
         this.numberOfSlots = numberOfSlots;
-        this.isVisible = false;
-        
+
         if (companyRepresentatives != null) {
-        this.companyRepresentatives = new ArrayList<>(companyRepresentatives);
+            this.companyRepresentatives = new ArrayList<>(companyRepresentatives);
         } else {
             this.companyRepresentatives = new ArrayList<>();
         }
-        
-        // when first created, the status should be PENDING 
+
+        // When first created, the status should be PENDING 
         this.status = Status.PENDING; 
     }
-    
+
     public String getInternshipTitle() {
         return this.internshipTitle;
     }
@@ -72,14 +78,6 @@ public class InternshipOpportunity {
 
     public InternshipLevel getInternshipLevel() {
         return this.internshipLevel;
-    }
-
-    public boolean getVisibility() {
-        return this.isVisible;
-    }
-
-    public void setVisibility(boolean isVisible) {
-        this.isVisible = isVisible;
     }
 
     public void setInternshipLevel(InternshipLevel internshipLevel) {
@@ -113,7 +111,7 @@ public class InternshipOpportunity {
     public Status getStatus() {
         return this.status;
     }
-    
+
     public void setStatus(Status status) {
         this.status = status;
     }
@@ -126,73 +124,60 @@ public class InternshipOpportunity {
         this.companyName = companyName;
     }
 
-    public List<CompanyRepresentative> getCompanyRepresentatives() { 
+    public ArrayList<CompanyRepresentative> getCompanyRepresentatives() { 
         return new ArrayList<>(this.companyRepresentatives); 
     }
 
-    public void printCompanyRepresentatives() {
-        System.out.print("Company representatives: ");
-        for (CompanyRepresentative rep: companyRepresentatives) {
-            System.out.print(rep.getName() + " ");
-        } System.out.println("\n");
-    }
-
-    public void printOpportunityDetails() {
-        System.out.println(this.getInternshipTitle());
-        System.out.println("Status: " + this.getStatus());
-        this.printCompanyRepresentatives();
-        System.out.println("Application opening date: " + this.getApplicationOpeningDate());
-        System.out.println("Application closing date: " + this.getApplicationClosingDate());
-        System.out.println("Number of slots: " + this.getNumberOfSlots());
-        System.out.println("Status: " + this.getStatus());
-    }
-
+    /**
+     * @return 0 if successful, 1 if unsuccessful
+     */
     public int addCompanyRepresentative(CompanyRepresentative repToAdd) {
         if (repToAdd == null) {
-            // FAILURE!!!
             return 1;
         }
 
-        // Check for duplicates using the List's built-in method
         if (this.companyRepresentatives.contains(repToAdd)) {
-            // FAILURE!!!
             return 1; 
         }
+
         this.companyRepresentatives.add(repToAdd);
-        
-        // success
         return 0;
-        }
-
-    public int deleteCompanyRepresentative(CompanyRepresentative repToDelete) {
-        if (repToDelete == null) {
-            // FAILURE!!!
-            return 1;
-        }
-        boolean removed = this.companyRepresentatives.remove(repToDelete);
-
-        if (removed) {
-            // success
-            return 0;
-        } else {
-            // FAILURE!!! 
-            return 1; 
-        }
     }
     
+    /**
+     * @return 0 if successful, 1 if unsuccessful
+     */
+    public int deleteCompanyRepresentative(CompanyRepresentative repToDelete) {
+        if (repToDelete == null) {
+            return 1;
+        }
+
+        boolean removed = this.companyRepresentatives.remove(repToDelete);
+        return removed ? 0 : 1;
+    }
+
     public int getNumberOfSlots() {
         return this.numberOfSlots;
     }
 
+    /**
+     * @return 0 if successful, 1 if unsuccessful
+     */
     public int setNumberOfSlots(int numberOfSlots) {
-    if (numberOfSlots <= 0 || numberOfSlots > MAX_NUM_SLOTS) {
+        if (numberOfSlots <= 0 || numberOfSlots > MAX_NUM_SLOTS) {
+            return 1;
+        }
 
-        // FAILURE!!!
-        return 1; // Number of slots must be between 1 and 10.
+        this.numberOfSlots = numberOfSlots;
+        return 0;
     }
-    this.numberOfSlots = numberOfSlots;
-    
-    // success
-    return 0;
+
+    public boolean getVisibility() {
+        return this.isVisible;
     }
+
+    public void setVisibility(boolean isVisible) {
+        this.isVisible = isVisible;
+    }
+
 }
