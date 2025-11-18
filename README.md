@@ -43,6 +43,7 @@
 - log in as ccstaff -> select generate internship opportunity report -> select any internship -> check if report is properly generated.
 
 ## Database
+The default password to all the users is `password`.
 
 ### Students
 | StudentID | Name | Major | Year | Email |
