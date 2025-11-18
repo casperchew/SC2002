@@ -41,3 +41,24 @@
 
 ### Generate Report
 - log in as ccstaff -> select generate internship opportunity report -> select any internship -> check if report is properly generated.
+
+## Database
+
+### Students
+| StudentID | Name | Major | Year | Email |
+| --- | --- | --- | --- | --- |
+| U2310001A | Tan Wei Ling | Computer Science | 2 | tan001@e.ntu.edu.sg |
+| U2310002B | Ng Jia Hao | Data Science & AI | 3 | ng002@e.ntu.edu.sg |
+| U2310003C | Lim Yi Xuan | Computer Engineering | 4 | lim003@e.ntu.edu.sg |
+| U2310004D | Chong Zhi Hao | Information Engineering & Media | 1 | chong004@e.ntu.edu.sg |
+| U2310005E | Wong Shu Hui | Computer Science | 3 | wong005@e.ntu.edu.sg |
+
+### Company Representatives
+There are no initial Company Representatives
+
+### Career Center Staffs
+| StaffID | Name | Role | Department | Email |
+| --- | --- | --- | --- | --- |
+| sng001 | Dr. Sng Hui Lin | Career Center Staff | CCDS | sng001@ntu.edu.sg |
+| tan002 | Mr. Tan Boon Kiat | Career Center Staff | CCDS | tan002@ntu.edu.sg |
+| lee003 | Ms. Lee Mei Ling | Career Center Staff | CCDS | lee003@ntu.edu.sg |
