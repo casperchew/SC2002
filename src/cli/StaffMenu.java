@@ -8,6 +8,7 @@ import src.controller.ApplicationController;
 import src.controller.InternshipOpportunityController;
 import src.controller.UserController;
 import src.enums.Status;
+import src.enums.InternshipLevel;
 import src.model.User;
 import src.model.internship.InternshipApplication;
 import src.model.internship.InternshipOpportunity;
@@ -61,8 +62,7 @@ public class StaffMenu {
                 generateOpportunityReport();
 				return staff;
             case 5:
-                Utils.clear();
-                System.out.println("Not implemented");
+                setFilters();
 				return staff;
             case 6:
                 printAllApplications();
@@ -386,19 +386,83 @@ public class StaffMenu {
         boolean loop = true;
 
         while (loop) {
-            // Utils.clear();
+            Utils.clear();
 
             ArrayList<InternshipOpportunity> opportunities = internshipOpportunityController.getInternshipOpportunities();
+            ArrayList<InternshipOpportunity> filtered = new ArrayList<>();
 
-            if (opportunities.isEmpty()) {
+            // This loop is added for the filtering
+            for (InternshipOpportunity opp : opportunities) {
+
+                // Filter by internship level
+                if (!staff.getInternshipLevelFilter().isEmpty()) {
+                    if (!staff.getInternshipLevelFilter().contains(opp.getInternshipLevel())) {
+                        continue;
+                    }
+                }
+
+                // Filter by company name
+                if (!staff.getCompanyNameFilter().isEmpty()) {
+                    if (!staff.getCompanyNameFilter().contains(opp.getCompanyName())) {
+                        continue;
+                    }
+                }
+
+                // Filter by preferred majors
+                if (!staff.getPreferredMajorsFilter().isEmpty()) {
+                    boolean majorMatch = false;
+                    for (String major : staff.getPreferredMajorsFilter()) {
+                        if (opp.getPreferredMajors().contains(major)) {
+                            majorMatch = true;
+                            break;
+                        }
+                    }
+                    if (!majorMatch) {
+                        continue;
+                    }
+                }
+
+                // Filter by opening/closing date
+                if (opp.getApplicationOpeningDate().isBefore(staff.getApplicationOpeningDateFilter())) {
+                    continue;
+                }
+                if (opp.getApplicationClosingDate().isAfter(staff.getApplicationClosingDateFilter())) {
+                    continue;
+                }
+
+                // Filter by status
+                if (!staff.getStatusFilter().isEmpty()) {
+                    if (!staff.getStatusFilter().contains(opp.getStatus())) {
+                        continue;
+                    }
+                }
+
+                // Filter by company representative
+                if (!staff.getCompanyRepresentativeFilter().isEmpty()) {
+                    boolean repMatch = false;
+                    for (CompanyRepresentative rep : staff.getCompanyRepresentativeFilter()) {
+                        if (opp.getCompanyRepresentatives().contains(rep)) {
+                            repMatch = true;
+                            break;
+                        }
+                    }
+                    if (!repMatch) {
+                        continue;
+                    }
+                }
+
+                filtered.add(opp);
+            }
+
+            if (filtered.isEmpty()) {
                 System.out.println("There are no internship opportunities yet.");
                 System.out.println();
                 break;
             }
 
             System.out.println("Internship Opportunities:");
-            for (int i = 0; i < opportunities.size(); i++) {
-                System.out.println((i + 1) + ") " + opportunities.get(i).getInternshipTitle());
+            for (int i = 0; i < filtered.size(); i++) {
+                System.out.println((i + 1) + ") " + filtered.get(i).getInternshipTitle());
             }
 
             System.out.println();
@@ -412,8 +476,8 @@ public class StaffMenu {
             int index = choice - 1;
             InternshipOpportunity chosenOpportunity = null;
 
-            if (index >= 0 && index < opportunities.size()) {
-                chosenOpportunity = opportunities.get(index);
+            if (index >= 0 && index < filtered.size()) {
+                chosenOpportunity = filtered.get(index);
             }
 
             if (chosenOpportunity == null) {
@@ -461,7 +525,636 @@ public class StaffMenu {
         }
     }
 
+    private void setFilters() {
+        boolean loop = true;
+        
+        while (loop) {
+            Utils.clear();
+            
+            System.out.println("Current Filters:");
+            System.out.println("Internship Level Filter: " + 
+                (staff.getInternshipLevelFilter().isEmpty() ? "None" : staff.getInternshipLevelFilter()));
+            System.out.println("Company Name Filter: " + 
+                (staff.getCompanyNameFilter().isEmpty() ? "None" : staff.getCompanyNameFilter()));
+            System.out.println("Preferred Majors Filter: " + 
+                (staff.getPreferredMajorsFilter().isEmpty() ? "None" : staff.getPreferredMajorsFilter()));
+            System.out.println("Application Opening Date Filter: " + 
+                (staff.getApplicationOpeningDateFilter().equals(java.time.LocalDate.MIN) ? "None" : staff.getApplicationOpeningDateFilter()));
+            System.out.println("Application Closing Date Filter: " + 
+                (staff.getApplicationClosingDateFilter().equals(java.time.LocalDate.MAX) ? "None" : staff.getApplicationClosingDateFilter()));
+            System.out.println("Status Filter: " + 
+                (staff.getStatusFilter().isEmpty() ? "None" : staff.getStatusFilter()));
+            System.out.println("Company Representative Filter: " + 
+                (staff.getCompanyRepresentativeFilter().isEmpty() ? "None" : staff.getCompanyRepresentativeFilter()));
+            System.out.println();
+            
+            System.out.println("1) Manage Internship Level Filter.");
+            System.out.println("2) Manage Company Name Filter.");
+            System.out.println("3) Manage Preferred Major Filter.");
+            System.out.println("4) Manage Application Opening Date Filter.");
+            System.out.println("5) Manage Application Closing Date Filter.");
+            System.out.println("6) Manage Status Filter.");
+            System.out.println("7) Manage Company Representative Filter.");
+            System.out.println("8) Clear all filters.");
+            System.out.println("9) Exit.");
+            
+            int choice = Utils.inputInt("Enter an option: ");
+            
+            switch (choice) {
+                case 1:
+                    manageInternshipLevelFilter();
+                    break;
+                case 2:
+                    manageCompanyNameFilter();
+                    break;
+                case 3:
+                    managePreferredMajorFilter();
+                    break;
+                case 4:
+                    manageApplicationOpeningDateFilter();
+                    break;
+                case 5:
+                    manageApplicationClosingDateFilter();
+                    break;
+                case 6:
+                    manageStatusFilter();
+                    break;
+                case 7:
+                    manageCompanyRepresentativeFilter();
+                    break;
+                case 8:
+                    Utils.clear();
+                    staff.RemoveInternshipLevelFilter(-1);
+                    staff.RemoveCompanyNameFilter(-1);
+                    staff.RemovePreferredMajorFilter(-1);
+                    staff.setApplicationOpeningDateFilter(java.time.LocalDate.MIN);
+                    staff.setApplicationClosingDateFilter(java.time.LocalDate.MAX);
+                    staff.RemoveStatusFilter(-1);
+                    staff.RemoveCompanyRepresentativeFilter(-1);
+                    System.out.println("All filters cleared.");
+                    System.out.println();
+                    break;
+                case 9:
+                    Utils.clear();
+                    loop = false;
+                    break;
+                default:
+                    Utils.clear();
+                    break;
+            }
+        }
+    }
 
+    private void manageInternshipLevelFilter() {
+        boolean loop = true;
+        
+        while (loop) {
+            Utils.clear();
+            
+            System.out.println("Current Internship Level Filters: " + 
+                (staff.getInternshipLevelFilter().isEmpty() ? "None" : staff.getInternshipLevelFilter()));
+            System.out.println();
+            
+            System.out.println("1) Add Internship Level Filter.");
+            System.out.println("2) Remove Internship Level Filter.");
+            System.out.println("3) Exit.");
+            
+            int choice = Utils.inputInt("Enter an option: ");
+            
+            switch (choice) {
+                case 1:
+                    Utils.clear();
+                    System.out.println("Available Internship Levels:");
+                    System.out.println("1) BASIC");
+                    System.out.println("2) INTERMEDIATE");
+                    System.out.println("2) ADVANCED");
+                    System.out.println();
+                    
+                    int levelChoice = Utils.inputInt("Enter an option: ");
+                    
+                    switch (levelChoice) {
+                        case 1:
+                            staff.AddInternshipLevelFilter(InternshipLevel.BASIC);
+                            Utils.clear();
+                            System.out.println("BASIC internship level filter added.");
+                            System.out.println();
+                            break;
+                        
+                        case 2: 
+                            staff.AddInternshipLevelFilter(InternshipLevel.INTERMEDIATE);
+                            Utils.clear();
+                            System.out.println("INTERMEDIATE internship level filter added.");
+                            System.out.println();
+                            break;
+
+                        case 3: 
+                            staff.AddInternshipLevelFilter(InternshipLevel.ADVANCED);
+                            Utils.clear();
+                            System.out.println("ADVANCED internship level filter added.");
+                            System.out.println();
+                            break;
+
+                        default:
+                            Utils.clear();
+                            System.out.println("Invalid selection.");
+                            System.out.println();
+                            break;
+                    }
+                    break;
+                    
+                case 2:
+                    Utils.clear();
+                    if (staff.getInternshipLevelFilter().isEmpty()) {
+                        System.out.println("No internship level filters to remove.");
+                        System.out.println();
+                        break;
+                    }
+                    
+                    System.out.println("Current Internship Level Filters:");
+                    for (int i = 0; i < staff.getInternshipLevelFilter().size(); i++) {
+                        System.out.println((i + 1) + ") " + staff.getInternshipLevelFilter().get(i));
+                    }
+                    System.out.println();
+                    
+                    int removeChoice = Utils.inputInt("Enter the number to remove (or -1 to clear all): ");
+                    
+                    if (removeChoice == -1) {
+                        staff.RemoveInternshipLevelFilter(-1);
+                        Utils.clear();
+                        System.out.println("All internship level filters cleared.");
+                        System.out.println();
+                    } else if (removeChoice > 0 && removeChoice <= staff.getInternshipLevelFilter().size()) {
+                        staff.RemoveInternshipLevelFilter(removeChoice - 1);
+                        Utils.clear();
+                        System.out.println("Internship level filter removed.");
+                        System.out.println();
+                    } else {
+                        Utils.clear();
+                        System.out.println("Invalid selection.");
+                        System.out.println();
+                    }
+                    break;
+                    
+                case 3:
+                    Utils.clear();
+                    loop = false;
+                    break;
+                    
+                default:
+                    Utils.clear();
+                    break;
+            }
+        }
+    }
+
+    private void manageCompanyNameFilter() {
+        boolean loop = true;
+        
+        while (loop) {
+            Utils.clear();
+            
+            System.out.println("Current Company Name Filters: " + 
+                (staff.getCompanyNameFilter().isEmpty() ? "None" : staff.getCompanyNameFilter()));
+            System.out.println();
+            
+            System.out.println("1) Add Company Name Filter.");
+            System.out.println("2) Remove Company Name Filter.");
+            System.out.println("3) Exit.");
+            
+            int choice = Utils.inputInt("Enter an option: ");
+            
+            switch (choice) {
+                case 1:
+                    Utils.clear();
+                    String companyName = Utils.inputString("Enter company name to add: ");
+                    staff.AddCompanyNameFilter(companyName);
+                    Utils.clear();
+                    System.out.println("Company name filter added.");
+                    System.out.println();
+                    break;
+                    
+                case 2:
+                    Utils.clear();
+                    if (staff.getCompanyNameFilter().isEmpty()) {
+                        System.out.println("No company name filters to remove.");
+                        System.out.println();
+                        break;
+                    }
+                    
+                    System.out.println("Current Company Name Filters:");
+                    for (int i = 0; i < staff.getCompanyNameFilter().size(); i++) {
+                        System.out.println((i + 1) + ") " + staff.getCompanyNameFilter().get(i));
+                    }
+                    System.out.println();
+                    
+                    int removeChoice = Utils.inputInt("Enter the number to remove (or -1 to clear all): ");
+                    
+                    if (removeChoice == -1) {
+                        staff.RemoveCompanyNameFilter(-1);
+                        Utils.clear();
+                        System.out.println("All company name filters cleared.");
+                        System.out.println();
+                    } else if (removeChoice > 0 && removeChoice <= staff.getCompanyNameFilter().size()) {
+                        staff.RemoveCompanyNameFilter(removeChoice - 1);
+                        Utils.clear();
+                        System.out.println("Company name filter removed.");
+                        System.out.println();
+                    } else {
+                        Utils.clear();
+                        System.out.println("Invalid selection.");
+                        System.out.println();
+                    }
+                    break;
+                    
+                case 3:
+                    Utils.clear();
+                    loop = false;
+                    break;
+                    
+                default:
+                    Utils.clear();
+                    break;
+            }
+        }
+    }
+
+    private void managePreferredMajorFilter() {
+        boolean loop = true;
+        
+        while (loop) {
+            Utils.clear();
+            
+            System.out.println("Current Preferred Major Filters: " + 
+                (staff.getPreferredMajorsFilter().isEmpty() ? "None" : staff.getPreferredMajorsFilter()));
+            System.out.println();
+            
+            System.out.println("1) Add Preferred Major Filter.");
+            System.out.println("2) Remove Preferred Major Filter.");
+            System.out.println("3) Exit.");
+            
+            int choice = Utils.inputInt("Enter an option: ");
+            
+            switch (choice) {
+                case 1:
+                    Utils.clear();
+                    String major = Utils.inputString("Enter preferred major to add: ");
+                    staff.AddPreferredMajorFilter(major);
+                    Utils.clear();
+                    System.out.println("Preferred major filter added.");
+                    System.out.println();
+                    break;
+                    
+                case 2:
+                    Utils.clear();
+                    if (staff.getPreferredMajorsFilter().isEmpty()) {
+                        System.out.println("No preferred major filters to remove.");
+                        System.out.println();
+                        break;
+                    }
+                    
+                    System.out.println("Current Preferred Major Filters:");
+                    for (int i = 0; i < staff.getPreferredMajorsFilter().size(); i++) {
+                        System.out.println((i + 1) + ") " + staff.getPreferredMajorsFilter().get(i));
+                    }
+                    System.out.println();
+                    
+                    int removeChoice = Utils.inputInt("Enter the number to remove (or -1 to clear all): ");
+                    
+                    if (removeChoice == -1) {
+                        staff.RemovePreferredMajorFilter(-1);
+                        Utils.clear();
+                        System.out.println("All preferred major filters cleared.");
+                        System.out.println();
+                    } else if (removeChoice > 0 && removeChoice <= staff.getPreferredMajorsFilter().size()) {
+                        staff.RemovePreferredMajorFilter(removeChoice - 1);
+                        Utils.clear();
+                        System.out.println("Preferred major filter removed.");
+                        System.out.println();
+                    } else {
+                        Utils.clear();
+                        System.out.println("Invalid selection.");
+                        System.out.println();
+                    }
+                    break;
+                    
+                case 3:
+                    Utils.clear();
+                    loop = false;
+                    break;
+                    
+                default:
+                    Utils.clear();
+                    break;
+            }
+        }
+    }
+
+    private void manageApplicationOpeningDateFilter() {
+        boolean loop = true;
+        
+        while (loop) {
+            Utils.clear();
+            
+            System.out.println("Current Application Opening Date Filter: " + 
+                (staff.getApplicationOpeningDateFilter().equals(java.time.LocalDate.MIN) ? "None" : staff.getApplicationOpeningDateFilter()));
+            System.out.println();
+            
+            System.out.println("1) Set Application Opening Date Filter.");
+            System.out.println("2) Reset Application Opening Date Filter.");
+            System.out.println("3) Exit.");
+            
+            int choice = Utils.inputInt("Enter an option: ");
+            
+            switch (choice) {
+                case 1:
+                    Utils.clear();
+                    String openingDate = Utils.inputString("Enter application opening date (YYYY-MM-DD): ");
+                    try {
+                        java.time.LocalDate date = java.time.LocalDate.parse(openingDate);
+                        staff.setApplicationOpeningDateFilter(date);
+                        Utils.clear();
+                        System.out.println("Application opening date filter set.");
+                        System.out.println();
+                    } catch (Exception e) {
+                        Utils.clear();
+                        System.out.println("Invalid date format.");
+                        System.out.println();
+                    }
+                    break;
+                    
+                case 2:
+                    Utils.clear();
+                    staff.setApplicationOpeningDateFilter(java.time.LocalDate.MIN);
+                    System.out.println("Application opening date filter reset.");
+                    System.out.println();
+                    break;
+                    
+                case 3:
+                    Utils.clear();
+                    loop = false;
+                    break;
+                    
+                default:
+                    Utils.clear();
+                    break;
+            }
+        }
+    }
+
+    private void manageApplicationClosingDateFilter() {
+        boolean loop = true;
+        
+        while (loop) {
+            Utils.clear();
+            
+            System.out.println("Current Application Closing Date Filter: " + 
+                (staff.getApplicationClosingDateFilter().equals(java.time.LocalDate.MAX) ? "None" : staff.getApplicationClosingDateFilter()));
+            System.out.println();
+            
+            System.out.println("1) Set Application Closing Date Filter.");
+            System.out.println("2) Reset Application Closing Date Filter.");
+            System.out.println("3) Exit.");
+            
+            int choice = Utils.inputInt("Enter an option: ");
+            
+            switch (choice) {
+                case 1:
+                    Utils.clear();
+                    String closingDate = Utils.inputString("Enter application closing date (YYYY-MM-DD): ");
+                    try {
+                        java.time.LocalDate date = java.time.LocalDate.parse(closingDate);
+                        staff.setApplicationClosingDateFilter(date);
+                        Utils.clear();
+                        System.out.println("Application closing date filter set.");
+                        System.out.println();
+                    } catch (Exception e) {
+                        Utils.clear();
+                        System.out.println("Invalid date format.");
+                        System.out.println();
+                    }
+                    break;
+                    
+                case 2:
+                    Utils.clear();
+                    staff.setApplicationClosingDateFilter(java.time.LocalDate.MAX);
+                    System.out.println("Application closing date filter reset.");
+                    System.out.println();
+                    break;
+                    
+                case 3:
+                    Utils.clear();
+                    loop = false;
+                    break;
+                    
+                default:
+                    Utils.clear();
+                    break;
+            }
+        }
+    }
+
+    private void manageStatusFilter() {
+        boolean loop = true;
+        
+        while (loop) {
+            Utils.clear();
+            
+            System.out.println("Current Status Filters: " + 
+                (staff.getStatusFilter().isEmpty() ? "None" : staff.getStatusFilter()));
+            System.out.println();
+            
+            System.out.println("1) Add Status Filter.");
+            System.out.println("2) Remove Status Filter.");
+            System.out.println("3) Exit.");
+            
+            int choice = Utils.inputInt("Enter an option: ");
+            
+            switch (choice) {
+                case 1:
+                    Utils.clear();
+                    System.out.println("Available Status Values:");
+                    System.out.println("1) PENDING");
+                    System.out.println("2) APPROVED");
+                    System.out.println("3) REJECTED");
+                    System.out.println();
+                    
+                    int statusChoice = Utils.inputInt("Enter an option: ");
+                    
+                    if (statusChoice == 1) {
+                        staff.AddStatusFilter(Status.PENDING);
+                        Utils.clear();
+                        System.out.println("PENDING status filter added.");
+                        System.out.println();
+                    } else if (statusChoice == 2) {
+                        staff.AddStatusFilter(Status.APPROVED);
+                        Utils.clear();
+                        System.out.println("APPROVED status filter added.");
+                        System.out.println();
+                    } else if (statusChoice == 3) {
+                        staff.AddStatusFilter(Status.REJECTED);
+                        Utils.clear();
+                        System.out.println("REJECTED status filter added.");
+                        System.out.println();
+                    } else {
+                        Utils.clear();
+                        System.out.println("Invalid selection.");
+                        System.out.println();
+                    }
+                    break;
+                    
+                case 2:
+                    Utils.clear();
+                    if (staff.getStatusFilter().isEmpty()) {
+                        System.out.println("No status filters to remove.");
+                        System.out.println();
+                        break;
+                    }
+                    
+                    System.out.println("Current Status Filters:");
+                    for (int i = 0; i < staff.getStatusFilter().size(); i++) {
+                        System.out.println((i + 1) + ") " + staff.getStatusFilter().get(i));
+                    }
+                    System.out.println();
+                    
+                    int removeChoice = Utils.inputInt("Enter the number to remove (or -1 to clear all): ");
+                    
+                    if (removeChoice == -1) {
+                        staff.RemoveStatusFilter(-1);
+                        Utils.clear();
+                        System.out.println("All status filters cleared.");
+                        System.out.println();
+                    } else if (removeChoice > 0 && removeChoice <= staff.getStatusFilter().size()) {
+                        staff.RemoveStatusFilter(removeChoice - 1);
+                        Utils.clear();
+                        System.out.println("Status filter removed.");
+                        System.out.println();
+                    } else {
+                        Utils.clear();
+                        System.out.println("Invalid selection.");
+                        System.out.println();
+                    }
+                    break;
+                    
+                case 3:
+                    Utils.clear();
+                    loop = false;
+                    break;
+                    
+                default:
+                    Utils.clear();
+                    break;
+            }
+        }
+    }
+
+    private void manageCompanyRepresentativeFilter() {
+        boolean loop = true;
+        
+        while (loop) {
+            Utils.clear();
+            
+            ArrayList<CompanyRepresentative> currentFilters = staff.getCompanyRepresentativeFilter();
+            System.out.print("Current Company Representative Filters: ");
+            if (currentFilters.isEmpty()) {
+                System.out.println("None");
+            } else {
+                ArrayList<String> names = new ArrayList<>();
+                for (CompanyRepresentative rep : currentFilters) {
+                    names.add(rep.getName());
+                }
+                System.out.println(String.join(", ", names));
+            }
+            System.out.println();
+            
+            System.out.println("1) Add Company Representative Filter.");
+            System.out.println("2) Remove Company Representative Filter.");
+            System.out.println("3) Exit.");
+            
+            int choice = Utils.inputInt("Enter an option: ");
+            
+            switch (choice) {
+                case 1:
+                    Utils.clear();
+                    ArrayList<CompanyRepresentative> allReps = userController.getCompanyRepresentatives();
+                    
+                    if (allReps.isEmpty()) {
+                        System.out.println("No company representatives available.");
+                        System.out.println();
+                        break;
+                    }
+                    
+                    System.out.println("Available Company Representatives:");
+                    for (int i = 0; i < allReps.size(); i++) {
+                        CompanyRepresentative rep = allReps.get(i);
+                        System.out.println((i + 1) + ") " + rep.getName() + " (" + rep.getCompany() + ")");
+                    }
+                    System.out.println();
+                    
+                    int repChoice = Utils.inputInt("Enter the number of the representative to add (or -1 to cancel): ");
+                    
+                    if (repChoice == -1) {
+                        Utils.clear();
+                        break;
+                    }
+                    
+                    if (repChoice > 0 && repChoice <= allReps.size()) {
+                        CompanyRepresentative selectedRep = allReps.get(repChoice - 1);
+                        staff.AddCompanyRepresentativeFilter(selectedRep);
+                        Utils.clear();
+                        System.out.println("Company representative filter added.");
+                        System.out.println();
+                    } else {
+                        Utils.clear();
+                        System.out.println("Invalid selection.");
+                        System.out.println();
+                    }
+                    break;
+                    
+                case 2:
+                    Utils.clear();
+                    if (staff.getCompanyRepresentativeFilter().isEmpty()) {
+                        System.out.println("No company representative filters to remove.");
+                        System.out.println();
+                        break;
+                    }
+                    
+                    System.out.println("Current Company Representative Filters:");
+                    for (int i = 0; i < staff.getCompanyRepresentativeFilter().size(); i++) {
+                        CompanyRepresentative rep = staff.getCompanyRepresentativeFilter().get(i);
+                        System.out.println((i + 1) + ") " + rep.getName() + " (" + rep.getCompany() + ")");
+                    }
+                    System.out.println();
+                    
+                    int removeChoice = Utils.inputInt("Enter the number to remove (or -1 to clear all): ");
+                    
+                    if (removeChoice == -1) {
+                        staff.RemoveCompanyRepresentativeFilter(-1);
+                        Utils.clear();
+                        System.out.println("All company representative filters cleared.");
+                        System.out.println();
+                    } else if (removeChoice > 0 && removeChoice <= staff.getCompanyRepresentativeFilter().size()) {
+                        staff.RemoveCompanyRepresentativeFilter(removeChoice - 1);
+                        Utils.clear();
+                        System.out.println("Company representative filter removed.");
+                        System.out.println();
+                    } else {
+                        Utils.clear();
+                        System.out.println("Invalid selection.");
+                        System.out.println();
+                    }
+                    break;
+                    
+                case 3:
+                    Utils.clear();
+                    loop = false;
+                    break;
+                    
+                default:
+                    Utils.clear();
+                    break;
+            }
+        }
+    }
     private void printAllApplications() {
         // Utils.clear();
         ArrayList<InternshipApplication> applications = appController.getInternshipApplications();
