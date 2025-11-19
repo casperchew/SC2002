@@ -390,6 +390,10 @@ public class ApplicationController {
 
 The ApplicationController class only has one clearly defined responsibility: managing internship application operations (retrieving, creating, and deleting applications). This means it has only one reason to change. Because we used this design principle, we avoided having "God classes", which would make the code difficult to maintain, understand, and extend.
 
+The `Utils` package allows for seamless processing of user input via easy-to-use functions across the entire app. With methods to read integers, strings, dates & methods to clear console output, it reduces the need to change multiple parts of the code whenever a fix or new feature has to be made. This, in turn, provides for high cohesion.
+
+The usage of various menus, such as the main one from `CLI`, alongside specific menus for each type of user, minimises coupling as the menus each make calls to the various controllers, such as `RepMenu` accessing `InternshipController` to process data rather than accessing accessing the database or CSV files directly. This clearly separates user interface from data logic.
+
 ### Open-Closed Principle
 
 ```
@@ -418,7 +422,11 @@ These statements rely only on behavior defined in User. This means that regardle
 
 ### Interface Segregation Principle
 
-Not done
+The menu is separated into 4 main components - 1 main CLI, & 1 menu each for company representatives, staff & students respectively. Each menu contains only the minimal methods & tools required for the targeted user, thereby avoiding the worst-case scenario whereby eery method is clustered inefficiently in a single CLI file.
+
+Moreover, instead of using a monolithic User class as a general class for all users, we utilised a `User` superclass, while branching out into subclasses for `CareerCenterStaff`, `CompanyRepresentative` & `Student`. The base class `User` only defines common authentication methods shared by all, while each subclass implements specific behaviours that are only related to them.
+
+All these steps have been taken to ensure that no class depends on methods that it does not use.
 
 ### Dependancy Inversion Principle
 
