@@ -56,23 +56,45 @@
 - log in as ccstaff -> select generate internship opportunity report -> select any internship -> check if report is properly generated.
 
 ## Test Cases
-### 1. Valid User Login
-Expected Baheviour: User should be able to access their dashboard based on their roles
+### User's capabilities
+1. All Users
+    1. Login
+    2. Logout
+    3. Change password
 
-Failure Indicators: User cannot log in or receive incorrect error messages
+2. Student
+    1. Automatic registration
+    2. View internship opportunities (based on students profile and visibility)
+    3. Apply for internship opportunity
+        1. Maximum 3 applications
+        2. `InternshipLevel` validation based on Student's `yearOfStudy`.
+    4. View internship applications
+        1. Default `PENDING` status
+    5. Accept internship placement
+        1. Only 1 can be accepted
+        2. Other applications will be withdrawn once an internship placement in accepted
+    6. Request internship application withdrawal subject to approval from `CareerCenterStaff`
+        1. Before placement confirmation
+        2. After placement confirmation
 
-#### Steps
-| Step    | Description           | Input        |
-| --------| --------------------- | ------------ |
-| 1       | Select "Login" option | 1            |
-| 2       | Enter name            | Tan Wei Ling |
-| 3       | Enter password        | password     |
+3. Company Representatives
+    1. Registration must include a company
+        1. Can only log in once approved by a `CareerCenterStaff`
+    2. Create internship opportunities
+        1. Max 5
+    3. After an `InternshipOpportunity` is approved by a `CareerCenterStaff`,
+        1. View application details and student details for each of the `InternshipOpportunity`
+    4. Approve or reject intership applications
+    5. Toggle visibility of internship opportunity to `on` or `off`.
 
-Expected Behaviour: The cli should display
-```
-Logged in as Tan Wei Ling
-...
-```
+4. Career Center Staff
+    1. Automatic registration
+    2. Authorize of reject the account creation of `CompanyRepresentative`
+    3. Approve of reject internship opportunities submitted by `CompanyRepresentative`
+        1. Once approved, the internship opportunity becomes visible to eligible students
+    4. Approve or reject student withdrawal requests
+    5. Generate intership opportunity reports
+        1. Filter internship opportunities
 
 ## Database
 
