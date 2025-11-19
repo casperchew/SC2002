@@ -44,7 +44,8 @@ public class StaffMenu {
         System.out.println("4) Generate internship opportunity report.");
         System.out.println("5) Set internship opportunity report filters.");  // TODO
         System.out.println("6) View all internship applications.");  // For testing
-        System.out.println("7) Logout.");
+        System.out.println("7) Change password.");
+        System.out.println("8) Logout.");
 		System.out.println("");
         choice = Utils.inputInt("Enter an option: ");
 
@@ -68,6 +69,10 @@ public class StaffMenu {
                 printAllApplications();
                 return staff;
             case 7:
+                // We need to prompt re-login
+                changePassword();  
+                return null;
+            case 8:
                 Utils.clear();
 				return null;
             default:
@@ -1170,5 +1175,16 @@ public class StaffMenu {
             System.out.println("Withdrawal requested: " + application.getWithdrawalRequested());
             System.out.println();
         }
+    }
+
+    private void changePassword() {
+        Utils.clear();
+        String newPassword = Utils.inputString("Enter your new password: ");
+        staff.setPasswordHash(newPassword);
+
+        Utils.clear();
+        System.out.println("Your new password has been set.");
+        System.out.println("Please re-login with your new password.");
+        System.out.println();
     }
 }

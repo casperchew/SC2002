@@ -62,10 +62,9 @@ public class StudentMenu {
                 return student;
 
             case 4:
-				// Utils.clear();
-                // System.out.println("Not implemented");
+				// We need to prompt re-login
                 changePassword();
-				return student;
+				return null;
 
             case 5:
 				Utils.clear();
@@ -511,6 +510,7 @@ public class StudentMenu {
 
         Utils.clear();
         System.out.println("Your new password has been set.");
+        System.out.println("Please re-login with your new password.");
         System.out.println();
     }
 
