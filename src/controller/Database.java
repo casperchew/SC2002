@@ -9,6 +9,12 @@ import src.model.user.CompanyRepresentative;
 import src.model.user.CareerCenterStaff;
 import src.test.SampleInternships;
 
+// For testing
+import java.time.LocalDate;
+import java.util.Arrays;
+import src.enums.InternshipLevel;
+import src.enums.Status;
+
 public class Database {
 	private ArrayList<Student> students = new ArrayList<Student>();
 	private ArrayList<CompanyRepresentative> representatives = new ArrayList<CompanyRepresentative>();
@@ -18,7 +24,26 @@ public class Database {
 
 	public Database() {
 		// For testing
-		internshipOpportunities = SampleInternships.getSampleList();
+		// internshipOpportunities = SampleInternships.getSampleList();
+
+		CompanyRepresentative rep1 = new CompanyRepresentative("a", "a", "password", "a");
+		rep1.setStatus(Status.APPROVED);
+		representatives.add(rep1);
+
+		InternshipOpportunity opp = new InternshipOpportunity(
+			"Title",
+			"Description",
+			InternshipLevel.BASIC,
+			new ArrayList<String>(Arrays.asList("Computer Science")),
+			LocalDate.parse("2020-01-01"),
+			LocalDate.parse("2030-01-01"),
+			"a",
+			new ArrayList<CompanyRepresentative>(representatives),
+			1
+		);
+		opp.setStatus(Status.APPROVED);
+		opp.setVisibility(true);
+		internshipOpportunities.add(opp);
 	}
 
 	// CREATE

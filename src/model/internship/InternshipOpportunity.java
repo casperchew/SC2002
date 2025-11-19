@@ -8,17 +8,18 @@ import src.enums.Status;
 import src.model.user.CompanyRepresentative;
 
 public class InternshipOpportunity {
+    public static final int MAX_NUM_SLOTS = 10;
+
     private String internshipTitle;
     private String description;
     private InternshipLevel internshipLevel;
     private ArrayList<String> preferredMajors;  
     private LocalDate applicationOpeningDate;
     private LocalDate applicationClosingDate;
-    private Status status;  // Career Center Staff needs to approve the internshipOpportunity first before it can become visible
+    private Status status;
     private String companyName;
     private ArrayList<CompanyRepresentative> companyRepresentatives;
     private int numberOfSlots;
-    public static final int MAX_NUM_SLOTS = 10;
 
     public boolean isVisible = false;
 
@@ -68,6 +69,9 @@ public class InternshipOpportunity {
         this.internshipTitle = internshipTitle;
     }
 
+	/**
+	 * @return {@code description}
+	 */
     public String getDescription() {
         return this.description;
     }
@@ -116,6 +120,9 @@ public class InternshipOpportunity {
         this.status = status;
     }
 
+	/**
+	 * @return companyName
+	 */
     public String getCompanyName() {
         return this.companyName;
     }
@@ -124,6 +131,9 @@ public class InternshipOpportunity {
         this.companyName = companyName;
     }
 
+	/**
+	 * @return companyRepresentatives
+	 */
     public ArrayList<CompanyRepresentative> getCompanyRepresentatives() { 
         return new ArrayList<>(this.companyRepresentatives); 
     }

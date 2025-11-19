@@ -11,62 +11,62 @@ import src.model.internship.InternshipOpportunity;
 public class Student extends User {
     public static final int MAX_APPLICATIONS = 3;
 
-    private int YearOfStudy;
-    private String Major;
-    InternshipOpportunity internship;
+    private int yearOfStudy;
+    private String major;
+    private InternshipOpportunity internship;
     private ArrayList<InternshipApplication> internshipApplications = new ArrayList<InternshipApplication>();
 
     // Filters
-    ArrayList<InternshipLevel> internshipLevelFilter;
-    ArrayList<String> companyNameFilter;
+    private ArrayList<InternshipLevel> internshipLevelFilter;
+    private ArrayList<String> companyNameFilter;
     private LocalDate applicationOpeningDateFilter;
     private LocalDate applicationClosingDateFilter;
 
-    public Student(String userID, String name, String passwordHash, int YearOfStudy, String Major, InternshipOpportunity internship) {
+    public Student(String userID, String name, String passwordHash, int yearOfStudy, String major, InternshipOpportunity internship) {
         super(userID, name, passwordHash);
 
-        this.YearOfStudy = YearOfStudy;
-        this.Major = Major;
+        this.yearOfStudy = yearOfStudy;
+        this.major = major;
         this.internship = internship;
 
-        this.internshipLevelFilter = new ArrayList<InternshipLevel>();
-        this.companyNameFilter = new ArrayList<String>();
-        this.applicationOpeningDateFilter = LocalDate.MIN; 
-        this.applicationClosingDateFilter = LocalDate.MAX;
+        internshipLevelFilter = new ArrayList<InternshipLevel>();
+        companyNameFilter = new ArrayList<String>();
+        applicationOpeningDateFilter = LocalDate.MIN; 
+        applicationClosingDateFilter = LocalDate.MAX;
     }
 
 	// Getters and Setters
 	// -------------------
-	// YearOfStudy
+	// yearOfStudy
     public int getYearOfStudy() {
-        return YearOfStudy;
+        return yearOfStudy;
     }
 
     public void setYearOfStudy(int yearOfStudy) {
-        YearOfStudy = yearOfStudy;
+        this.yearOfStudy = yearOfStudy;
     }
 
-	// Major
+	// major
     public String getMajor() {
-        return Major;
+        return major;
     }
 
     public void setMajor(String major) {
-        Major = major;
+        this.major = major;
     }
 
-	// Internship
+	// internship
     public InternshipOpportunity getInternship() {
-        return this.internship;
+        return internship;
     }
 
     public void setInternship(InternshipOpportunity internship) {
         this.internship = internship;
     }
 
-	// InternshipApplications
+	// internshipApplications
     public ArrayList<InternshipApplication> getInternshipApplications() {
-        return new ArrayList<>(internshipApplications);
+        return internshipApplications;
     }
 
 	/** 
@@ -98,20 +98,21 @@ public class Student extends User {
         return internshipLevelFilter;
     }
 
-    public void AddInternshipLevelFilter(InternshipLevel internshipLevel) {
-        this.internshipLevelFilter.add(internshipLevel);
+    public void addInternshipLevelFilter(InternshipLevel internshipLevel) {
+        internshipLevelFilter.add(internshipLevel);
     }
 
-    public void RemoveInternshipLevelFilter(InternshipLevel internshipLevel) {
-        this.internshipLevelFilter.remove(internshipLevel);
+    public void removeInternshipLevelFilter(InternshipLevel internshipLevel) {
+        internshipLevelFilter.remove(internshipLevel);
     }
 
-    public InternshipLevel RemoveInternshipLevelFilter(int i) {
+    public InternshipLevel removeInternshipLevelFilter(int i) {
         if (i == -1) {
-            this.internshipLevelFilter.clear();
+            internshipLevelFilter.clear();
             return null;
         }
-        return this.internshipLevelFilter.remove(i);
+
+        return internshipLevelFilter.remove(i);
     }   
 
 	// CompanyNameFilter
@@ -119,21 +120,21 @@ public class Student extends User {
         return companyNameFilter;
     }
 
-    public void AddCompanyNameFilter(String companyName) {
-        this.companyNameFilter.add(companyName);
+    public void addCompanyNameFilter(String companyName) {
+        companyNameFilter.add(companyName);
     }
 
-    public void RemoveCompanyNameFilter(String companyName) {
-        this.companyNameFilter.remove(companyName);
+    public void removeCompanyNameFilter(String companyName) {
+        companyNameFilter.remove(companyName);
     }
 
-    public String RemoveCompanyNameFilter(int i) {
+    public String removeCompanyNameFilter(int i) {
         if (i == -1) {
-            this.companyNameFilter.clear();
+            companyNameFilter.clear();
             return null;
         }
 
-        return this.companyNameFilter.remove(i);
+        return companyNameFilter.remove(i);
     }   
 
 	// OpeningDateFilter

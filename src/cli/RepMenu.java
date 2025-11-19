@@ -31,11 +31,10 @@ public class RepMenu {
         this.internshipOpportunityController = internshipOpportunityController;
     }
 
-    public User runMenu(CompanyRepresentative rep) {
+    public User runMenu() {
         boolean loop = true;
 
         while (loop) {
-            // Utils.clear();
             System.out.println();
             System.out.println("1) Create internship opportunity.");
             System.out.println("2) View created internship opportunities.");

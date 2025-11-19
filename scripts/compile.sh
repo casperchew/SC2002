@@ -1,1 +1,1 @@
-javac -d out src/main/Main.java
+javac -d out -Xlint:unchecked src/main/Main.java

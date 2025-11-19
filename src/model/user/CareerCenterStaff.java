@@ -8,135 +8,161 @@ import src.enums.InternshipLevel;
 import src.model.User;
 
 public class CareerCenterStaff extends User {
-
-	// filters (can add more filters as necessary)
-    ArrayList<InternshipLevel> internshipLevelFilter;
-    ArrayList<String> companyNameFilter;
+    private ArrayList<InternshipLevel> internshipLevelFilter;
     private ArrayList<String> preferredMajorsFilter; 
     private LocalDate applicationOpeningDateFilter;
     private LocalDate applicationClosingDateFilter;
 	private ArrayList<Status> statusFilter;
+    private ArrayList<String> companyNameFilter;
 	private ArrayList<CompanyRepresentative> companyRepresentativeFilter;
-
 	
 	public CareerCenterStaff(String userID, String name, String passwordHash) {
 		super(userID, name, passwordHash);
 
         this.internshipLevelFilter = new ArrayList<InternshipLevel>();
-        this.companyNameFilter = new ArrayList<String>();
 		this.preferredMajorsFilter = new ArrayList<String>();
-		this.statusFilter = new ArrayList<Status>();
-		this.companyRepresentativeFilter = new ArrayList<>();
-        // At initialization, we set these such that all dates fall within the range of the date filters
         this.applicationOpeningDateFilter = LocalDate.MIN; 
         this.applicationClosingDateFilter = LocalDate.MAX;
+		this.statusFilter = new ArrayList<Status>();
+        this.companyNameFilter = new ArrayList<String>();
+		this.companyRepresentativeFilter = new ArrayList<>();
 	}
 
-	public void AddInternshipLevelFilter(InternshipLevel internshipLevel) {
-        this.internshipLevelFilter.add(internshipLevel);
-    }
-    public void RemoveInternshipLevelFilter(InternshipLevel internshipLevel) {
-        this.internshipLevelFilter.remove(internshipLevel);
-    }
-    // overload
-    public InternshipLevel RemoveInternshipLevelFilter(int i) {
-        if (i == -1) {
-            this.internshipLevelFilter.clear();
-            return null;
-        }
-        return this.internshipLevelFilter.remove(i);
-    }   
+	// Getters and Setters
+	// -------------------
+	// internshipLevelFilter
     public ArrayList<InternshipLevel> getInternshipLevelFilter() {
         return internshipLevelFilter;
     }
 
-    public void AddCompanyNameFilter(String companyName) {
-        this.companyNameFilter.add(companyName);
+	public void addInternshipLevelFilter(InternshipLevel internshipLevel) {
+        internshipLevelFilter.add(internshipLevel);
     }
-    public void RemoveCompanyNameFilter(String companyName) {
-        this.companyNameFilter.remove(companyName);
+
+    public void removeInternshipLevelFilter(InternshipLevel internshipLevel) {
+        internshipLevelFilter.remove(internshipLevel);
     }
+
     // overload
-    public String RemoveCompanyNameFilter(int i) {
+    public InternshipLevel removeInternshipLevelFilter(int i) {
         if (i == -1) {
-            this.companyNameFilter.clear();
+            internshipLevelFilter.clear();
             return null;
         }
-        return this.companyNameFilter.remove(i);
+
+        return this.internshipLevelFilter.remove(i);
     }   
-    public ArrayList<String> getCompanyNameFilter() {
-        return companyNameFilter;
+
+	// preferredMajorFilter
+    public ArrayList<String> getPreferredMajorsFilter() {
+        return preferredMajorsFilter;
+    }
+
+	public void addPreferredMajorFilter(String major) {
+        preferredMajorsFilter.add(major);
+    }
+
+    public void removePreferredMajorFilter(String major) {
+        preferredMajorsFilter.remove(major);
+    }
+
+	/**
+	 * Removes the preffered major at the specified position in the preferredMajorFilter list. Shifts any subsequent elements to the left (subtracts one from their indices). If {@code i} is -1, then clears the {@code preferredMajorFilter} list
+	 * <br><br>
+	 * Overloads the {@code removePreferredMajor} function.
+	 */
+    public String removePreferredMajorFilter(int i) {
+        if (i == -1) {
+            preferredMajorsFilter.clear();
+            return null;
+        }
+
+        return preferredMajorsFilter.remove(i);
+    }
+
+	// applicationOpeningDateFilter
+    public LocalDate getApplicationOpeningDateFilter() {
+        return applicationOpeningDateFilter;
     }
 
     public void setApplicationOpeningDateFilter(LocalDate applicationOpeningDateFilter) {
         this.applicationOpeningDateFilter = applicationOpeningDateFilter;
     }
-    public LocalDate getApplicationOpeningDateFilter() {
-        return applicationOpeningDateFilter;
+
+	// applicationClosingDateFilter
+    public LocalDate getApplicationClosingDateFilter() {
+        return applicationClosingDateFilter;
     }
 
     public void setApplicationClosingDateFilter(LocalDate applicationClosingDateFilter) {
         this.applicationClosingDateFilter = applicationClosingDateFilter;
     }
-    public LocalDate getApplicationClosingDateFilter() {
-        return applicationClosingDateFilter;
-    }
 
-	public void AddPreferredMajorFilter(String major) {
-        this.preferredMajorsFilter.add(major);
-    }
-    public void RemovePreferredMajorFilter(String major) {
-        this.preferredMajorsFilter.remove(major);
-    }
-    // overload
-    public String RemovePreferredMajorFilter(int i) {
-        if (i == -1) {
-            this.preferredMajorsFilter.clear();
-            return null;
-        }
-        return this.preferredMajorsFilter.remove(i);
-    }
-    public ArrayList<String> getPreferredMajorsFilter() {
-        return preferredMajorsFilter;
-    }
-
-    public void AddStatusFilter(Status status) {
-        this.statusFilter.add(status);
-    }
-    public void RemoveStatusFilter(Status status) {
-        this.statusFilter.remove(status);
-    }
-    // overload
-    public Status RemoveStatusFilter(int i) {
-        if (i == -1) {
-            this.statusFilter.clear();
-            return null;
-        }
-        return this.statusFilter.remove(i);
-    }
+	// statusFilter
     public ArrayList<Status> getStatusFilter() {
         return statusFilter;
     }
 
+    public void addStatusFilter(Status status) {
+        this.statusFilter.add(status);
+    }
 
-    public void AddCompanyRepresentativeFilter(CompanyRepresentative rep) {
+    public void removeStatusFilter(Status status) {
+        this.statusFilter.remove(status);
+    }
+
+    // overload
+    public Status removeStatusFilter(int i) {
+        if (i == -1) {
+            this.statusFilter.clear();
+            return null;
+        }
+
+        return statusFilter.remove(i);
+    }
+
+	// companyNameFilter
+    public ArrayList<String> getCompanyNameFilter() {
+        return companyNameFilter;
+    }
+
+    public void addCompanyNameFilter(String companyName) {
+        this.companyNameFilter.add(companyName);
+    }
+
+    public void removeCompanyNameFilter(String companyName) {
+        this.companyNameFilter.remove(companyName);
+    }
+
+    // overload
+    public String removeCompanyNameFilter(int i) {
+        if (i == -1) {
+            this.companyNameFilter.clear();
+            return null;
+        }
+        return companyNameFilter.remove(i);
+    }   
+
+	// companyRepresentativeFilter
+    public ArrayList<CompanyRepresentative> getCompanyRepresentativeFilter() {
+        return companyRepresentativeFilter;
+    }
+
+    public void addCompanyRepresentativeFilter(CompanyRepresentative rep) {
         this.companyRepresentativeFilter.add(rep);
     }
-    public void RemoveCompanyRepresentativeFilter(CompanyRepresentative rep) {
+
+    public void removeCompanyRepresentativeFilter(CompanyRepresentative rep) {
         this.companyRepresentativeFilter.remove(rep);
     }
+
     // overload
-    public CompanyRepresentative RemoveCompanyRepresentativeFilter(int i) {
+    public CompanyRepresentative removeCompanyRepresentativeFilter(int i) {
         if (i == -1) {
             this.companyRepresentativeFilter.clear();
             return null;
         }
         return this.companyRepresentativeFilter.remove(i);
     }
-
-    public ArrayList<CompanyRepresentative> getCompanyRepresentativeFilter() {
-        return companyRepresentativeFilter;
-    }
-
 }
 
