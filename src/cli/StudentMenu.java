@@ -62,10 +62,9 @@ public class StudentMenu {
                 return student;
 
             case 4:
-				// Utils.clear();
-                // System.out.println("Not implemented");
+				// We need to prompt re-login
                 changePassword();
-				return student;
+				return null;
 
             case 5:
 				Utils.clear();
@@ -262,13 +261,13 @@ public class StudentMenu {
                 case 1:
                     // If a student chooses an internship opportunity, we set the other applications to rejected and delete them from student.internshipOpportunities
                     // The selected internship opportunity must not be deleted yet because he can still request withdrawal
-                    // chosenInternshipApplication.setStatus(Status.APPROVED);
+                    chosenInternshipApplication.setStatus(Status.APPROVED);
                     if (Objects.equals(chosenInternshipApplication.getStatus(), Status.APPROVED)) {
                         student.setInternship(chosenInternshipApplication.getInternshipOpportunity());
                         for (InternshipApplication application: student.getInternshipApplications()) {
                             if (!(Objects.equals(application, chosenInternshipApplication))) {
                                 student.deleteInternshipApplication(application);
-                                application.setStatus(Status.REJECTED);
+                                application.setWithdrawalApproved(true);
                             } else {
                                 application.setPlacementConfirmed(true);
                             }
@@ -511,6 +510,7 @@ public class StudentMenu {
 
         Utils.clear();
         System.out.println("Your new password has been set.");
+        System.out.println("Please re-login with your new password.");
         System.out.println();
     }
 

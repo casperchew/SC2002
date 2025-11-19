@@ -1,6 +1,5 @@
 package src.cli;
 
-import java.util.Random;
 import java.util.Scanner;
 
 import src.controller.UserController;
@@ -9,8 +8,6 @@ import src.controller.InternshipOpportunityController;
 import src.controller.Database;
 import src.enums.Status;
 import src.model.User;
-import src.model.internship.InternshipApplication;
-import src.model.internship.InternshipOpportunity;
 import src.model.user.Student;
 import src.model.user.CompanyRepresentative;
 import src.model.user.CareerCenterStaff;
@@ -79,6 +76,7 @@ public class CLI {
 
                         switch (choice) {
                             case 1:
+                                Utils.clear();
                                 userID = Utils.inputString("Enter your student ID: ");
                                 name = Utils.inputString("Enter your name: ");
                                 password = Utils.inputString("Enter your password: ");
@@ -92,6 +90,7 @@ public class CLI {
 								System.out.println();
                                 break;
                             case 2:
+                                Utils.clear();
                                 userID = "1"; // Placeholder value
                                 name = Utils.inputString("Enter your name: ");
                                 String companyName = Utils.inputString("Company name: ");
@@ -103,7 +102,13 @@ public class CLI {
                                 System.out.println();
                                 break;
                             case 3:
-                                System.out.println("Not implemented");
+                                Utils.clear();
+                                userID = "1"; // Placeholder value
+                                name = Utils.inputString("Enter your name: ");
+                                password = Utils.inputString("Enter your password: ");
+                                CareerCenterStaff staff = new CareerCenterStaff(userID, name, password);
+                                userController.createCareerCenterStaff(staff);
+								Utils.clear();
                                 break;
                         }
                         break;
