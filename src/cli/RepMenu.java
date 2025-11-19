@@ -187,14 +187,23 @@ public class RepMenu {
             System.out.println("Visibility: " + opp.getVisibility());
 
             System.out.println("\n1) Select another internship opportunity.");
-            System.out.println("2) Exit.");
+            System.out.println("2) Toggle internship visibility.");
+            System.out.println("3) Exit.");
             int subChoice = Utils.inputInt("Enter an option: ");
             switch (subChoice) {
-                case 1 -> Utils.clear();
-                case 2 -> {
+                case 1:
+                    Utils.clear();
+                    break;
+                case 2:
+                    Utils.clear();
+                    boolean visibility = !opp.getVisibility();
+                    opp.setVisibility(visibility);
+                    System.out.println("Visibility toggled " + visibility + " successfully!");
+                    break;
+                case 3:
                     loop = false;
                     Utils.clear();
-                }
+                    break;
             }
         }
     }
