@@ -1163,6 +1163,7 @@ public class StaffMenu {
     private void printAllApplications() {
         // Utils.clear();
         ArrayList<InternshipApplication> applications = appController.getInternshipApplications();
+        // System.out.println("The number of applications: " + applications.size());
         System.out.println();
         // System.out.println("=".repeat(20));
         // System.out.println();

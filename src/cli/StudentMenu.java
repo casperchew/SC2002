@@ -261,13 +261,13 @@ public class StudentMenu {
                 case 1:
                     // If a student chooses an internship opportunity, we set the other applications to rejected and delete them from student.internshipOpportunities
                     // The selected internship opportunity must not be deleted yet because he can still request withdrawal
-                    // chosenInternshipApplication.setStatus(Status.APPROVED);
+                    chosenInternshipApplication.setStatus(Status.APPROVED);
                     if (Objects.equals(chosenInternshipApplication.getStatus(), Status.APPROVED)) {
                         student.setInternship(chosenInternshipApplication.getInternshipOpportunity());
                         for (InternshipApplication application: student.getInternshipApplications()) {
                             if (!(Objects.equals(application, chosenInternshipApplication))) {
                                 student.deleteInternshipApplication(application);
-                                application.setStatus(Status.REJECTED);
+                                application.setWithdrawalApproved(true);
                             } else {
                                 application.setPlacementConfirmed(true);
                             }
