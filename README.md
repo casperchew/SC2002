@@ -126,8 +126,73 @@ Logged in as Tan Wei Ling
 #### 2. Student
 ##### 2.1. Automatic registration
 ##### 2.2. View internship opportunities (based on students profile and visibility)
+Expected Behaviour: Student is only able to view appropriate internship opportunities
+
+Failure Indicators: Student can view internship opportunities not applicable to themselves
+
+| Step | Description                                                                                       | Input        |
+| ---- | ------------------------------------------------------------------------------------------------- | ------------ |
+| 1    | Create BASIC Internship Opportunity for Computer Science Majors (refer to 3.2) with title "test"  |              |
+| 2    | Approve created Internship Opportunity (refer to 4.3)                                             |              |
+| 3    | Select "Login" option                                                                             | 1            |
+| 4    | Enter name                                                                                        | Tan Wei Ling |
+| 5    | Enter password                                                                                    | password     |
+| 6    | Select "Apply for internship"                                                                     | 1            |
+
+
+Expected Behaviour:
+
+After step 6, the cli should display
+```
+1) test
+...
+```
 ##### 2.3. Apply for internship opportunity
+Expected Behaviour: Student is only able to view appropriate internship opportunities
+
+Failure Indicators: Student can view internship opportunities not applicable to themselves
+
+| Step | Description                                                                                      | Input        |
+| ---- | ------------------------------------------------------------------------------------------------ | ------------ |
+| 1    | Create BASIC Internship Opportunity for Computer Science Majors (refer to 3.2) with title "test" |              |
+| 2    | Approve created Internship Opportunity (refer to 4.3)                                            |              |
+| 3    | Select "Login" option                                                                            | 1            |
+| 4    | Enter name                                                                                       | Tan Wei Ling |
+| 5    | Enter password                                                                                   | password     |
+| 6    | Select "Apply for internship"                                                                    | 1            |
+| 7    | Select "1) test"                                                                                 | 1            |
+| 8    | Select "1) Apply for this internship."                                                           | 1            |
+| 9    | Exit the menu                                                                                    | -1           |
+| 10   | Select "2) View internship applications."                                                        | 2            |
+
+Expected Behaviour:
+
+After step 10, the cli should display
+```
+1) test
+...
+```
 ###### 2.3.1. Maximum 3 applications
+| Step | Description                                                                                       | Input        |
+| ---- | ------------------------------------------------------------------------------------------------- | ------------ |
+| 1    | Create BASIC Internship Opportunity for Computer Science Majors (refer to 3.2) with title "test1" |              |
+| 2    | Create BASIC Internship Opportunity for Computer Science Majors (refer to 3.2) with title "test2" |              |
+| 3    | Create BASIC Internship Opportunity for Computer Science Majors (refer to 3.2) with title "test3" |              |
+| 4    | Create BASIC Internship Opportunity for Computer Science Majors (refer to 3.2) with title "test4" |              |
+| 5    | Approve created Internship Opportunities (refer to 4.3)                                           |              |
+| 6    | Select "Login" option                                                                             | 1            |
+| 7    | Enter name                                                                                        | Tan Wei Ling |
+| 8    | Enter password                                                                                    | password     |
+| 9    | Apply for "test1", "test2", "test3" and "test4" (repeat steps 6 to 10 of 2.3)                     |              |
+| 10   | Apply for "test4" (refer to steps 6 to 10 of 2.3)                                                 |              |
+
+Expected Behaviour:
+
+After step 10, the cli should display
+```
+You already have 3 applications pending.
+...
+```
 ###### 2.3.2. `InternshipLevel` validation based on Student's `yearOfStudy`.
 ##### 2.4. View internship applications
 ###### 2.4.1. Default `PENDING` status
