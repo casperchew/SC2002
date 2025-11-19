@@ -37,9 +37,9 @@ public class RepMenu {
         while (loop) {
             // Utils.clear();
             System.out.println();
-            System.out.println("1) Create internship opportunity."); // TODO (only allows up to 5 internship opportunities per rep)
+            System.out.println("1) Create internship opportunity.");
             System.out.println("2) View created internship opportunities.");
-            System.out.println("3) View student applications."); // TODO (allow the rep to approve/reject applications)
+            System.out.println("3) View student applications.");
             System.out.println("4) Log out.");
 
             int choice = Utils.inputInt("Enter an option: ");
@@ -69,6 +69,22 @@ public class RepMenu {
 
     private void createInternshipOpportunity() {
         Utils.clear();
+
+        ArrayList<InternshipOpportunity> opps = internshipOpportunityController.getInternshipOpportunities();
+
+        int count = 0;
+
+        for (InternshipOpportunity opp: opps) {
+            if (opp.getCompanyRepresentatives().contains(rep)) {
+                count ++;
+            }
+        }
+
+        if (count >= 5) {
+            System.out.println("Error: each representative can only create up to 5 intrnships!");
+            return;
+        }
+
         String title = Utils.inputString("Set the internship title: ");
         String description = Utils.inputString("Set the description for the internship: ");
 
