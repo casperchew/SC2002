@@ -1,0 +1,41 @@
+name: javadoc
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  generate-docs:
+    name: "Generate Javadoc"
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Delete existing Javadoc
+        run: rm -rf docs
+
+      - name: Generate Javadocs
+        run: javadoc -d docs -subpackages src
+
+      - name: Configure Git for Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+      - name: Commit and Push Javadocs
+        run: |
+          git add -f docs
+          git commit -m "javadoc: auto-generate javadocs"
+          git push

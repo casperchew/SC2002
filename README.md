@@ -1,5 +1,7 @@
 # SC2002
 
+[Javadoc](https://casperchew.github.io/SC2002/)
+
 # TODO
 
 - Implement CareerCenterStaff

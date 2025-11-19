@@ -44,7 +44,8 @@ public class StaffMenu {
         System.out.println("4) Generate internship opportunity report.");
         System.out.println("5) Set internship opportunity report filters.");  // TODO
         System.out.println("6) View all internship applications.");  // For testing
-        System.out.println("7) Logout.");
+        System.out.println("7) Change password.");
+        System.out.println("8) Logout.");
 		System.out.println("");
         choice = Utils.inputInt("Enter an option: ");
 
@@ -68,6 +69,10 @@ public class StaffMenu {
                 printAllApplications();
                 return staff;
             case 7:
+                // We need to prompt re-login
+                changePassword();  
+                return null;
+            case 8:
                 Utils.clear();
 				return null;
             default:
@@ -1156,19 +1161,83 @@ public class StaffMenu {
         }
     }
     private void printAllApplications() {
-        // Utils.clear();
-        ArrayList<InternshipApplication> applications = appController.getInternshipApplications();
-        System.out.println();
-        // System.out.println("=".repeat(20));
-        // System.out.println();
-        for (InternshipApplication application: applications) {
-            System.out.println("Pending internship applications: ");
-            System.out.println("Applicant: " + application.getApplicant().getName());
-            System.out.println("Internship title: " + application.getInternshipOpportunity().getInternshipTitle());
-            System.out.println("Internship company: " + application.getInternshipOpportunity().getCompanyName());
-            System.out.println("Placement confirmed: "+ application.getPlacementConfirmed());
-            System.out.println("Withdrawal requested: " + application.getWithdrawalRequested());
+        boolean loop = true;
+
+        while (loop) {
+            Utils.clear();
+            ArrayList<InternshipApplication> applications = appController.getInternshipApplications();
+
+            if (applications.isEmpty()) {
+                System.out.println("There are no internship applications yet.");
+                System.out.println();
+                break;
+            }
+
+            System.out.println("Internship Applications:");
+            for (int i = 0; i < applications.size(); i++) {
+                InternshipApplication app = applications.get(i);
+                System.out.println((i + 1) + ") " + app.getApplicant().getName() + " (" + app.getInternshipOpportunity().getInternshipTitle() + ")");
+            }
+
             System.out.println();
+            int choice = Utils.inputInt("Enter the number of an application to view details (or -1 to exit): ");
+
+            if (choice == -1) {
+                Utils.clear();
+                break;
+            }
+
+            int index = choice - 1;
+            InternshipApplication chosenApplication = null;
+
+            if (index >= 0 && index < applications.size()) {
+                chosenApplication = applications.get(index);
+            }
+
+            if (chosenApplication == null) {
+                Utils.clear();
+                System.out.println("Invalid selection. Please enter a valid number.");
+                System.out.println();
+                continue;
+            }
+
+            Utils.clear();
+
+            System.out.println("Applicant: " + chosenApplication.getApplicant().getName());
+            System.out.println("Internship title: " + chosenApplication.getInternshipOpportunity().getInternshipTitle());
+            System.out.println("Internship company: " + chosenApplication.getInternshipOpportunity().getCompanyName());
+            System.out.println("Date applied: " + chosenApplication.getDateApplied());
+            System.out.println("Status: " + chosenApplication.getStatus());
+            System.out.println("Placement confirmed: " + chosenApplication.getPlacementConfirmed());
+            System.out.println("Withdrawal requested: " + chosenApplication.getWithdrawalRequested());
+            System.out.println("Withdrawal approved: " + chosenApplication.getWithdrawalApproved());
+            System.out.println();
+
+            System.out.println("1) Select another application.");
+            System.out.println("2) Exit.");
+
+            int subChoice = Utils.inputInt("Enter an option: ");
+
+            switch (subChoice) {
+                case 1:
+                    Utils.clear();
+                    continue;
+                case 2:
+                    Utils.clear();
+                    loop = false;
+                    break;
+            }
         }
+    }
+
+    private void changePassword() {
+        Utils.clear();
+        String newPassword = Utils.inputString("Enter your new password: ");
+        staff.setPasswordHash(newPassword);
+
+        Utils.clear();
+        System.out.println("Your new password has been set.");
+        System.out.println("Please re-login with your new password.");
+        System.out.println();
     }
 }
