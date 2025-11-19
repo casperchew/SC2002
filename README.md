@@ -94,6 +94,34 @@ Logging out...
 ```
 
 ##### 1.3. Change password
+Expected Behaviour: User that is logged in should be able to change password
+
+Failure Indicators: User cannot change password
+
+| Step    | Description                     | Input        |
+| --------| ------------------------------- | ------------ |
+| 1       | Select "Login" option           | 1            |
+| 2       | Enter name                      | Tan Wei Ling |
+| 3       | Enter password                  | password     |
+| 4       | Select "change password" option | 4            |
+| 5       | Enter new password              | newpassword  |
+| 6       | Select "Login" option           | 1            |
+| 7       | Enter name                      | Tan Wei Ling |
+| 8       | Enter password                  | newpassword  |
+
+Expected Behaviour:
+
+After step 5, the cli should display
+```
+Your new password has been set.
+Please re-login with your new password.
+...
+```
+After step 8, the cli should display
+```
+Logged in as Tan Wei Ling
+...
+```
 
 2. Student
     1. Automatic registration
