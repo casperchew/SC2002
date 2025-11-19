@@ -1,6 +1,9 @@
 name: javadoc
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   generate-docs:
