@@ -123,39 +123,39 @@ Logged in as Tan Wei Ling
 ...
 ```
 
-2. Student
-    1. Automatic registration
-    2. View internship opportunities (based on students profile and visibility)
-    3. Apply for internship opportunity
-        1. Maximum 3 applications
-        2. `InternshipLevel` validation based on Student's `yearOfStudy`.
-    4. View internship applications
-        1. Default `PENDING` status
-    5. Accept internship placement
-        1. Only 1 can be accepted
-        2. Other applications will be withdrawn once an internship placement in accepted
-    6. Request internship application withdrawal subject to approval from `CareerCenterStaff`
-        1. Before placement confirmation
-        2. After placement confirmation
+#### 2. Student
+##### 2.1. Automatic registration
+##### 2.2. View internship opportunities (based on students profile and visibility)
+##### 2.3. Apply for internship opportunity
+###### 2.3.1. Maximum 3 applications
+###### 2.3.2. `InternshipLevel` validation based on Student's `yearOfStudy`.
+##### 2.4. View internship applications
+###### 2.4.1. Default `PENDING` status
+##### 2.5. Accept internship placement
+###### 2.5.1. Only 1 can be accepted
+###### 2.5.2. Other applications will be withdrawn once an internship placement in accepted
+##### 2.6. Request internship application withdrawal subject to approval from `CareerCenterStaff`
+###### 2.6.1. Before placement confirmation
+###### 2.6.2. After placement confirmation
 
-3. Company Representatives
-    1. Registration must include a company
-        1. Can only log in once approved by a `CareerCenterStaff`
-    2. Create internship opportunities
-        1. Max 5
-    3. After an `InternshipOpportunity` is approved by a `CareerCenterStaff`,
-        1. View application details and student details for each of the `InternshipOpportunity`
-    4. Approve or reject intership applications
-    5. Toggle visibility of internship opportunity to `on` or `off`.
+#### 3. Company Representatives
+##### 3.1. Registration must include a company
+###### 3.1.1. Can only log in once approved by a `CareerCenterStaff`
+##### 3.2. Create internship opportunities
+###### 3.2.1. Max 5
+##### 3.3. After an `InternshipOpportunity` is approved by a `CareerCenterStaff`,
+###### 3.3.1. View application details and student details for each of the `InternshipOpportunity`
+##### 3.4. Approve or reject intership applications
+##### 3.5. Toggle visibility of internship opportunity to `on` or `off`.
 
-4. Career Center Staff
-    1. Automatic registration
-    2. Authorize of reject the account creation of `CompanyRepresentative`
-    3. Approve of reject internship opportunities submitted by `CompanyRepresentative`
-        1. Once approved, the internship opportunity becomes visible to eligible students
-    4. Approve or reject student withdrawal requests
-    5. Generate intership opportunity reports
-        1. Filter internship opportunities
+#### 4. Career Center Staff
+##### 4.1. Automatic registration
+##### 4.2. Authorize of reject the account creation of `CompanyRepresentative`
+##### 4.3. Approve of reject internship opportunities submitted by `CompanyRepresentative`
+###### 3.1. Once approved, the internship opportunity becomes visible to eligible students
+##### 4.4. Approve or reject student withdrawal requests
+##### 4.5. Generate intership opportunity reports
+###### 4.5.1. Filter internship opportunities
 
 ## Database
 
