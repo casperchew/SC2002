@@ -59,11 +59,10 @@
 ### User's capabilities
 #### 1. All Users
 ##### 1.1. Login
-Expected Baheviour: User should be able to access their dashboard based on their roles
+Expected Behaviour: User should be able to access their dashboard based on their roles
 
 Failure Indicators: User cannot log in or receive incorrect error messages
 
-#### Steps
 | Step    | Description           | Input        |
 | --------| --------------------- | ------------ |
 | 1       | Select "Login" option | 1            |
@@ -77,6 +76,26 @@ Logged in as Tan Wei Ling
 ```
 
 ##### 1.2. Logout
+Expected Behaviour: User that is logged in should be able to log out
+
+Failure Indicators: User cannot log out or recieve incorrect error messages
+
+| Step    | Description           | Input        |
+| --------| --------------------- | ------------ |
+| 1       | Select "Login" option | 1            |
+| 2       | Enter name            | Tan Wei Ling |
+| 3       | Enter password        | password     |
+| 4       | Log out               | 5            |
+
+Expected Behaviour: The cli should display
+```
+Logging out...
+...
+```
+
+#### Steps
+
+
 ##### 1.3. Change password
 
 2. Student
