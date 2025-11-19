@@ -106,7 +106,7 @@ public class RepMenu {
         ArrayList<InternshipOpportunity> existingOpps = internshipOpportunityController.getInternshipOpportunities();
         InternshipOpportunity opportunity;
         for (InternshipOpportunity existingOpp: existingOpps) {
-            if (existingOpp.getInternshipTitle() == title && existingOpp.getCompanyName() == rep.getCompany()) {
+            if (existingOpp.getInternshipTitle().equals(title) && existingOpp.getCompanyName().equals(rep.getCompany())) {
                 existingOpp.getCompanyRepresentatives().add(rep);
                 System.out.println("You have been added as a representative for the internship opportunity successfully!");
                 return;
@@ -124,7 +124,7 @@ public class RepMenu {
             default -> InternshipLevel.BASIC;
         };
 
-        int numMajors = Utils.inputInt("Enter number of preferred majors: ");
+        int numMajors = 1; // Assume only 1 preferred major per opportunity
         ArrayList<String> preferredMajors = new ArrayList<>();
         for (int i = 0; i < numMajors; i++) {
             preferredMajors.add(Utils.inputString("Enter preferred major " + (i + 1) + ": "));
@@ -138,8 +138,8 @@ public class RepMenu {
         }
 
         int numSlots = Utils.inputInt("Enter number of available slots: ");
-        while (numSlots <= 0) {
-            System.out.println("Error: Number of slots must be positive.");
+        while (numSlots < 1 || numSlots > 10) {
+            System.out.println("Error: Number of slots must be between 1 & 10 inclusive.");
             numSlots = Utils.inputInt("Enter number of available slots: ");
         }
 
@@ -253,8 +253,11 @@ public class RepMenu {
                         break;
                     case 1:
                         // Approved
-                        application.setStatus(Status.APPROVED);
+                        application.setStatus(Status.SUCCESSFUL);
                         opp.setNumberOfSlots(numOfSlots - 1);
+                        if (opp.getNumberOfSlots() == 0) {
+                            opp.setStatus(Status.FILLED);
+                        }
                         break;
                 }
             }
