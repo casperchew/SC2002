@@ -7,6 +7,7 @@ import src.enums.InternshipLevel;
 import src.enums.Status;
 import src.model.User;
 import src.model.internship.InternshipOpportunity;
+import src.model.internship.InternshipApplication;
 import src.model.user.Student;
 import src.model.user.CompanyRepresentative;
 
@@ -44,6 +45,11 @@ public class InternshipOpportunityController {
             }
         }
         return opportunities;
+    }
+
+    public void createInternshipApplication(InternshipApplication internshipApplication) {
+        // Used by student
+        db.createInternshipApplication(internshipApplication);
     }
 
     public ArrayList<InternshipOpportunity> getInternshipOpportunities() {

@@ -1,12 +1,9 @@
 package src.cli;
 
-import java.util.Scanner;
-
 import src.controller.UserController;
 import src.controller.ApplicationController;
 import src.controller.InternshipOpportunityController;
 import src.controller.Database;
-import src.enums.Status;
 import src.model.User;
 import src.model.user.Student;
 import src.model.user.CompanyRepresentative;
@@ -14,7 +11,6 @@ import src.model.user.CareerCenterStaff;
 import src.utils.Utils;
 
 public class CLI {
-    private Scanner sc = new Scanner(System.in);
 	private UserController userController;
     private ApplicationController appController;
     private InternshipOpportunityController internshipController;
@@ -28,7 +24,6 @@ public class CLI {
     public void main() {
         int choice;
         String userID;
-        String userIDString;
         String name;
         String password;
 
@@ -46,7 +41,6 @@ public class CLI {
                 System.out.println("");
 				choice = Utils.inputInt("Select an option: ");
                 switch (choice) {
-                    // login
                     case 1:
                         name = Utils.inputString("Enter your name: ");
                         password = Utils.inputString("Enter your password: ");
@@ -65,7 +59,7 @@ public class CLI {
 
                         break;
 
-                    // create new account
+                    
                     case 2:
 						Utils.clear();
                         System.out.println("Are you a:");
@@ -124,37 +118,36 @@ public class CLI {
                         break;
                 }
             } else if (user instanceof Student) {
-                // render Student Menu
                 Student student = (Student)user;
                 StudentMenu studentMenu = new StudentMenu(student, userController, appController, internshipController);
                 user = studentMenu.runMenu();
+
             } else if (user instanceof CompanyRepresentative) {
                 CompanyRepresentative rep = (CompanyRepresentative)user;
                 switch (rep.getStatus()) {
-                    case Status.APPROVED:
-                        // render the CompanyRepresentative menu if his application was accepted
+                    case APPROVED:
                         RepMenu repMenu = new RepMenu(rep, userController, appController, internshipController);
                         user = repMenu.runMenu(rep); // need to be changed to non static
                         break;
-                    case Status.PENDING:
+                    case PENDING:
                         System.out.println("Your account is pending approval.");
                         System.out.println();
                         user = null;
                         break;
-                    case Status.REJECTED:
+                    case REJECTED:
                         System.out.println("Your account has been rejected.");
                         System.out.println();
                         user = null;
                         break;
-                    case Status.FILLED:
+                    case FILLED:
                         System.out.println("Your application has been filled.");
                         System.out.println();
                         user = null;
                         break;
                 }
+                user = null;
 
             } else if (user instanceof CareerCenterStaff) {
-                // render CareerCenterStaff Menu
                 CareerCenterStaff staff = (CareerCenterStaff)user;
                 StaffMenu staffMenu = new StaffMenu(staff, userController, appController, internshipController);
                 user = staffMenu.runMenu(staff); // need to be changed to non static
