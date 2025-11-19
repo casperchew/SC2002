@@ -56,98 +56,114 @@
 - log in as ccstaff -> select generate internship opportunity report -> select any internship -> check if report is properly generated.
 
 ## Test Cases
+
 ### User's capabilities
+
 #### 1. All Users
+
 ##### 1.1. Login
+
 Expected Behaviour: User should be able to access their dashboard based on their roles
 
 Failure Indicators: User cannot log in or receive incorrect error messages
 
-| Step    | Description           | Input        |
-| --------| --------------------- | ------------ |
-| 1       | Select "Login" option | 1            |
-| 2       | Enter name            | Tan Wei Ling |
-| 3       | Enter password        | password     |
+| Step | Description           | Input        |
+| ---- | --------------------- | ------------ |
+| 1    | Select "Login" option | 1            |
+| 2    | Enter name            | Tan Wei Ling |
+| 3    | Enter password        | password     |
 
 Expected Behaviour: The cli should display
+
 ```
 Logged in as Tan Wei Ling
 ...
 ```
 
 ##### 1.2. Logout
+
 Expected Behaviour: User that is logged in should be able to log out
 
 Failure Indicators: User cannot log out or recieve incorrect error messages
 
-| Step    | Description           | Input        |
-| --------| --------------------- | ------------ |
-| 1       | Select "Login" option | 1            |
-| 2       | Enter name            | Tan Wei Ling |
-| 3       | Enter password        | password     |
-| 4       | Log out               | 5            |
+| Step | Description           | Input        |
+| ---- | --------------------- | ------------ |
+| 1    | Select "Login" option | 1            |
+| 2    | Enter name            | Tan Wei Ling |
+| 3    | Enter password        | password     |
+| 4    | Log out               | 5            |
 
 Expected Behaviour: The cli should display
+
 ```
 Logging out...
 ...
 ```
 
 ##### 1.3. Change password
+
 Expected Behaviour: User that is logged in should be able to change password
 
 Failure Indicators: User cannot change password
 
-| Step    | Description                     | Input        |
-| --------| ------------------------------- | ------------ |
-| 1       | Select "Login" option           | 1            |
-| 2       | Enter name                      | Tan Wei Ling |
-| 3       | Enter password                  | password     |
-| 4       | Select "change password" option | 4            |
-| 5       | Enter new password              | newpassword  |
-| 6       | Select "Login" option           | 1            |
-| 7       | Enter name                      | Tan Wei Ling |
-| 8       | Enter password                  | newpassword  |
+| Step | Description                     | Input        |
+| ---- | ------------------------------- | ------------ |
+| 1    | Select "Login" option           | 1            |
+| 2    | Enter name                      | Tan Wei Ling |
+| 3    | Enter password                  | password     |
+| 4    | Select "change password" option | 4            |
+| 5    | Enter new password              | newpassword  |
+| 6    | Select "Login" option           | 1            |
+| 7    | Enter name                      | Tan Wei Ling |
+| 8    | Enter password                  | newpassword  |
 
 Expected Behaviour:
 
 After step 5, the cli should display
+
 ```
 Your new password has been set.
 Please re-login with your new password.
 ...
 ```
+
 After step 8, the cli should display
+
 ```
 Logged in as Tan Wei Ling
 ...
 ```
 
 #### 2. Student
+
 ##### 2.1. Automatic registration
+
 ##### 2.2. View internship opportunities (based on students profile and visibility)
+
 Expected Behaviour: Student is only able to view appropriate internship opportunities
 
 Failure Indicators: Student can view internship opportunities not applicable to themselves
 
-| Step | Description                                                                                       | Input        |
-| ---- | ------------------------------------------------------------------------------------------------- | ------------ |
-| 1    | Create BASIC Internship Opportunity for Computer Science Majors (refer to 3.2) with title "test"  |              |
-| 2    | Approve created Internship Opportunity (refer to 4.3)                                             |              |
-| 3    | Select "Login" option                                                                             | 1            |
-| 4    | Enter name                                                                                        | Tan Wei Ling |
-| 5    | Enter password                                                                                    | password     |
-| 6    | Select "Apply for internship"                                                                     | 1            |
-
+| Step | Description                                                                                      | Input        |
+| ---- | ------------------------------------------------------------------------------------------------ | ------------ |
+| 1    | Create BASIC Internship Opportunity for Computer Science Majors (refer to 3.2) with title "test" |              |
+| 2    | Approve created Internship Opportunity (refer to 4.3)                                            |              |
+| 3    | Select "Login" option                                                                            | 1            |
+| 4    | Enter name                                                                                       | Tan Wei Ling |
+| 5    | Enter password                                                                                   | password     |
+| 6    | Select "Apply for internship"                                                                    | 1            |
 
 Expected Behaviour:
 
 After step 6, the cli should display
+
 ```
 1) test
 ...
 ```
+
 ##### 2.3. Apply for internship opportunity
+
 Expected Behaviour: Student is only able to view appropriate internship opportunities
 
 Failure Indicators: Student can view internship opportunities not applicable to themselves
@@ -168,11 +184,14 @@ Failure Indicators: Student can view internship opportunities not applicable to 
 Expected Behaviour:
 
 After step 10, the cli should display
+
 ```
 1) test
 ...
 ```
+
 ###### 2.3.1. Maximum 3 applications
+
 | Step | Description                                                                                       | Input        |
 | ---- | ------------------------------------------------------------------------------------------------- | ------------ |
 | 1    | Create BASIC Internship Opportunity for Computer Science Majors (refer to 3.2) with title "test1" |              |
@@ -189,37 +208,62 @@ After step 10, the cli should display
 Expected Behaviour:
 
 After step 10, the cli should display
+
 ```
 You already have 3 applications pending.
 ...
 ```
+
 ###### 2.3.2. `InternshipLevel` validation based on Student's `yearOfStudy`.
+
 ##### 2.4. View internship applications
+
 ###### 2.4.1. Default `PENDING` status
+
 ##### 2.5. Accept internship placement
+
 ###### 2.5.1. Only 1 can be accepted
+
 ###### 2.5.2. Other applications will be withdrawn once an internship placement in accepted
+
 ##### 2.6. Request internship application withdrawal subject to approval from `CareerCenterStaff`
+
 ###### 2.6.1. Before placement confirmation
+
 ###### 2.6.2. After placement confirmation
 
 #### 3. Company Representatives
+
 ##### 3.1. Registration must include a company
+
 ###### 3.1.1. Can only log in once approved by a `CareerCenterStaff`
+
 ##### 3.2. Create internship opportunities
+
 ###### 3.2.1. Max 5
+
 ##### 3.3. After an `InternshipOpportunity` is approved by a `CareerCenterStaff`,
+
 ###### 3.3.1. View application details and student details for each of the `InternshipOpportunity`
+
 ##### 3.4. Approve or reject intership applications
+
 ##### 3.5. Toggle visibility of internship opportunity to `on` or `off`.
 
 #### 4. Career Center Staff
+
 ##### 4.1. Automatic registration
+
 ##### 4.2. Authorize of reject the account creation of `CompanyRepresentative`
+
 ##### 4.3. Approve of reject internship opportunities submitted by `CompanyRepresentative`
+
 ###### 3.1. Once approved, the internship opportunity becomes visible to eligible students
+
 ##### 4.4. Approve or reject student withdrawal requests
+
 ##### 4.5. Generate intership opportunity reports
+
 ###### 4.5.1. Filter internship opportunities
 
 ## Database
@@ -247,3 +291,146 @@ There are no initial Company Representatives
 | sng001  | Dr. Sng Hui Lin   | Career Center Staff | CCDS       | sng001@ntu.edu.sg |
 | tan002  | Mr. Tan Boon Kiat | Career Center Staff | CCDS       | tan002@ntu.edu.sg |
 | lee003  | Ms. Lee Mei Ling  | Career Center Staff | CCDS       | lee003@ntu.edu.sg |
+
+## OO concepts used
+
+In this section, we will show some examples of OO concepts being used in our program.
+
+### Inheritance
+
+`Student.java`, `CompanyRepresentative.java` and `CareerCenterStaff.java` are all subclasses of the super class `User.java`
+
+### Abstraction
+
+Each user in `CLI.java` has their respective menu classes. For example, when the user logs in as a student, the main function of `CLI.java` will run
+
+```
+StudentMenu studentMenu = new StudentMenu(student, userController, appController, internshipController);
+user = studentMenu.runMenu();
+```
+
+This hides and abstracts away the complex implementations of each menu class from the main CLI class.
+
+### Encapsulation
+
+Every entity class in our app has accessor and mutator methods. This keeps the underlying data of classes safe from outside meddling. Here is an example mutator method from `CompanyRepresentative.java`:
+
+```
+public String getCompany() {
+		return company;
+	}
+```
+
+### Polymorphism (this might need to be adjusted depending on how login() is changed)
+
+This is an example of where polymorphism is used and can be found in `UserController.java`:
+
+```
+public User login(String userID, String passwordHash) {
+    for (User user: getUsers()) {
+        if (Objects.equals(userID, user.getUserID()) && Objects.equals(passwordHash, user.getPasswordHash())) {
+            return user;
+        }
+    }
+
+```
+
+Different users have differently formatted UserIDs. Since the method body of `getUserID()` is dynamically binded during runtime, this allows the program to treat all these subclasses as a User while still preserving their specific behaviors.
+
+## Design princples used
+
+In this section we will display some examples of the usage of the following design principles:
+
+- Single Responsibility Principle
+- Open-Closed Principle
+- Liskov Substitution Principle
+- Interface Segregation Principle
+- Dependancy Inversion Principle
+- Model-View-Controller Design Pattern
+
+### Single Responsibility Principle
+
+```
+public class ApplicationController {
+    private Database db;
+
+    public ApplicationController(Database db) {
+        this.db = db;
+    }
+
+    public ArrayList<InternshipApplication> getInternshipApplications() {
+        return db.getInternshipApplications();
+    }
+
+    public void createApplication(InternshipApplication application) {
+        db.createInternshipApplication(application);
+    }
+
+    public void deleteApplication(InternshipApplication application) {
+        db.deleteInternshipApplication(application);
+    }
+```
+
+The ApplicationController class only has one clearly defined responsibility: managing internship application operations (retrieving, creating, and deleting applications). This means it has only one reason to change.
+
+### Open-Closed Principle
+
+```
+public abstract class User {...}
+```
+
+The abstract class User follows the Open-Closed Principle because it provides a base structure that can be extended through subclasses (e.g., Student, CompanyRep, CCStaff) without modifying the existing User class. If a new user type needs to be added, such as PostGradStudent, it can be introduced without changing any existing code, simply by creating a new subclass like:
+
+```
+public PostGradStudent extends User {...}
+```
+
+### Liskov Subsitution Principle
+
+The main function of CLI uses methods defined in the User superclass, for example:
+
+```
+Utils.clear();
+System.out.println("Logged in as " + user.getName());
+System.out.println();
+```
+
+These statements rely only on behavior defined in User. This means that regardless of whether the logged-in user is a Student, CompanyRepresentative, or CareerCenterStaff, the program continues to function correctly. Because each subclass can be used anywhere a User is expected without altering the correctness of the program, the design adheres to the Liskov Substitution Principle.
+
+### Interface Segregation Principle
+
+### Dependancy Inversion Principle
+
+At the start of the main function of CLI, we have:
+
+```
+User user = null;
+...
+user = userController.login(name, password);
+```
+
+This means that the high-level module CLI does not depend directly on low-level modules such as Student, CompanyRepresentative, or CareerCenterStaff. Instead, it relies on the abstract User class, which defines the interface and behavior expected from all user types. Furthermore, the abstraction User does not implement methods specific to any subclass, such as `getInternshipApplications()`. This ensures that the high-level module (CLI) and the abstraction (User) do not depend on low-level modules (Student, CompanyRepresentative, CareerCenterStaff). Instead, the low-level modules depends on and implements behaviors based on the User abstraction.
+
+### Model-View-Controller
+
+We separated an our classes into three main groups:
+
+- Models – These are the entity classes that represent the data of the application. Examples include:
+
+  - `Student.java`
+  - `CompanyRepresentative.java`
+  - `CareerCenterStaff.java`
+
+- View - These classes handle the presentation layer and user interaction. They display information to the user and capture input. Examples include:
+
+  - `CLI.java`
+  - `StudentMenu.java`
+  - `RepMenu.java`
+  - `StaffMenu.java`
+
+- Controller - These classes act as intermediaries between the models and views. They provide create, read and delete functionalities for the view classes. Examples include:
+  - `ApplicationController.java`
+  - `InternshipController.java`
+  - `InternshipOpportunityController.java`
+
+By organizing the system into models, views, and controllers, we achieve a clear separation of concerns. This makes the code easier to maintain, extend, and test. Changes in the user interface do not affect the data or business logic, and modifications to the underlying data model do not require changes in the presentation layer.
