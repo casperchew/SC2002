@@ -55,6 +55,25 @@
 
 - log in as ccstaff -> select generate internship opportunity report -> select any internship -> check if report is properly generated.
 
+## Test Cases
+### 1. Valid User Login
+Expected Baheviour: User should be able to access their dashboard based on their roles
+
+Failure Indicators: User cannot log in or receive incorrect error messages
+
+#### Steps
+| Step    | Description           | Input        |
+| --------| --------------------- | ------------ |
+| 1       | Select "Login" option | 1            |
+| 2       | Enter name            | Tan Wei Ling |
+| 3       | Enter password        | password     |
+
+Expected Behaviour: The cli should display
+```
+Logged in as Tan Wei Ling
+...
+```
+
 ## Database
 
 The default password to all the users is `password`.
