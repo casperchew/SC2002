@@ -93,9 +93,6 @@ Logging out...
 ...
 ```
 
-#### Steps
-
-
 ##### 1.3. Change password
 
 2. Student
