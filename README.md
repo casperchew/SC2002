@@ -335,7 +335,9 @@ public User login(String userID, String passwordHash) {
 
 ```
 
-Different users have differently formatted UserIDs. Since the method body of `getUserID()` is dynamically binded during runtime, this allows the program to treat all these subclasses as a User while still preserving their specific behaviors.
+Different users have differently formatted UserIDs. Since the method body of `getUserID()` is dynamically binded during runtime, this allows the program to treat all these subclasses as a User while still preserving their specific behaviors. This keeps the `User.java` class and its subclasses maintainable and extensible.
+
+## Coupling and cohesion
 
 ## Design princples used
 
@@ -371,7 +373,7 @@ public class ApplicationController {
     }
 ```
 
-The ApplicationController class only has one clearly defined responsibility: managing internship application operations (retrieving, creating, and deleting applications). This means it has only one reason to change.
+The ApplicationController class only has one clearly defined responsibility: managing internship application operations (retrieving, creating, and deleting applications). This means it has only one reason to change. Because we used this design principle, we avoided having "God classes", which would make the code difficult to maintain, understand, and extend.
 
 ### Open-Closed Principle
 
@@ -384,6 +386,8 @@ The abstract class User follows the Open-Closed Principle because it provides a 
 ```
 public PostGradStudent extends User {...}
 ```
+
+This means that if new features or users were to be added in the future, it would be easy and safe to do so. This also reduced onboarding time, for people who started working on the project later, as they did not need to modify existing code which they might not be familiar with.
 
 ### Liskov Subsitution Principle
 
@@ -399,6 +403,8 @@ These statements rely only on behavior defined in User. This means that regardle
 
 ### Interface Segregation Principle
 
+Not done
+
 ### Dependancy Inversion Principle
 
 At the start of the main function of CLI, we have:
@@ -409,7 +415,7 @@ User user = null;
 user = userController.login(name, password);
 ```
 
-This means that the high-level module CLI does not depend directly on low-level modules such as Student, CompanyRepresentative, or CareerCenterStaff. Instead, it relies on the abstract User class, which defines the interface and behavior expected from all user types. Furthermore, the abstraction User does not implement methods specific to any subclass, such as `getInternshipApplications()`. This ensures that the high-level module (CLI) and the abstraction (User) do not depend on low-level modules (Student, CompanyRepresentative, CareerCenterStaff). Instead, the low-level modules depends on and implements behaviors based on the User abstraction.
+This means that the high-level module CLI does not depend directly on low-level modules such as Student, CompanyRepresentative, or CareerCenterStaff. Instead, it relies on the abstract User class, which defines the interface and behavior expected from all user types. Furthermore, the abstraction User does not implement methods specific to any subclass, such as `getInternshipApplications()`. This ensures that the high-level module (CLI) and the abstraction (User) do not depend on low-level modules (Student, CompanyRepresentative, CareerCenterStaff). Instead, the low-level modules depends on and implements behaviors based on the User abstraction. This reversal of dependency ensures flexibility and maintainability, allowing new types of users to be added without modifying the CLI or other high-level modules.
 
 ### Model-View-Controller
 
@@ -434,3 +440,27 @@ We separated an our classes into three main groups:
   - `InternshipOpportunityController.java`
 
 By organizing the system into models, views, and controllers, we achieve a clear separation of concerns. This makes the code easier to maintain, extend, and test. Changes in the user interface do not affect the data or business logic, and modifications to the underlying data model do not require changes in the presentation layer.
+
+## Reflection
+
+### Trade offs and decisions made
+
+At the start, we were conflicted on whether we would want to utilize the Single Responsibility Principle. This was because we initially thought that the project would be a small one, and that limiting each class to a single responsibility would lead to us having many "bloat" classes and files. We understood that there was a trade off to be made: either we have fewer classes and files OR we have neater and more maintainable code. In the end, we decided on the latter, which was a valuable decision in hindsight. At the beginning, we underestimated the scale of this app, and had we decided not to use to Single Responsibility Principle, we would have ended up with code that would be impossible to extend and maintain.
+
+### Difficulties encountered
+
+Initially, implementing controller classes was a huge difficulty. This was because each controller needed to communicate with each other, and we found that they had very messy associations. This made instantiating controllers very confusing and made our code unreadable. Because of this, we realized we needed to keep our code loosely coupled and cohesive. With this in mind, we decided to create a class called `Database.java`, which held all the data and for each controller class, it would only talk to `Database.java`. This hugely simplified our code and as now each controller had a clear responsibility: interact with Database to access or modify data.
+
+### Further improvements and features
+
+Currently, the filtering system is very difficult to use because the program is ran on the command line. If this project were to live on, we would upgrade to a GUI and keep most of our current Java code as the backend. We would adopt a Client-Server architecture, where the frontend (client) handles user interaction and presentation, and the backend (server) manages data, business logic, and communication with the database.
+
+Furthermore, because our system is modular, we can easily swap out Database.java for an actual database that can store persistant data. This means our system is scalable and can accomodate more users easily.
+
+Lastly, the use of the Open-Closed Principle means that we can easily add different types of users and features to the system. For example, we could have options for graduate students by extending the student abstract class and using the UniStudent interface.
+
+### Lessons learnt
+
+Before starting this project, we were skeptical of the SOLID design principles. Because we had only worked on small scale projects in the past, they felt convoluted and unnecessarily complicated. Although, we initially decided to use SOLID so that we would be graded higher, towards the end of the project, we started to understand the importance of these principles. It kept our code easy to extend and understand, so that the new features could be added easily and quickly.
+
+Had we decided to be smart, and dump everything into Main.java, we would likely not have met the deadline...
