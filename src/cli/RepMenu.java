@@ -101,6 +101,18 @@ public class RepMenu {
         }
 
         String title = Utils.inputString("Set the internship title: ");
+
+        // Checks whether internship opportunity exists or not
+        ArrayList<InternshipOpportunity> existingOpps = internshipOpportunityController.getInternshipOpportunities();
+        InternshipOpportunity opportunity;
+        for (InternshipOpportunity existingOpp: existingOpps) {
+            if (existingOpp.getInternshipTitle() == title && existingOpp.getCompanyName() == rep.getCompany()) {
+                existingOpp.getCompanyRepresentatives().add(rep);
+                System.out.println("You have been added as a representative for the internship opportunity successfully!");
+                return;
+            }
+        }
+        
         String description = Utils.inputString("Set the description for the internship: ");
 
         System.out.println("\n1) Basic\n2) Intermediate\n3) Advanced");
@@ -134,13 +146,13 @@ public class RepMenu {
         ArrayList<CompanyRepresentative> reps = new ArrayList<>();
         reps.add(rep);
 
-        InternshipOpportunity opportunity = new InternshipOpportunity(
+        opportunity = new InternshipOpportunity(
                 title, description, level, preferredMajors, openingDate, closingDate,
                 rep.getCompany(), reps, numSlots
         );
 
         internshipOpportunityController.createInternshipOpportunity(opportunity);
-        System.out.println("\nInternship opportunity '" + title + "' created successfully!");
+        System.out.println("\nInternship opportunity '" + title + "' created successfully!");        
     }
 
     private void viewCreatedInternships() {
