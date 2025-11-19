@@ -31,6 +31,21 @@
 
 - login as a student -> select Change password -> set password to "newPassword" -> logout -> attempt to login with the old password "password" -> attempt to login with the new password "newPassword" -> ensure that you can successfully login with the new password "newPassword".
 
+## Company Representative
+
+### Creating Internship Opportunities
+
+- create company representative account -> login as career staff -> approve company representative account -> logout -> login as company representative -> input title -> input full internship details if internship opportunity does not yet exist.
+
+### Viewing Created Internship Opportunities
+- create 2 internship opportunities as company representative A -> logout -> login as career center staff -> approve both internship opportunities -> logout -> login as company representative A again -> view internship opportunities -> select 1 internship opportunity -> toggle visibility.
+
+### Viewing Student Applications
+- login as company representative A -> create 1 internship opportunity of basic level & preferred major of Computer Science -> create 1 internship opportunity of advanced level & preferred major of Computer Engineering -> logout -> login as career staff -> approve both newly created internships -> logout -> login as Tan Wei Ling -> apply for internship 1 -> logout -> login as Lim Yi Xuan -> apply for internship 2 -> logout -> login as company representative A -> accept internship application 1 & decline the other.
+
+### Changing Passwords
+- Create & approve account for company representative -> login as company representative -> change password -> login with user ID & new password.
+
 ## Career Center Staff
 
 ### Approving Company rep
