@@ -40,7 +40,8 @@ public class RepMenu {
             System.out.println("1) Create internship opportunity.");
             System.out.println("2) View created internship opportunities.");
             System.out.println("3) View student applications.");
-            System.out.println("4) Log out.");
+            System.out.println("4) Change password");
+            System.out.println("5) Log out.");
 
             int choice = Utils.inputInt("Enter an option: ");
 
@@ -55,6 +56,10 @@ public class RepMenu {
                     viewStudentApplications();
                     return rep;
                 case 4:
+                    // Changing passwords require re-logins
+                    changePassword();
+                    return null;
+                case 5:
                     Utils.clear();
                     System.out.println("Logging out...");
                     loop = false;
@@ -65,6 +70,16 @@ public class RepMenu {
                     return rep;
             } 
         } return rep;
+    }
+
+    private void changePassword() {
+        Utils.clear();
+        String newPassword = Utils.inputString("Enter your new password: ");
+        rep.setPasswordHash(newPassword);
+        Utils.clear();
+        System.out.println("Your new password has been set.");
+        System.out.println("Please re-login with your new password.");
+        System.out.println();
     }
 
     private void createInternshipOpportunity() {
