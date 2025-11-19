@@ -1,23 +1,16 @@
 package src.cli;
 
-import java.util.Random;
-import java.util.Scanner;
-
 import src.controller.UserController;
 import src.controller.ApplicationController;
 import src.controller.InternshipOpportunityController;
 import src.controller.Database;
-import src.enums.Status;
 import src.model.User;
-import src.model.internship.InternshipApplication;
-import src.model.internship.InternshipOpportunity;
 import src.model.user.Student;
 import src.model.user.CompanyRepresentative;
 import src.model.user.CareerCenterStaff;
 import src.utils.Utils;
 
 public class CLI {
-    private Scanner sc = new Scanner(System.in);
 	private UserController userController;
     private ApplicationController appController;
     private InternshipOpportunityController internshipController;
@@ -31,7 +24,6 @@ public class CLI {
     public void main() {
         int choice;
         String userID;
-        String userIDString;
         String name;
         String password;
 
@@ -133,17 +125,17 @@ public class CLI {
                         RepMenu repMenu = new RepMenu(rep, userController, appController, internshipController);
                         user = repMenu.runMenu(rep); // need to be changed to non static
                         break;
-                    case Status.PENDING:
+                    case PENDING:
                         System.out.println("Your account is pending approval.");
                         System.out.println();
                         user = null;
                         break;
-                    case Status.REJECTED:
+                    case REJECTED:
                         System.out.println("Your account has been rejected.");
                         System.out.println();
                         user = null;
                         break;
-                    case Status.FILLED:
+                    case FILLED:
                         System.out.println("Your application has been filled.");
                         System.out.println();
                         user = null;

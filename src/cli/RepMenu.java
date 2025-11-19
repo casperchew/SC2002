@@ -1,21 +1,22 @@
 package src.cli;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 import src.controller.UserController;
 import src.controller.ApplicationController;
 import src.controller.InternshipOpportunityController;
 import src.enums.InternshipLevel;
+import src.model.internship.InternshipApplication;
 import src.model.internship.InternshipOpportunity;
 import src.model.user.CompanyRepresentative;
+import src.model.user.Student;
 import src.model.User;
 import src.utils.Utils;
+import src.enums.Status;
 
 public class RepMenu {
     private CompanyRepresentative rep;
-    private UserController userController;
     private ApplicationController appController;
     private InternshipOpportunityController internshipOpportunityController;
 
@@ -26,7 +27,6 @@ public class RepMenu {
             InternshipOpportunityController internshipOpportunityController
     ) {
         this.rep = rep;
-        this.userController = userController;
         this.appController = appController;
         this.internshipOpportunityController = internshipOpportunityController;
     }
@@ -37,7 +37,7 @@ public class RepMenu {
         while (loop) {
             // Utils.clear();
             System.out.println();
-            System.out.println("1) Create internship opportunity.");
+            System.out.println("1) Create internship opportunity."); // TODO (only allows up to 5 internship opportunities per rep)
             System.out.println("2) View created internship opportunities.");
             System.out.println("3) View student applications."); // TODO (allow the rep to approve/reject applications)
             System.out.println("4) Log out.");
@@ -53,7 +53,6 @@ public class RepMenu {
                     return rep;
                 case 3:
                     viewStudentApplications();
-                    System.out.println("Not implemented");
                     return rep;
                 case 4:
                     Utils.clear();
@@ -169,5 +168,44 @@ public class RepMenu {
         }
     }
 
-    private void viewStudentApplications() {}
+    private void viewStudentApplications() {
+        Utils.clear();
+        ArrayList<InternshipApplication> allApplications;
+        allApplications = appController.getInternshipApplications();
+
+        int count = 0;
+
+        // Filters through internship applications for which the representative is in charge of
+        for (InternshipApplication application: allApplications) {
+            InternshipOpportunity opp = application.getInternshipOpportunity();
+            int numOfSlots = opp.getNumberOfSlots();
+            if (opp.getCompanyRepresentatives().contains(rep)
+                && numOfSlots > 0
+                && application.getStatus() == Status.PENDING) {
+                count ++;
+
+                System.out.println("Application " + count);
+                System.out.println("Title: " + opp.getInternshipTitle());
+
+                Student applicant = application.getApplicant();
+                System.out.println("Student name: " + applicant.getName());
+                System.out.println("Major: " + applicant.getMajor());
+                System.out.println("Year of study: " + applicant.getYearOfStudy());
+
+                int choice  = Utils.inputInt("Approve (1) or reject (0): ");
+                
+                switch (choice) {
+                    case 0:
+                        // Rejected
+                        application.setStatus(Status.REJECTED);
+                        break;
+                    case 1:
+                        // Approved
+                        application.setStatus(Status.APPROVED);
+                        opp.setNumberOfSlots(numOfSlots - 1);
+                        break;
+                }
+            }
+        }
+    }
 }
