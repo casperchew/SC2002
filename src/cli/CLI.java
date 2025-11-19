@@ -101,7 +101,6 @@ public class CLI {
                         break;
                     
                     case 3:
-                        // Exit
                         loop = false;
 						break;
 
@@ -112,7 +111,6 @@ public class CLI {
                         break;
                 }
             } else if (user instanceof Student) {
-                // render Student Menu
                 Student student = (Student)user;
                 StudentMenu studentMenu = new StudentMenu(student, userController, appController, internshipController);
                 user = studentMenu.runMenu();
@@ -121,7 +119,6 @@ public class CLI {
                 CompanyRepresentative rep = (CompanyRepresentative)user;
                 switch (rep.getStatus()) {
                     case APPROVED:
-                        // render the CompanyRepresentative menu if his application was accepted
                         RepMenu repMenu = new RepMenu(rep, userController, appController, internshipController);
                         user = repMenu.runMenu(rep); // need to be changed to non static
                         break;
@@ -144,7 +141,6 @@ public class CLI {
                 user = null;
 
             } else if (user instanceof CareerCenterStaff) {
-                // render CareerCenterStaff Menu
                 CareerCenterStaff staff = (CareerCenterStaff)user;
                 StaffMenu staffMenu = new StaffMenu(staff, userController, appController, internshipController);
                 user = staffMenu.runMenu(staff); // need to be changed to non static
