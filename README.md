@@ -380,8 +380,15 @@ The console should verify the status:
 
 ```
 ...
+Internship title: Data Analyst
+Internship description: [DESCRIPTION]
 Status: PENDING
-...
+Placement confirmed: false
+Withdrawal requested: false
+1) Accept placement.
+2) Request withdrawal.
+3) Exit.
+Enter an option: 
 ```
 
 ##### 2.5. Accept internship placement
