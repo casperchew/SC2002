@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import src.cli.CLI;
-import src.controller.UserController;
 import src.controller.Database;
 import src.model.internship.InternshipOpportunity;
 import src.model.user.Student;
@@ -17,7 +16,6 @@ import src.model.user.CareerCenterStaff;
  */
 public class Main {
 	private static Database db = new Database();
-	private static UserController userController = new UserController(db);
 	private static CLI cli = new CLI(db);
 
 	/**
