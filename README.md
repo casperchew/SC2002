@@ -9,6 +9,56 @@
 - Touch up the print statements for the UI (YeeTeck)
 - Remove Application superclass
 
+# Diagrams
+
+## Class Diagram
+
+## Sequence Diagrams
+
+The sequence Diagrams here display the flow of the app: from company representative applying for an account to student accepting his placement offer. To make our diagrams more understandable, we decided to split it up into smaller, more digestable parts.
+
+### 1. Company Representative creating account
+
+![alt text](CompanyRepCreateAccount-1.jpg)
+
+### 2. Career Center Staff approves Company Representative account
+
+![alt text](CareerCenterStaffApproveCompanyRepresentativeAccount-1.jpg)
+
+### 3. Company Representative creates Internship Opportunity
+
+![alt text](CompanyRepCreateInternshipOpportunity-1.jpg)
+
+### 4. Career Center Staff approves Internship Opportunity
+
+![alt text](CareerCenterStaffApproveOpportunity-1.jpg)
+
+### 5. Student applies for Internship Opportunity
+
+![alt text](StudentApplyForInternship-1.jpg)
+
+_note_: the filtering of internship opportunities are via a stream:
+
+```
+List<InternshipOpportunity> internshipOpportunities = internshipOpportunityController.getInternshipOpportunitiesByStudent(student).stream()
+    .filter(x -> student.getInternshipLevelFilter().isEmpty() || student.getInternshipLevelFilter().contains(x.getInternshipLevel()))
+    .filter(x -> student.getCompanyNameFilter().isEmpty() || student.getCompanyNameFilter().contains(x.getCompanyName()))
+    .filter(x -> x.getApplicationOpeningDate().isAfter(student.getApplicationOpeningDateFilter()))
+    .filter(x -> x.getApplicationClosingDate().isBefore(student.getApplicationClosingDateFilter()))
+    .filter(x -> Objects.equals(x.getStatus(), Status.APPROVED))
+    .collect(Collectors.toList());
+```
+
+### 6. Company Representative approves student application
+
+![alt text](CompanyRepresentativeApproveStudentApplication-2.jpg)
+
+### 7. Student confirms placement
+
+![alt text](StudentConfirmPlacement-1.jpg)
+
+_note_: Once a student accepts the placement, the other applications will be deleted from his instance. However, these deleted applications will remain in the Database class, with withdrawalApproved set to true. This means that their application will remain for the Career Center Staff to view, if they need to. However, the application for the internship opportunity which they have accepted will remain, allowing him to send a withdrawal request if they wish to do so.
+
 # TEST CASES:
 
 ## Student
@@ -38,12 +88,15 @@
 - create company representative account -> login as career staff -> approve company representative account -> logout -> login as company representative -> input title -> input full internship details if internship opportunity does not yet exist.
 
 ### Viewing Created Internship Opportunities
+
 - create 2 internship opportunities as company representative A -> logout -> login as career center staff -> approve both internship opportunities -> logout -> login as company representative A again -> view internship opportunities -> select 1 internship opportunity -> toggle visibility.
 
 ### Viewing Student Applications
+
 - login as company representative A -> create 1 internship opportunity of basic level & preferred major of Computer Science -> create 1 internship opportunity of advanced level & preferred major of Computer Engineering -> logout -> login as career staff -> approve both newly created internships -> logout -> login as Tan Wei Ling -> apply for internship 1 -> logout -> login as Lim Yi Xuan -> apply for internship 2 -> logout -> login as company representative A -> accept internship application 1 & decline the other.
 
 ### Changing Passwords
+
 - Create & approve account for company representative -> login as company representative -> change password -> login with user ID & new password.
 
 ## Career Center Staff
