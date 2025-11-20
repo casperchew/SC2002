@@ -69,9 +69,9 @@ public class InternshipOpportunity {
         this.numberOfSlots = numberOfSlots;
 
         if (companyRepresentatives != null) {
-            companyRepresentatives = new ArrayList<CompanyRepresentative>(companyRepresentatives);
+            this.companyRepresentatives = new ArrayList<CompanyRepresentative>(companyRepresentatives);
         } else {
-            companyRepresentatives = new ArrayList<CompanyRepresentative>();
+            this.companyRepresentatives = new ArrayList<CompanyRepresentative>();
         }
 
         this.status = Status.PENDING; 
