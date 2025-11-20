@@ -144,7 +144,8 @@ public class StudentMenu {
             System.out.println("Company name: " + chosenInternshipOpp.getCompanyName());
             System.out.println("Internship level: " + chosenInternshipOpp.getInternshipLevel());
             System.out.println("Description: " + chosenInternshipOpp.getDescription());
-            System.out.println("Available slots: " + chosenInternshipOpp.getNumberOfSlots());
+            System.out.println("Total available slots: " + chosenInternshipOpp.getNumberOfSlots());
+            System.out.println("Applicants accepted: " + (chosenInternshipOpp.getNumberOfSlots() - chosenInternshipOpp.getSlotsLeft()));
             System.out.println("Application opening date: " + chosenInternshipOpp.getApplicationOpeningDate());
             System.out.println("Application closing date: " + chosenInternshipOpp.getApplicationClosingDate());
             System.out.println();
@@ -233,6 +234,8 @@ public class StudentMenu {
             System.out.println("Internship title: " + chosenInternshipApplication.getInternshipOpportunity().getInternshipTitle());
             System.out.println("Internship description: " + chosenInternshipApplication.getInternshipOpportunity().getDescription());
             System.out.println("Status: " + chosenInternshipApplication.getStatus());
+            System.out.println("Total available slots: " + chosenInternshipApplication.getInternshipOpportunity().getNumberOfSlots());
+            System.out.println("Applicants accepted: " + (chosenInternshipApplication.getInternshipOpportunity().getNumberOfSlots() - chosenInternshipApplication.getInternshipOpportunity().getSlotsLeft()));
             System.out.println("Placement confimed: " + chosenInternshipApplication.getPlacementConfirmed());
             System.out.println("Withdrawal requested: " + chosenInternshipApplication.getWithdrawalRequested());
 
@@ -245,7 +248,7 @@ public class StudentMenu {
                 case 1:
                     // If a student chooses an internship opportunity, we set the other applications to rejected and delete them from student.internshipOpportunities
                     // The selected internship opportunity must not be deleted yet because he can still request withdrawal
-                    chosenInternshipApplication.setStatus(Status.APPROVED);
+                    // chosenInternshipApplication.setStatus(Status.APPROVED);
                     if (Objects.equals(chosenInternshipApplication.getStatus(), Status.APPROVED)) {
                         student.setInternship(chosenInternshipApplication.getInternshipOpportunity());
                         for (InternshipApplication application: student.getInternshipApplications()) {

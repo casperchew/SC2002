@@ -2,6 +2,8 @@ package src.cli;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import src.controller.UserController;
 import src.controller.ApplicationController;
@@ -156,8 +158,9 @@ public class RepMenu {
         );
 
         internshipOpportunityController.createInternshipOpportunity(opportunity);
+        Utils.clear();   
+        System.out.println("Internship opportunity '" + title + "' created successfully!");   
 		System.out.println();
-        System.out.println("Internship opportunity '" + title + "' created successfully!");        
     }
 
     private void viewCreatedInternships() {
@@ -166,7 +169,6 @@ public class RepMenu {
         boolean loop = true;
         while (loop) {
             ArrayList<InternshipOpportunity> opportunities = internshipOpportunityController.getInternshipOpportunitiesByCompanyRepresentative(rep);
-
             if (opportunities.isEmpty()) {
                 Utils.clear();
                 System.out.println("You have not created any internship opportunities yet.");
@@ -229,47 +231,116 @@ public class RepMenu {
 
     private void viewStudentApplications() {
         Utils.clear();
-        ArrayList<InternshipApplication> allApplications;
-        allApplications = applicationController.getInternshipApplications();
+        boolean loop = true;
 
-        int count = 0;
+        while (loop) {
 
-        // Filters through internship applications for which the representative is in charge of
-        for (InternshipApplication application: allApplications) {
-            InternshipOpportunity opp = application.getInternshipOpportunity();
-            int numOfSlots = opp.getNumberOfSlots();
-            if (opp.getCompanyRepresentatives().contains(rep)
-                && numOfSlots > 0
-                && application.getStatus() == Status.PENDING) {
-                count ++;
+            // Get only opportunities that belong to this representative
+            ArrayList<InternshipOpportunity> repOpps =
+                internshipOpportunityController.getInternshipOpportunitiesByCompanyRepresentative(rep);
 
-                System.out.println("Application " + count);
-                System.out.println("Title: " + opp.getInternshipTitle());
+            // Build pending applications list ONLY by scanning opportunities (NOT manually scanning all apps)
+            ArrayList<InternshipApplication> pendingApps = new ArrayList<>();
 
-                Student applicant = application.getApplicant();
-                System.out.println("Student name: " + applicant.getName());
-                System.out.println("Major: " + applicant.getMajor());
-                System.out.println("Year of study: " + applicant.getYearOfStudy());
-
-                int choice  = Utils.inputInt("Approve (1) or reject (0): ");
-                
-                switch (choice) {
-                    case 0:
-                        // Rejected
-                        application.setStatus(Status.REJECTED);
-                        break;
-                    case 1:
-                        // Approved
-                        application.setStatus(Status.SUCCESSFUL);
-                        opp.setNumberOfSlots(numOfSlots - 1);
-                        if (opp.getNumberOfSlots() == 0) {
-                            opp.setStatus(Status.FILLED);
-                        }
-                        break;
+            for (InternshipOpportunity opp : repOpps) {
+                if (opp.getSlotsLeft() == 0) {
+                    continue;
                 }
+
+                ArrayList<InternshipApplication> apps = applicationController.getInternshipApplications();
+                for (InternshipApplication app : apps) {
+                    if ((Objects.equals(app.getStatus(), Status.PENDING)) 
+                    && (app.getInternshipOpportunity().getCompanyRepresentatives().contains(rep))) {
+                        pendingApps.add(app);
+                    }
+                }
+            }
+
+            if (pendingApps.isEmpty()) {
+                Utils.clear();
+                System.out.println("There are no pending student internship applications.");
+                System.out.println();
+                break;
+            }
+
+            System.out.println("Pending Internship Applications:");
+            for (int i = 0; i < pendingApps.size(); i++) {
+                InternshipApplication app = pendingApps.get(i);
+                InternshipOpportunity opp = app.getInternshipOpportunity();
+                Student student = app.getApplicant();
+
+                System.out.println((i + 1) + ") " + student.getName() +
+                                " (" + opp.getInternshipTitle() + ")");
+            }
+            System.out.println();
+
+            int choice = Utils.inputInt("Enter the number of an application to view options (or -1 to exit): ");
+            if (choice == -1) {
+                break;
+            }
+
+            InternshipApplication chosenApp = null;
+            try {
+                chosenApp = pendingApps.get(choice - 1);
+            } catch (IndexOutOfBoundsException e) {
+                Utils.clear();
+                System.out.println("Invalid selection. Please enter a valid number (1 to " + pendingApps.size() + ").");
+                System.out.println();
+                continue;
+            }
+
+            Utils.clear();
+
+            InternshipOpportunity opp = chosenApp.getInternshipOpportunity();
+            Student applicant = chosenApp.getApplicant();
+
+            System.out.println("Application " + choice);
+            System.out.println("Title: " + opp.getInternshipTitle());
+            System.out.println("Student name: " + applicant.getName());
+            System.out.println("Major: " + applicant.getMajor());
+            System.out.println("Year of study: " + applicant.getYearOfStudy());
+            System.out.println();
+
+            System.out.println("1) Approve this application.");
+            System.out.println("2) Reject this application.");
+            System.out.println("3) Select another application.");
+            System.out.println("4) Exit.");
+
+            int subChoice = Utils.inputInt("Enter an option: ");
+
+            switch (subChoice) {
+                case 1:
+                    // Approved 
+                    chosenApp.setStatus(Status.SUCCESSFUL);
+                    opp.decrementSlotsLeft();
+                    if (opp.getSlotsLeft() == 0) {
+                        opp.setStatus(Status.FILLED);
+                    }
+                    Utils.clear();
+                    System.out.println("The application has been approved.");
+                    System.out.println();
+                    break;
+
+                case 2:
+                    // Rejected (original logic)
+                    chosenApp.setStatus(Status.REJECTED);
+                    Utils.clear();
+                    System.out.println("The application has been rejected.");
+                    System.out.println();
+                    break;
+
+                case 3:
+                    Utils.clear();
+                    continue;
+
+                case 4:
+                    Utils.clear();
+                    loop = false;
+                    break;
             }
         }
     }
+
 
     private void changePassword() {
         Utils.clear();
