@@ -347,7 +347,7 @@ After step 11, the cli should display:
 
 **Expected Behaviour:**
 
-After step 10, the cli should display the application details:
+After step 10, the CLI should display the application details:
 
 ```
 Internship applications:
