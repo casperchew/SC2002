@@ -6,6 +6,8 @@
 
 ### Class Diagram
 
+![alt text](diagrams/src.main.jpg)
+
 ### Sequence Diagrams
 
 The sequence Diagrams here display the flow of the app: from company representative applying for an account to student accepting his placement offer. To make our diagrams more understandable, we decided to split it up into smaller, more digestable parts.
@@ -373,21 +375,132 @@ The console should verify the status:
 
 ```
 ...
+Internship title: Data Analyst
+Internship description: [DESCRIPTION]
 Status: PENDING
-...
+Placement confirmed: false
+Withdrawal requested: false
+1) Accept placement.
+2) Request withdrawal.
+3) Exit.
+Enter an option: 
 ```
 
 ##### 2.5. Accept internship placement
 
+##### 2.5. Accept internship placement
+
+**Expected Behaviour:** A student can accept an internship offer only if the application status is `APPROVED` (i.e., approved by the Company Representative). Upon acceptance, `placementConfirmed` is then set to `true`.
+
+**Failure Indicators:** The student cannot accept a `APPROVED` offer, or `placementConfirmed` does not update to `true` after acceptance.
+
+| Step | Description | Input |
+| :--- | :--- | :--- |
+| 1 | **Setup:** Ensure there is an application with `APPROVED` status for "Tan Wei Ling" (Requires Company Rep to approve an application, refer to 3.4) | |
+| 2 | Select "Login" option | 1 |
+| 3 | Enter name | Tan Wei Ling |
+| 4 | Enter password | password |
+| 5 | Select "2) View internship applications." | 2 |
+| 6 | Select the `APPROVED` application | 1 |
+| 7 | Select "Accept Offer" | 1 |
+
+**Expected Behaviour:**
+
+After step 7, the cli should display:
+
+```
+Congratulations! You have been hired.
+...
+```
+
+
 ###### 2.5.1. Only 1 can be accepted
 
+**Expected Behaviour:** A student is restricted to holding only **one** confirmed internship placement. Once a placement is confirmed, the system must prevent the student from accepting any other offers.
+
+**Failure Indicators:** The system allows a student to accept multiple `APPROVED` internship placements.
+
+| Step | Description | Input |
+| :--- | :--- | :--- |
+| 1 | **Setup:** Ensure "Tan Wei Ling" has already accepted an internship (Status is `CONFIRMED`) | |
+| 2 | **Setup:** Ensure "Tan Wei Ling" has another application that is `APPROVED` (Approved by Rep) | |
+| 3 | Select "Login" option | 1 |
+| 4 | Enter name | Tan Wei Ling |
+| 5 | Enter password | password |
+| 6 | Select "View internship applications" | 2 |
+| 7 | Select the remaining `APPROVED` application | 2 |
+| 8 | Attempt to "Accept Offer" | 1 |
+
+**Expected Behaviour:**
+
+The system should deny the action, or the option to accept should simply not be available (since the application should have been automatically withdrawn, see 2.5.2). If the option is still visible, selecting it should result in an error message:
+
+```
+You have already accepted an internship opportunity.
+```
+
 ###### 2.5.2. Other applications will be withdrawn once an internship placement in accepted
+
+**Expected Behaviour:** Automatically withdraw all other PENDING or APPROVED applications once the student accepts a specific internship offer. This releases slots for other students.
+
+**Failure Indicators:** Other applications remain `PENDING` or `APPROVED` after the student confirms a placement.
+
+| Step | Description | Input |
+| :--- | :--- | :--- |
+| 1 | **Setup:** Student applies for "Job A" and "Job B". | |
+| 2 | **Setup:** Company Rep approves **BOTH** "Job A" and "Job B" (Status `APPROVED`). | |
+| 3 | Login as Student | |
+| 4 | Navigate to "Job A" and **Accept** it. | |
+| 5 | Navigate back to "View internship applications". | 2 |
+| 6 | Check the status of "Job B". | |
+
+**Expected Behaviour:**
+
+After step 6, if the student attempts to select "1) Apply for internship.", the CLI shall display:
+
+```
+...
+You have already accepted an internship opportunity.
+
+```
 
 ##### 2.6. Request internship application withdrawal subject to approval from `CareerCenterStaff`
 
 ###### 2.6.1. Before placement confirmation
 
+**Expected behaviour:** Student will submit a withdrawal request to the `CareerCenterStaff`, subject to approval.
+
+**Failure indicators:** The `InternshipApplication` object still has `Withdrawal requested: false` when the student views all internship applications.
+
+| Step | Description | Input |
+| :--- | :--- | :--- |
+| 1 |"Setup: Ensure ""Tan Wei Ling"" has at least one PENDING or SUCCESSFUL application (but not yet Accepted/Confirmed)."
+| 2 |"Select ""Login"" option" | 1
+| 3 |Enter name | Tan Wei Ling
+| 4 | Enter password |password |
+| 5 | Select "View internship applications" | 2 |
+| 6 | Select the application to withdraw (e.g., "1) Data Analyst") | 1 |
+| 7 | Select "2) Request withdrawal" | 2 |
+| 8 |Verify: Select the same application again to check status | 1 |
+
+**Expected Behaviour:**
+
+After step 8, the CLI shall display:
+
+```
+Internship title: [TITLE]
+Internship description: [DESCRIPTION]
+Status: PENDING
+Total available slots: [NUMOFSLOTS]
+Applicants accepted: [NUMOFAPPLICANTS]
+Placement confimed: false
+Withdrawal requested: true
+
+```
+
 ###### 2.6.2. After placement confirmation
+
+
 
 #### 3. Company Representatives
 
