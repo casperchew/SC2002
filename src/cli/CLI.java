@@ -164,7 +164,7 @@ public class CLI {
             } else if (user instanceof CareerCenterStaff) {
                 CareerCenterStaff staff = (CareerCenterStaff)user;
                 StaffMenu staffMenu = new StaffMenu(staff, userController, applicationController, internshipOpportunityController);
-                user = staffMenu.runMenu(staff);
+                user = staffMenu.runMenu();
             } else {
                 System.out.println("You shouldn't be be here. This is a bug.");
                 loop = false;
