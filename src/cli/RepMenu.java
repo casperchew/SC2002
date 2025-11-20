@@ -106,7 +106,8 @@ public class RepMenu {
         InternshipOpportunity opportunity;
         for (InternshipOpportunity existingOpp: existingOpps) {
             if (existingOpp.getInternshipTitle().equals(title) && existingOpp.getCompanyName().equals(rep.getCompany())) {
-                existingOpp.getCompanyRepresentatives().add(rep);
+                // existingOpp.getCompanyRepresentatives().add(rep);
+                existingOpp.addCompanyRepresentative(rep);
                 System.out.println("You have been added as a representative for the internship opportunity successfully!");
                 return;
             }
