@@ -10,17 +10,28 @@ import src.model.user.CompanyRepresentative;
 import src.model.user.CareerCenterStaff;
 import src.utils.Utils;
 
+/** 
+ * Main CLI Class. Handles actions that {@link src.model.User} can perform.
+ */
 public class CLI {
 	private UserController userController;
     private ApplicationController applicationController;
     private InternshipOpportunityController internshipOpportunityController;
 
+	/**
+	 * Constructs a {@link CLI} with a given {@link src.controller.Database}
+	 *
+	 * @param db the {@link src.controller.Database} instance
+	 */
     public CLI(Database db) {
         this.userController = new UserController(db);
         this.applicationController = new ApplicationController(db);
         this.internshipOpportunityController = new InternshipOpportunityController(db);
     }
 
+	/**
+	 * Entrypoint of the program
+	 */
     public void main() {
         int choice;
         String userID;

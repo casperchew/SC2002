@@ -18,12 +18,23 @@ import src.model.internship.InternshipOpportunity;
 import src.model.user.Student;
 import src.utils.Utils;
 
+/**
+ * CLI for {@link src.model.user.Student}
+ */
 public class StudentMenu {
     private Student student;
     private UserController userController;
     private ApplicationController applicationController;
     private InternshipOpportunityController internshipOpportunityController;
 
+	/**
+	 * Constructs a {@link StudentMenu} for {@link src.model.user.Student} from the required controllers
+	 *
+	 * @param student the {@link src.model.user.Student} that the CLI is for
+	 * @param userController the {@link src.controller.UserController} used
+	 * @param applicationController the {@link src.controller.ApplicationController} used
+	 * @param internshipOpportunityController the {@link src.controller.InternshipOpportunityController} used
+	 */
     public StudentMenu(
         Student student,
         UserController userController,
@@ -35,7 +46,12 @@ public class StudentMenu {
         this.applicationController = applicationController;
         this.internshipOpportunityController = internshipOpportunityController;
     }
-   
+
+	/**
+	 * Displays the CLI menu for {@link src.model.user.Student}.
+	 *
+	 * @return the {@link src.model.user.Student} instance after the {@code student} interacts with the menu.
+	 */
     public User runMenu() {
         int choice;
 

@@ -171,10 +171,10 @@ public class Student extends User {
     }
 
 	/**
-	 * Removes {@code internshipLevel} from {@code Student}'s {@code internshipLevelFilter}
+	 * Removes {@code internshipLevel} from {@code Student}'s {@code internshipLevelFilter}.
 	 *
-	 * @param i the index of the {@code internshipLevel} to remove
-	 * @return TODO
+	 * @param i the index of the {@code internshipLevel} to remove.
+	 * @return The {@link src.enums.InternshipLevel} that was from removed from the list, or {@code null} if the filter was cleared.
 	 */
     public InternshipLevel removeInternshipLevelFilter(int i) {
         if (i == -1) {
