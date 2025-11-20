@@ -2,6 +2,7 @@ package src.cli;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import src.controller.UserController;
 import src.controller.ApplicationController;
@@ -162,7 +163,7 @@ public class RepMenu {
 
     private void viewCreatedInternships() {
         Utils.clear();
-        ArrayList<InternshipOpportunity> opportunities = internshipOpportunityController.getInternshipOpportunitiesByCompanyRepresentative(rep);
+        List<InternshipOpportunity> opportunities = internshipOpportunityController.getInternshipOpportunitiesByCompanyRepresentative(rep);
 
         boolean loop = true;
         while (loop) {

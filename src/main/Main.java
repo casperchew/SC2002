@@ -50,7 +50,7 @@ public class Main {
                 String userID = line[0];
                 String name = line[1];
                 String major = line[2];
-                int yearOfStudy = Integer.parseInt(line[3]); // TODO: error handling
+                int yearOfStudy = Integer.parseInt(line[3]);
                 String passwordHash = "password";  // Default password hash
                 InternshipOpportunity internship = null;
                 Student student = new Student(
@@ -91,15 +91,5 @@ public class Main {
             e.printStackTrace();
             System.exit(1);
         }
-
-
-        // Load the other users here
-        // ...
-
-        // Load the pending applications here
-        // ...
-
-        // Load created internship opportunities here
-        // ...
 	}
 }

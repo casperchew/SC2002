@@ -189,7 +189,7 @@ public class StaffMenu {
 
         while (loop) {
             Utils.clear();
-            ArrayList<InternshipOpportunity> pendingOpportunities = internshipOpportunityController.getInternshipOpportunitiesByStatus(Status.PENDING);
+            List<InternshipOpportunity> pendingOpportunities = internshipOpportunityController.getInternshipOpportunitiesByStatus(Status.PENDING);
 
             if (pendingOpportunities.isEmpty()) {
                 System.out.println("There are no pending internship opportunities.");
