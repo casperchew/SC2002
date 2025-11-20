@@ -27,7 +27,7 @@ jobs:
         run: rm -rf docs
 
       - name: Generate Javadocs
-        run: javadoc -d docs -private -subpackages src
+        run: javadoc -d docs -subpackages src
 
       - name: Configure Git for Commit
         run: |

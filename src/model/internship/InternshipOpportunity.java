@@ -23,6 +23,7 @@ public class InternshipOpportunity {
     private String companyName;
     private ArrayList<CompanyRepresentative> companyRepresentatives;
     private int numberOfSlots;
+    private int numberOfSlotsLeft;
 
     private boolean visible = false;
 	/**
@@ -37,6 +38,7 @@ public class InternshipOpportunity {
 	 * @param companyName The name of the company offering the internship opportunity.
 	 * @param companyRepresentatives The list of company representatives associated with the internship opportunity. Can be null.
 	 * @param numberOfSlots The maximum number of slots available for this internship opportunity. Must be greater than 0 and less than or equal to {@code MAX_NUM_SLOTS}.
+     * @param numberOfSlotsLeft;
 	 * @throws IllegalArgumentException if the application dates are invalid (null or closing date is before opening date).
 	 * @throws IllegalArgumentException if the number of slots is outside the valid range (1 to {@code MAX_NUM_SLOTS}).
 	 */
@@ -67,6 +69,7 @@ public class InternshipOpportunity {
         this.applicationClosingDate = applicationClosingDate;
         this.companyName = companyName;
         this.numberOfSlots = numberOfSlots;
+        this.numberOfSlotsLeft = numberOfSlots;
 
         if (companyRepresentatives != null) {
             this.companyRepresentatives = new ArrayList<CompanyRepresentative>(companyRepresentatives);
@@ -289,6 +292,16 @@ public class InternshipOpportunity {
 
         this.numberOfSlots = numberOfSlots;
         return 0;
+    }
+
+    public void decrementSlotsLeft() {
+        this.numberOfSlotsLeft --;
+    }
+    public void incrementSlotsLeft() {
+        this.numberOfSlotsLeft ++;
+    }  
+    public int getSlotsLeft() {
+        return this.numberOfSlotsLeft;
     }
 
 	/**
