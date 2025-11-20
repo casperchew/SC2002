@@ -317,6 +317,10 @@ public class StaffMenu {
                     application.setWithdrawalRequested(false);
                     Student student = application.getApplicant();
                     student.deleteInternshipApplication(application);
+                    student.setInternship(null);
+                    if (application.getPlacementConfirmed()) {
+                        application.getInternshipOpportunity().incrementSlotsLeft();
+                    }
                 }
 
                 Utils.clear();
@@ -363,6 +367,10 @@ public class StaffMenu {
                     Student student = chosenApplication.getApplicant();
                     student.deleteInternshipApplication(chosenApplication);
                     student.setInternship(null);
+                    if (Objects.equals(chosenApplication.getStatus(), Status.APPROVED)) {
+                        chosenApplication.getInternshipOpportunity().incrementSlotsLeft();
+                        chosenApplication.getInternshipOpportunity().setStatus(Status.APPROVED);
+                    }
 
                     Utils.clear();
                     System.out.println(chosenApplication.getApplicant().getName() + "'s withdrawal request has been approved.");

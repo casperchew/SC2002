@@ -251,6 +251,9 @@ public class RepMenu {
                 if (opp.getSlotsLeft() <= 0) {
                     continue;
                 }
+                if (app.getWithdrawalApproved()) {
+                    continue;
+                }
                 if (app.getStatus() != Status.PENDING) {
                     continue;
                 }
