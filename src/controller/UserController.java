@@ -9,30 +9,55 @@ import src.model.user.Student;
 import src.model.user.CompanyRepresentative;
 import src.model.user.CareerCenterStaff;
 
+/**
+ * UserController Class that handles CRUD operations for {@link src.model.User}.
+ */
 public class UserController {
 	private Database db;
 
+	/**
+	 * Constructs a {@link UserController} from the given {@link Database}
+	 *
+	 * @param db The {@link Database} used.
+	 */
 	public UserController(Database db) {
 		this.db = db;
 	}
 
 	// CREATE
+	/**
+	 * Create a {@link src.model.user.Student}
+	 *
+	 * @param student the {@link src.model.user.Student} to create
+	 */
     public void createStudent(Student student) {
-        // technically we should check if the account already exists
         db.createStudent(student);
     }
 
+	/**
+	 * Create a {@link src.model.user.CompanyRepresentative}
+	 *
+	 * @param rep the {@link src.model.user.CompanyRepresentative} to create
+	 */
     public void createCompanyRep(CompanyRepresentative rep) {
-        // technically we should check if the account already exists
         db.createCompanyRepresentative(rep);
     }
 
+	/**
+	 * Create a {@link src.model.user.CareerCenterStaff}
+	 *
+	 * @param staff the {@link src.model.user.CareerCenterStaff} to create
+	 */
     public void createCareerCenterStaff(CareerCenterStaff staff) {
-        // technically we should check if the account already exists
         db.createCareerCenterStaff(staff);
     }
 
 	// READ
+	/**
+	 * Get all {@link src.model.User}s in the database.
+	 *
+	 * @return An {@code ArrayList} with all {@link src.model.User}s in the database.
+	 */
     public ArrayList<User> getUsers() {
         ArrayList<User> users = new ArrayList<User>();
 
@@ -43,14 +68,30 @@ public class UserController {
         return users;
     }
 
+	/**
+	 * Get all {@link src.model.user.Student}s in the database.
+	 *
+	 * @return An {@code ArrayList} with all {@link src.model.user.Student}s in the database.
+	 */
     public ArrayList<Student> getStudents() {
         return db.getStudents();
     }
 
+	/**
+	 * Get all {@link src.model.user.CompanyRepresentative}s in the database.
+	 *
+	 * @return An {@code ArrayList} with all {@link src.model.user.CompanyRepresentative}s in the database.
+	 */
     public ArrayList<CompanyRepresentative> getCompanyRepresentatives() {
         return db.getCompanyRepresentatives();
     }
 
+	/**
+	 * Get all {@link src.model.user.CompanyRepresentative}s in the database that has a specified {@code status}.
+	 *
+	 * @param status The status of the {@link src.model.user.CompanyRepresentative}s.
+	 * @return An {@code ArrayList} with all {@link src.model.user.CompanyRepresentative}s in the database that satisfy the criteria.
+	 */
     public ArrayList<CompanyRepresentative> getCompanyRepresentativesByStatus(Status status) {
 		// TODO: use streams and filters instead
         ArrayList<CompanyRepresentative> reps = new ArrayList<CompanyRepresentative>();
@@ -63,11 +104,14 @@ public class UserController {
         return reps;
     }
 
-    public ArrayList<CareerCenterStaff> getCareerCenterStaff() {
-        return db.getCareerCenterStaffs();
-    }
-
 	// OTHER METHODS
+	/**
+	 * Acts as a login function
+	 *
+	 * @param name The name of the {@link src.model.User}.
+	 * @param passwordHash The {@code passwordHash} of the {@link src.model.User}.
+	 * @return The {@link src.model.User} instance if successful, null if unsuccessful.
+	 */
     public User login(String name, String passwordHash) {
         for (User user: getUsers()) {
             if (Objects.equals(name, user.getName()) && Objects.equals(passwordHash, user.getPasswordHash())) {
@@ -77,62 +121,4 @@ public class UserController {
 
         return null;
     }
-
-    public void saveAllUsers() {
-        // TODO: write users to csv
-		// This method should be moved to Database.java
-    }
-
 }
-
-// AuthManager.java
-// package controller;
-// import model.*;
-// import java.util.List;
-// import java.util.Objects;
-//
-// public class AuthManager {
-//     private UserController userController;
-//     private User currentUser;
-//
-//     public AuthManager(UserController userController) {
-//         this.userController = userController;
-//         this.currentUser = null; // Initialize currentUser to null as no one is logged in initially
-//     }
-//
-//     public static String hash(String s) {
-//         // hashing implement later
-//         return s;
-//     }
-//
-//     public User login(String name, String password) {
-//         // hash password here (unhashed for now cuz lazy)
-//         String passwordHash = hash(password);
-//
-//         List<User> allUsers = userController.getAllUsers();
-//         for (User user : allUsers) {
-//             if (Objects.equals(name, user.getName()) && Objects.equals(passwordHash, user.getPasswordHash())) {
-//                 this.currentUser = user; 
-//                 return user;
-//             }
-//         }
-//         // return null if no match is found
-//         return null;
-//     }
-//
-//     public User getCurrentUser() {
-//         return this.currentUser;
-//     }
-//
-//     public void changePassword(String newPassword) {
-//         currentUser.setPasswordHash(newPassword);
-//     }
-//
-//     public void logout() {
-//         // save all user array lists to a file
-//         userController.saveAllUsers();
-//
-//         // clear session
-//         this.currentUser = null;
-//     }
-// }

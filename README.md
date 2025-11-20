@@ -19,23 +19,23 @@ The sequence Diagrams here display the flow of the app: from company representat
 
 ### 1. Company Representative creating account
 
-![alt text](CompanyRepCreateAccount-1.jpg)
+![alt text](diagrams/CompanyRepCreateAccount.jpg)
 
 ### 2. Career Center Staff approves Company Representative account
 
-![alt text](CareerCenterStaffApproveCompanyRepresentativeAccount-1.jpg)
+![alt text](diagrams/CareerCenterStaffApproveCompanyRepresentativeAccount.jpg)
 
 ### 3. Company Representative creates Internship Opportunity
 
-![alt text](CompanyRepCreateInternshipOpportunity-1.jpg)
+![alt text](diagrams/CompanyRepCreateInternshipOpportunity.jpg)
 
 ### 4. Career Center Staff approves Internship Opportunity
 
-![alt text](CareerCenterStaffApproveOpportunity-1.jpg)
+![alt text](diagrams/CareerCenterStaffApproveOpportunity.jpg)
 
 ### 5. Student applies for Internship Opportunity
 
-![alt text](StudentApplyForInternship-1.jpg)
+![alt text](diagrams/StudentApplyForInternship.jpg)
 
 _note_: the filtering of internship opportunities are via a stream:
 
@@ -51,13 +51,23 @@ List<InternshipOpportunity> internshipOpportunities = internshipOpportunityContr
 
 ### 6. Company Representative approves student application
 
-![alt text](CompanyRepresentativeApproveStudentApplication-2.jpg)
+![alt text](diagrams/CompanyRepresentativeApproveStudentApplication.jpg)
 
 ### 7. Student confirms placement
 
-![alt text](StudentConfirmPlacement-1.jpg)
+![alt text](diagrams/StudentConfirmPlacement.jpg)
 
 _note_: Once a student accepts the placement, the other applications will be deleted from his instance. However, these deleted applications will remain in the Database class, with withdrawalApproved set to true. This means that their application will remain for the Career Center Staff to view, if they need to. However, the application for the internship opportunity which they have accepted will remain, allowing him to send a withdrawal request if they wish to do so.
+
+### ref: UserLogin
+User logging in
+
+![alt text](diagrams/UserLogin.jpg)
+
+### ref: CompanyRepresentativeCheckAccountStatusLogin
+Company Representative checking account status and logging in
+
+![alt text](diagrams/CompanyRepresentativeCheckAccountStatusLogin.jpg)
 
 # TEST CASES:
 
@@ -284,6 +294,10 @@ You already have 3 applications pending.
 
 ###### 2.3.2. `InternshipLevel` validation based on Student's `yearOfStudy`.
 
+##### 2.4. View internship applications
+
+###### 2.4.1. Default `PENDING` status
+
 **Expected Behaviour:** Students in Year 1 or 2 should only be able to view and apply for `BASIC` level internships. Students in Year 3 and above should be able to view and apply for `BASIC`, `INTERMEDIATE`, and `ADVANCED` level internships.
 
 **Failure Indicators:** A Year 1 or 2 student is able to view or apply for an `ADVANCED` or `INTERMEDIATE` internship, or a Year 3 student cannot view an `ADVANCED` internship.
@@ -467,8 +481,8 @@ Every entity class in our app has accessor and mutator methods. This keeps the u
 
 ```
 public String getCompany() {
-		return company;
-	}
+        return company;
+    }
 ```
 
 ### Polymorphism (this might need to be adjusted depending on how login() is changed)

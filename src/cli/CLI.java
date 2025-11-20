@@ -1,34 +1,40 @@
 package src.cli;
 
-import java.util.Scanner;
-
 import src.controller.UserController;
 import src.controller.ApplicationController;
 import src.controller.InternshipOpportunityController;
 import src.controller.Database;
-import src.enums.Status;
 import src.model.User;
 import src.model.user.Student;
 import src.model.user.CompanyRepresentative;
 import src.model.user.CareerCenterStaff;
 import src.utils.Utils;
 
+/** 
+ * Main CLI Class. Handles actions that {@link src.model.User} can perform.
+ */
 public class CLI {
-    private Scanner sc = new Scanner(System.in);
 	private UserController userController;
-    private ApplicationController appController;
-    private InternshipOpportunityController internshipController;
+    private ApplicationController applicationController;
+    private InternshipOpportunityController internshipOpportunityController;
 
+	/**
+	 * Constructs a {@link CLI} with a given {@link src.controller.Database}
+	 *
+	 * @param db the {@link src.controller.Database} instance
+	 */
     public CLI(Database db) {
         this.userController = new UserController(db);
-        this.appController = new ApplicationController(db);
-        this.internshipController = new InternshipOpportunityController(db);
+        this.applicationController = new ApplicationController(db);
+        this.internshipOpportunityController = new InternshipOpportunityController(db);
     }
 
+	/**
+	 * Entrypoint of the program
+	 */
     public void main() {
         int choice;
         String userID;
-        String userIDString;
         String name;
         String password;
 
@@ -46,7 +52,6 @@ public class CLI {
                 System.out.println("");
 				choice = Utils.inputInt("Select an option: ");
                 switch (choice) {
-                    // login
                     case 1:
                         name = Utils.inputString("Enter your name: ");
                         password = Utils.inputString("Enter your password: ");
@@ -64,8 +69,7 @@ public class CLI {
 						}
 
                         break;
-
-                    // create new account
+                    
                     case 2:
 						Utils.clear();
                         System.out.println("Are you a:");
@@ -77,40 +81,52 @@ public class CLI {
                         switch (choice) {
                             case 1:
                                 Utils.clear();
+
                                 userID = Utils.inputString("Enter your student ID: ");
                                 name = Utils.inputString("Enter your name: ");
                                 password = Utils.inputString("Enter your password: ");
                                 int yearOfStudy = Utils.inputInt("Enter your year: ");
                                 String major = Utils.inputString("Enter your major: ");
                                 Student s = new Student(userID, name, password, yearOfStudy, major, null);
+
                                 userController.createStudent(s);
 								user = userController.login(name, password);
+
 								Utils.clear();
 								System.out.println("Logged in as " + user.getName());
 								System.out.println();
                                 break;
+
                             case 2:
                                 Utils.clear();
-                                userID = "1"; // Placeholder value
+
+                                userID = Utils.inputString("Enter your company email address: ");
                                 name = Utils.inputString("Enter your name: ");
                                 String companyName = Utils.inputString("Company name: ");
                                 password = Utils.inputString("Enter your password: ");
                                 CompanyRepresentative rep = new CompanyRepresentative(userID, name, password, companyName);
+
                                 userController.createCompanyRep(rep);
+
 								Utils.clear();
 								System.out.println("Your account is pending approval.");
                                 System.out.println();
                                 break;
+
                             case 3:
                                 Utils.clear();
-                                userID = "1"; // Placeholder value
+
+                                userID = Utils.inputString("Enter your NTU account: ");
                                 name = Utils.inputString("Enter your name: ");
                                 password = Utils.inputString("Enter your password: ");
                                 CareerCenterStaff staff = new CareerCenterStaff(userID, name, password);
+
                                 userController.createCareerCenterStaff(staff);
+
 								Utils.clear();
                                 break;
                         }
+
                         break;
                     
                     case 3:
@@ -124,43 +140,33 @@ public class CLI {
                         break;
                 }
             } else if (user instanceof Student) {
-                // render Student Menu
                 Student student = (Student)user;
-                StudentMenu studentMenu = new StudentMenu(student, userController, appController, internshipController);
+                StudentMenu studentMenu = new StudentMenu(student, userController, applicationController, internshipOpportunityController);
                 user = studentMenu.runMenu();
             } else if (user instanceof CompanyRepresentative) {
                 CompanyRepresentative rep = (CompanyRepresentative)user;
                 switch (rep.getStatus()) {
-                    case Status.APPROVED:
-                        // render the CompanyRepresentative menu if his application was accepted
-                        RepMenu repMenu = new RepMenu(rep, userController, appController, internshipController);
-                        user = repMenu.runMenu(rep); // need to be changed to non static
+                    case APPROVED:
+                        RepMenu repMenu = new RepMenu(rep, userController, applicationController, internshipOpportunityController);
+                        user = repMenu.runMenu();
                         break;
-                    case Status.PENDING:
+                    case PENDING:
                         System.out.println("Your account is pending approval.");
                         System.out.println();
                         user = null;
                         break;
-                    case Status.REJECTED:
+                    case REJECTED:
                         System.out.println("Your account has been rejected.");
                         System.out.println();
                         user = null;
                         break;
-                    case Status.FILLED:
-                        System.out.println("Your application has been filled.");
-                        System.out.println();
-                        user = null;
-                        break;
                 }
-
             } else if (user instanceof CareerCenterStaff) {
-                // render CareerCenterStaff Menu
                 CareerCenterStaff staff = (CareerCenterStaff)user;
-                StaffMenu staffMenu = new StaffMenu(staff, userController, appController, internshipController);
-                user = staffMenu.runMenu(staff); // need to be changed to non static
-
+                StaffMenu staffMenu = new StaffMenu(staff, userController, applicationController, internshipOpportunityController);
+                user = staffMenu.runMenu();
             } else {
-                System.out.println("Not implemented");
+                System.out.println("You shouldn't be be here. This is a bug.");
                 loop = false;
             }
         } while (loop);

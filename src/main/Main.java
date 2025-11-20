@@ -12,30 +12,37 @@ import src.model.internship.InternshipOpportunity;
 import src.model.user.Student;
 import src.model.user.CareerCenterStaff;
 
+/**
+ * The Main class and the entrypoint of the program
+ */
 public class Main {
 	private static Database db = new Database();
 	private static UserController userController = new UserController(db);
 	private static CLI cli = new CLI(db);
 
+	/**
+	 * Default constructor
+	 */
+	public Main() {
+		// The default constructor is explicitly defined for javadoc
+	}
+
+	/**
+	 * Entrypoint of the program
+	 *
+	 * @param args Command line arguments
+	 */
 	public static void main(String[] args) {
 		init();
 		cli.main();
 	}
 
 	private static void init() {
-		// TODO fix by adding to UserController directly
-        // ArrayList<Student> students = new ArrayList<Student>();
-        // ArrayList<CareerCenterStaff> careerCenterStaffs = new ArrayList<CareerCenterStaff>();
-        // ArrayList<CompanyRepresentative> companyRepresentatives = new ArrayList<CompanyRepresentative>();
-        // ArrayList<InternshipApplication> internshipApplications = new ArrayList<InternshipApplication>();
-        // ArrayList<RepresentativeApplication> representativeApplications = new ArrayList<RepresentativeApplication>();
-        // ArrayList<InternshipOpportunity> internshipOpportunities = new ArrayList<InternshipOpportunity>();
-
         // Load Students
-        File studentsFile = new File("src/data/sample_student_list.csv");
+        File studentsFile = new File("data/sample_student_list.csv");
         try {
             Scanner studentScanner = new Scanner(studentsFile);
-            studentScanner.nextLine(); // Skip header row
+            studentScanner.nextLine();  // Skip header row
 
             while (studentScanner.hasNextLine()) {
                 String[] line = studentScanner.nextLine().split(",");
@@ -45,7 +52,7 @@ public class Main {
                 String major = line[2];
                 int yearOfStudy = Integer.parseInt(line[3]); // TODO: error handling
                 String passwordHash = "password";  // Default password hash
-                InternshipOpportunity internship = null; // TODO: change Student contructor to allow an optional parameter for internship
+                InternshipOpportunity internship = null;
                 Student student = new Student(
                     userID, 
                     name, 
@@ -56,8 +63,7 @@ public class Main {
                 );
 
 				userController.createStudent(student);
-            } 
-
+            }
 			studentScanner.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -65,10 +71,10 @@ public class Main {
         }
 
         // Load CareerCenterStaffs
-        File staffFile = new File("src/data/sample_staff_list.csv");
+        File staffFile = new File("data/sample_staff_list.csv");
         try {
             Scanner staffScanner = new Scanner(staffFile);
-            staffScanner.nextLine(); // Skip header row
+            staffScanner.nextLine();  // Skip header row
 
             while (staffScanner.hasNextLine()) {
                 String[] line = staffScanner.nextLine().split(",");
