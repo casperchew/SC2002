@@ -284,9 +284,91 @@ You already have 3 applications pending.
 
 ###### 2.3.2. `InternshipLevel` validation based on Student's `yearOfStudy`.
 
+**Expected Behaviour:** Students in Year 1 or 2 should only be able to view and apply for `BASIC` level internships. Students in Year 3 and above should be able to view and apply for `BASIC`, `INTERMEDIATE`, and `ADVANCED` level internships.
+
+**Failure Indicators:** A Year 1 or 2 student is able to view or apply for an `ADVANCED` or `INTERMEDIATE` internship, or a Year 3 student cannot view an `ADVANCED` internship.
+
+| Step | Description | Input |
+| :--- | :--- | :--- |
+| 1 | Create `ADVANCED` Internship Opportunity (refer to 3.2) with title "SeniorDev" | |
+| 2 | Approve created Internship Opportunity (refer to 4.3) | |
+| 3 | Select "Login" option | 1 |
+| 4 | Enter name (Year 1 Student) | Chong Zhi Hao |
+| 5 | Enter password | password |
+| 6 | Select "Apply for internship" | 1 |
+
+**Expected Behaviour:**
+
+After step 6, the cli should **NOT** display "SeniorDev" in the list of available internships.
+
+| Step | Description | Input |
+| :--- | :--- | :--- |
+| 7 | Logout | 5 |
+| 8 | Select "Login" option | 1 |
+| 9 | Enter name (Year 3 Student) | Ng Jia Hao |
+| 10 | Enter password | password |
+| 11 | Select "1) Apply for internship." | 1 |
+
+**Expected Behaviour:**
+
+After step 11, the cli should display:
+
+```
+1) SeniorDev
+...
+```
+
+
 ##### 2.4. View internship applications
 
+**Expected Behaviour:** The student should be able to view a list of all internship applications they have submitted. This list must display the current status of the application.
+
+**Failure Indicators:** The list is empty after a successful application, or the application details (e.g., Company Name, Title) do not match the internship applied for.
+
+| Step | Description | Input |
+| :--- | :--- | :--- |
+| 1 | Create BASIC Internship Opportunity (refer to 3.2) with title "Data Analyst" | |
+| 2 | Approve created Internship Opportunity (refer to 4.3) | |
+| 3 | Select "Login" option | 1 |
+| 4 | Enter name | Tan Wei Ling |
+| 5 | Enter password | password |
+| 6 | Select "1) Apply for internship." | 1 |
+| 7 | Select "1) Data Analyst" | 1 |
+| 8 | Select "1) Apply for this internship." | 1 |
+| 9 | Return to Student Menu (Exit application flow) | -1 |
+| 10 | Select "View internship applications" | 2 |
+
+**Expected Behaviour:**
+
+After step 10, the cli should display the application details:
+
+```
+Internship applications:
+
+1) Data Analyst
+...
+```
+
 ###### 2.4.1. Default `PENDING` status
+
+**Expected Behaviour:** When a student first applies for an internship, the status must automatically be set to `PENDING`. It should not be `APPROVED` or `REJECTED` until a career center staff acts on it.
+
+**Failure Indicators:** The status is initialized as `APPROVED`, `REJECTED`, or `null`.
+
+| Step | Description | Input |
+| :--- | :--- | :--- |
+| 1 | Perform steps 1 through 10 from Section 2.4 (View internship applications) | |
+| 2 | Select "1) Data Analyst" to view details | 1 |
+
+**Expected Behaviour:**
+
+The console should verify the status:
+
+```
+...
+Status: PENDING
+...
+```
 
 ##### 2.5. Accept internship placement
 
