@@ -235,25 +235,26 @@ public class RepMenu {
 
         while (loop) {
 
-            // Get only opportunities that belong to this representative
             List<InternshipOpportunity> repOpps =
                 internshipOpportunityController.getInternshipOpportunitiesByCompanyRepresentative(rep);
 
-            // Build pending applications list ONLY by scanning opportunities (NOT manually scanning all apps)
+            ArrayList<InternshipApplication> allApps = applicationController.getInternshipApplications();
             ArrayList<InternshipApplication> pendingApps = new ArrayList<>();
 
-            for (InternshipOpportunity opp : repOpps) {
-                if (opp.getSlotsLeft() == 0) {
+            for (InternshipApplication app : allApps) {
+
+                InternshipOpportunity opp = app.getInternshipOpportunity();
+
+                if (!repOpps.contains(opp)) {
                     continue;
                 }
-
-                ArrayList<InternshipApplication> apps = applicationController.getInternshipApplications();
-                for (InternshipApplication app : apps) {
-                    if ((Objects.equals(app.getStatus(), Status.PENDING)) 
-                    && (app.getInternshipOpportunity().getCompanyRepresentatives().contains(rep))) {
-                        pendingApps.add(app);
-                    }
+                if (opp.getSlotsLeft() <= 0) {
+                    continue;
                 }
+                if (app.getStatus() != Status.PENDING) {
+                    continue;
+                }
+                pendingApps.add(app);
             }
 
             if (pendingApps.isEmpty()) {
