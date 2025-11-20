@@ -11,7 +11,5 @@ public enum Status {
 	/** Rejected */
     REJECTED,
 	/** Filled */
-    FILLED,
-	/** Successful */
-    SUCCESSFUL
+    FILLED
 }

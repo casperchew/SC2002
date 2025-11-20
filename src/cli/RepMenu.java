@@ -312,7 +312,7 @@ public class RepMenu {
             switch (subChoice) {
                 case 1:
                     // Approved 
-                    chosenApp.setStatus(Status.SUCCESSFUL);
+                    chosenApp.setStatus(Status.APPROVED);
                     opp.decrementSlotsLeft();
                     if (opp.getSlotsLeft() == 0) {
                         opp.setStatus(Status.FILLED);

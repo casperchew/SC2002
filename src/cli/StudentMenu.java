@@ -248,7 +248,6 @@ public class StudentMenu {
                 case 1:
                     // If a student chooses an internship opportunity, we set the other applications to rejected and delete them from student.internshipOpportunities
                     // The selected internship opportunity must not be deleted yet because he can still request withdrawal
-                    // chosenInternshipApplication.setStatus(Status.APPROVED);
                     if (Objects.equals(chosenInternshipApplication.getStatus(), Status.APPROVED)) {
                         student.setInternship(chosenInternshipApplication.getInternshipOpportunity());
                         for (InternshipApplication application: student.getInternshipApplications()) {
@@ -265,7 +264,7 @@ public class StudentMenu {
                         loop = false;
                     } else {
                         Utils.clear();
-                        System.out.println("Your application has not yet been approved");
+                        System.out.println("Your application has not yet been approved or there are no more slots");
                         System.out.println();
                     }
                     break;
