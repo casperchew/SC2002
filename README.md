@@ -2,38 +2,31 @@
 
 [Javadoc](https://casperchew.github.io/SC2002/)
 
-# TODO
+## Diagrams
 
-- Implement CareerCenterStaff
-- CompanyRepresentative (YeeTeck)
-- Touch up the print statements for the UI (YeeTeck)
-- Remove Application superclass
+### Class Diagram
 
-# Diagrams
-
-## Class Diagram
-
-## Sequence Diagrams
+### Sequence Diagrams
 
 The sequence Diagrams here display the flow of the app: from company representative applying for an account to student accepting his placement offer. To make our diagrams more understandable, we decided to split it up into smaller, more digestable parts.
 
-### 1. Company Representative creating account
+#### 1. Company Representative creating account
 
 ![alt text](diagrams/CompanyRepCreateAccount.jpg)
 
-### 2. Career Center Staff approves Company Representative account
+#### 2. Career Center Staff approves Company Representative account
 
 ![alt text](diagrams/CareerCenterStaffApproveCompanyRepresentativeAccount.jpg)
 
-### 3. Company Representative creates Internship Opportunity
+#### 3. Company Representative creates Internship Opportunity
 
 ![alt text](diagrams/CompanyRepCreateInternshipOpportunity.jpg)
 
-### 4. Career Center Staff approves Internship Opportunity
+#### 4. Career Center Staff approves Internship Opportunity
 
 ![alt text](diagrams/CareerCenterStaffApproveOpportunity.jpg)
 
-### 5. Student applies for Internship Opportunity
+#### 5. Student applies for Internship Opportunity
 
 ![alt text](diagrams/StudentApplyForInternship.jpg)
 
@@ -49,27 +42,27 @@ List<InternshipOpportunity> internshipOpportunities = internshipOpportunityContr
     .collect(Collectors.toList());
 ```
 
-### 6. Company Representative approves student application
+#### 6. Company Representative approves student application
 
 ![alt text](diagrams/CompanyRepresentativeApproveStudentApplication.jpg)
 
-### 7. Student confirms placement
+#### 7. Student confirms placement
 
 ![alt text](diagrams/StudentConfirmPlacement.jpg)
 
 _note_: Once a student accepts the placement, the other applications will be deleted from his instance. However, these deleted applications will remain in the Database class, with withdrawalApproved set to true. This means that their application will remain for the Career Center Staff to view, if they need to. However, the application for the internship opportunity which they have accepted will remain, allowing him to send a withdrawal request if they wish to do so.
 
-### ref: UserLogin
+#### ref: UserLogin
 User logging in
 
 ![alt text](diagrams/UserLogin.jpg)
 
-### ref: CompanyRepresentativeCheckAccountStatusLogin
+#### ref: CompanyRepresentativeCheckAccountStatusLogin
 Company Representative checking account status and logging in
 
 ![alt text](diagrams/CompanyRepresentativeCheckAccountStatusLogin.jpg)
 
-# TEST CASES:
+## TEST CASES:
 
 ## Student
 
