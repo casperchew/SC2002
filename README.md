@@ -6,6 +6,8 @@
 
 ### Class Diagram
 
+![alt text](diagrams/src.main.jpg)
+
 ### Sequence Diagrams
 
 The sequence Diagrams here display the flow of the app: from company representative applying for an account to student accepting his placement offer. To make our diagrams more understandable, we decided to split it up into smaller, more digestable parts.
@@ -61,70 +63,6 @@ User logging in
 Company Representative checking account status and logging in
 
 ![alt text](diagrams/CompanyRepresentativeCheckAccountStatusLogin.jpg)
-
-## TEST CASES:
-
-## Student
-
-### Applying for internship
-
-- log in as ccstaff -> approve all internshipOpportunities -> logout -> login as a student -> select Apply for internship -> select internship opportunity -> apply for it -> logout -> login as ccstaff -> select View all internship applications -> check if the students application is displayed properly.
-
-### View internship applications
-
-- log in as ccstaff -> approve all internshipOpportunities -> logout -> login as a student -> select Apply for internship -> select a few internship opportunity -> apply for it -> exit that menu -> select View internship applications -> check if the applications are correctly displayed -> select each application -> check if information of each application is correct.
-
-### Filtering internship opportunities
-
-- log in as ccstaff -> approve all internshipOpportunities -> logout -> login as a student -> select Apply for internship -> take note of the displayed internship opportunities -> exit -> select Set filters -> set some filters (e.g. set company name filter to TechCorp) -> exit -> select Apply for internship -> ensure that the displayed internship opportunities are correct based on the filters set.
-
-- login as a student -> select Set filters -> set some filters and take note of them -> exit -> logout -> log back in as the same student -> select Set filters -> check that the filters did not change.
-
-### Changing password
-
-- login as a student -> select Change password -> set password to "newPassword" -> logout -> attempt to login with the old password "password" -> attempt to login with the new password "newPassword" -> ensure that you can successfully login with the new password "newPassword".
-
-## Company Representative
-
-### Creating Internship Opportunities
-
-- create company representative account -> login as career staff -> approve company representative account -> logout -> login as company representative -> input title -> input full internship details if internship opportunity does not yet exist.
-
-### Viewing Created Internship Opportunities
-
-- create 2 internship opportunities as company representative A -> logout -> login as career center staff -> approve both internship opportunities -> logout -> login as company representative A again -> view internship opportunities -> select 1 internship opportunity -> toggle visibility.
-
-### Viewing Student Applications
-
-- login as company representative A -> create 1 internship opportunity of basic level & preferred major of Computer Science -> create 1 internship opportunity of advanced level & preferred major of Computer Engineering -> logout -> login as career staff -> approve both newly created internships -> logout -> login as Tan Wei Ling -> apply for internship 1 -> logout -> login as Lim Yi Xuan -> apply for internship 2 -> logout -> login as company representative A -> accept internship application 1 & decline the other.
-
-### Changing Passwords
-
-- Create & approve account for company representative -> login as company representative -> change password -> login with user ID & new password.
-
-## Career Center Staff
-
-### Approving Company rep
-
-- create 2 companyRep accounts -> log in as a ccstaff -> approve one companyRep and reject the other -> logout -> try logging in to both accounts.
-
-### Approving internship opportunity
-
-- log in as ccstaff -> approve 'Software Developer Intern' and reject 'Front-End Web Development Intern' -> log in as Tan Wei Ling -> apply for internship -> ensure that 'Software Developer Intern' is displayed and 'Front-End Web Development Intern' is not displayed.
-
-### Withdrawal request
-
-- log in as ccstaff -> approve all internshipOpportunities -> logout -> login as a student -> apply for internship -> send withdrawal request -> logout -> login as ccstaff -> approve/reject withdrawal request -> logout -> login as student -> check if withdrawal request was rejected or approved.
-
-- log in as ccstaff -> approve all internshipOpportunities -> logout -> login as a student -> apply for internship -> logout -> login as the respective company rep -> approve the student application -> logout -> login as the student -> accept the internship opportunity (i.e. confirm placement) -> send withdrawal request for that very internship opportunity -> logout -> login as ccstaff -> approve/reject withdrawal request -> logout -> login as student -> check if withdrawal request was rejected or approved.
-
-### Filtering internship opportunities
-
-- create a new company representative account (username: d, password: d, company d) -> log in as CCStaff "Mr. Tan Boon Kiat" with password "password" -> approve company representative "d" -> log out -> log in as "d" -> create internship opportunity with preferred major as "Computer Science" and internship level as ADVANCED -> log out -> log in as "Mr. Tan Boon Kiat" -> set company representative filter to "d", set preferred major as "Computer Science" and set internship level filter as ADVANCED (the rest of the fields don't matter) -> generate internship opportunity report -> ensure that only "d"'s opportunity is displayed.
-
-### Generate Report
-
-- log in as ccstaff -> select generate internship opportunity report -> select any internship -> check if report is properly generated.
 
 ## Test Cases
 
@@ -373,55 +311,128 @@ The console should verify the status:
 
 ```
 ...
+Internship title: Data Analyst
+Internship description: [DESCRIPTION]
 Status: PENDING
-...
+Placement confirmed: false
+Withdrawal requested: false
+1) Accept placement.
+2) Request withdrawal.
+3) Exit.
+Enter an option: 
 ```
 
 ##### 2.5. Accept internship placement
 
+##### 2.5. Accept internship placement
+
+**Expected Behaviour:** A student can accept an internship offer only if the application status is `APPROVED` (i.e., approved by the Company Representative). Upon acceptance, `placementConfirmed` is then set to `true`.
+
+**Failure Indicators:** The student cannot accept a `APPROVED` offer, or `placementConfirmed` does not update to `true` after acceptance.
+
+| Step | Description | Input |
+| :--- | :--- | :--- |
+| 1 | **Setup:** Ensure there is an application with `APPROVED` status for "Tan Wei Ling" (Requires Company Rep to approve an application, refer to 3.4) | |
+| 2 | Select "Login" option | 1 |
+| 3 | Enter name | Tan Wei Ling |
+| 4 | Enter password | password |
+| 5 | Select "2) View internship applications." | 2 |
+| 6 | Select the `APPROVED` application | 1 |
+| 7 | Select "Accept Offer" | 1 |
+
+**Expected Behaviour:**
+
+After step 7, the cli should display:
+
+```
+Congratulations! You have been hired.
+...
+```
+
+
 ###### 2.5.1. Only 1 can be accepted
 
+**Expected Behaviour:** A student is restricted to holding only **one** confirmed internship placement. Once a placement is confirmed, the system must prevent the student from accepting any other offers.
+
+**Failure Indicators:** The system allows a student to accept multiple `APPROVED` internship placements.
+
+| Step | Description | Input |
+| :--- | :--- | :--- |
+| 1 | **Setup:** Ensure "Tan Wei Ling" has already accepted an internship (Status is `CONFIRMED`) | |
+| 2 | **Setup:** Ensure "Tan Wei Ling" has another application that is `APPROVED` (Approved by Rep) | |
+| 3 | Select "Login" option | 1 |
+| 4 | Enter name | Tan Wei Ling |
+| 5 | Enter password | password |
+| 6 | Select "View internship applications" | 2 |
+| 7 | Select the remaining `APPROVED` application | 2 |
+| 8 | Attempt to "Accept Offer" | 1 |
+
+**Expected Behaviour:**
+
+The system should deny the action, or the option to accept should simply not be available (since the application should have been automatically withdrawn, see 2.5.2). If the option is still visible, selecting it should result in an error message:
+
+```
+You have already accepted an internship opportunity.
+```
+
 ###### 2.5.2. Other applications will be withdrawn once an internship placement in accepted
+
+**Expected Behaviour:** Automatically withdraw all other PENDING or APPROVED applications once the student accepts a specific internship offer. This releases slots for other students.
+
+**Failure Indicators:** Other applications remain `PENDING` or `APPROVED` after the student confirms a placement.
+
+| Step | Description | Input |
+| :--- | :--- | :--- |
+| 1 | **Setup:** Student applies for "Job A" and "Job B". | |
+| 2 | **Setup:** Company Rep approves **BOTH** "Job A" and "Job B" (Status `APPROVED`). | |
+| 3 | Login as Student | |
+| 4 | Navigate to "Job A" and **Accept** it. | |
+| 5 | Navigate back to "View internship applications". | 2 |
+| 6 | Check the status of "Job B". | |
+
+**Expected Behaviour:**
+
+After step 6, if the student attempts to select "1) Apply for internship.", the CLI shall display:
+
+```
+...
+You have already accepted an internship opportunity.
+
+```
 
 ##### 2.6. Request internship application withdrawal subject to approval from `CareerCenterStaff`
 
 ###### 2.6.1. Before placement confirmation
 
-###### 2.6.2. After placement confirmation
+**Expected behaviour:** Student will submit a withdrawal request to the `CareerCenterStaff`, subject to approval.
 
-#### 3. Company Representatives
+**Failure indicators:** The `InternshipApplication` object still has `Withdrawal requested: false` when the student views all internship applications.
 
-##### 3.1. Registration must include a company
+| Step | Description | Input |
+| :--- | :--- | :--- |
+| 1 |"Setup: Ensure ""Tan Wei Ling"" has at least one PENDING or SUCCESSFUL application (but not yet Accepted/Confirmed)."
+| 2 |"Select ""Login"" option" | 1
+| 3 |Enter name | Tan Wei Ling
+| 4 | Enter password |password |
+| 5 | Select "View internship applications" | 2 |
+| 6 | Select the application to withdraw (e.g., "1) Data Analyst") | 1 |
+| 7 | Select "2) Request withdrawal" | 2 |
+| 8 |Verify: Select the same application again to check status | 1 |
 
-###### 3.1.1. Can only log in once approved by a `CareerCenterStaff`
+**Expected Behaviour:**
 
-##### 3.2. Create internship opportunities
+After step 8, the CLI shall display:
 
-###### 3.2.1. Max 5
+```
+Internship title: [TITLE]
+Internship description: [DESCRIPTION]
+Status: PENDING
+Total available slots: [NUMOFSLOTS]
+Applicants accepted: [NUMOFAPPLICANTS]
+Placement confimed: false
+Withdrawal requested: true
 
-##### 3.3. After an `InternshipOpportunity` is approved by a `CareerCenterStaff`,
-
-###### 3.3.1. View application details and student details for each of the `InternshipOpportunity`
-
-##### 3.4. Approve or reject intership applications
-
-##### 3.5. Toggle visibility of internship opportunity to `on` or `off`.
-
-#### 4. Career Center Staff
-
-##### 4.1. Automatic registration
-
-##### 4.2. Authorize of reject the account creation of `CompanyRepresentative`
-
-##### 4.3. Approve of reject internship opportunities submitted by `CompanyRepresentative`
-
-###### 3.1. Once approved, the internship opportunity becomes visible to eligible students
-
-##### 4.4. Approve or reject student withdrawal requests
-
-##### 4.5. Generate intership opportunity reports
-
-###### 4.5.1. Filter internship opportunities
+```
 
 ## Database
 
