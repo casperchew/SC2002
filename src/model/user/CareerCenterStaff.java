@@ -64,7 +64,7 @@ public class CareerCenterStaff extends User {
 	 * Removes {@code internshipLevel} from {@code internshipLevelFilter}
 	 *
 	 * @param i the index of the {@code internshipLevel} to remove
-	 * @return The {@link src.model.internshipInternshipLevel} that was removed. If the list was cleared, returns {@code null}.
+	 * @return The {@link src.enums.InternshipLevel} that was removed. If the list was cleared, returns {@code null}.
 	 */
     public InternshipLevel removeInternshipLevelFilter(int i) {
         if (i == -1) {
