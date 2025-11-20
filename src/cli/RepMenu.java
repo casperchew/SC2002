@@ -15,24 +15,39 @@ import src.model.User;
 import src.utils.Utils;
 import src.enums.Status;
 
+/**
+ * CLI for {@link src.model.user.CompanyRepresentative}
+ */
 public class RepMenu {
     private CompanyRepresentative rep;
-    private ApplicationController appController;
+    private ApplicationController applicationController;
     private InternshipOpportunityController internshipOpportunityController;
 
+	/**
+	 * Constructs a {@link RepMenu} for a {@link src.model.user.CompanyRepresentative} from the required controllers
+	 *
+	 * @param rep the {@link src.model.user.CompanyRepresentative} that the CLI is for
+	 * @param userController the {@link src.controller.UserController} used
+	 * @param applicationController the {@link src.controller.ApplicationController} used
+	 * @param internshipOpportunityController the {@link src.controller.InternshipOpportunityController} used
+	 */
     public RepMenu(
             CompanyRepresentative rep,
             UserController userController,
-            ApplicationController appController,
+            ApplicationController applicationController,
             InternshipOpportunityController internshipOpportunityController
     ) {
         this.rep = rep;
-        this.appController = appController;
+        this.applicationController = applicationController;
         this.internshipOpportunityController = internshipOpportunityController;
     }
 
+	/**
+	 * Displays the CLI menu for {@link src.model.user.CompanyRepresentative}.
+	 *
+	 * @return the {@link src.model.user.CompanyRepresentative} instance after the {@code rep} interacts with the menu.
+	 */
     public User runMenu() {
-		System.out.println();
 		System.out.println("1) Create internship opportunity.");
 		System.out.println("2) View created internship opportunities.");
 		System.out.println("3) View student applications.");
@@ -63,16 +78,6 @@ public class RepMenu {
 				System.out.println("Invalid option, please try again.");
 				return rep;
 		} 
-    }
-
-    private void changePassword() {
-        Utils.clear();
-        String newPassword = Utils.inputString("Enter your new password: ");
-        rep.setPasswordHash(newPassword);
-        Utils.clear();
-        System.out.println("Your new password has been set.");
-        System.out.println("Please re-login with your new password.");
-        System.out.println();
     }
 
     private void createInternshipOpportunity() {
@@ -158,7 +163,7 @@ public class RepMenu {
     private void viewCreatedInternships() {
         Utils.clear();
         ArrayList<InternshipOpportunity> opportunities = internshipOpportunityController.getInternshipOpportunitiesByCompanyRepresentative(rep);
-        
+
         boolean loop = true;
         while (loop) {
             if (opportunities.isEmpty()) {
@@ -167,6 +172,7 @@ public class RepMenu {
                 System.out.println();
                 break;
             }
+
             System.out.println("Created Internship Opportunities:");
             for (int i = 0; i < opportunities.size(); i++) {
                 System.out.println((i + 1) + ") " + opportunities.get(i).getInternshipTitle());
@@ -223,7 +229,7 @@ public class RepMenu {
     private void viewStudentApplications() {
         Utils.clear();
         ArrayList<InternshipApplication> allApplications;
-        allApplications = appController.getInternshipApplications();
+        allApplications = applicationController.getInternshipApplications();
 
         int count = 0;
 
@@ -263,4 +269,15 @@ public class RepMenu {
             }
         }
     }
+
+    private void changePassword() {
+        Utils.clear();
+        String newPassword = Utils.inputString("Enter your new password: ");
+        rep.setPasswordHash(newPassword);
+        Utils.clear();
+        System.out.println("Your new password has been set.");
+        System.out.println("Please re-login with your new password.");
+        System.out.println();
+    }
+
 }

@@ -225,8 +225,12 @@ public class InternshipOpportunity {
 	 * @return {@code companyRepresentatives}
 	 */
     public ArrayList<CompanyRepresentative> getCompanyRepresentatives() { 
+		if (companyRepresentatives == null) {
+			return new ArrayList<>(); 
+		}
+
 		// Return shallow copy
-        return new ArrayList<CompanyRepresentative>(this.companyRepresentatives); 
+        return new ArrayList<CompanyRepresentative>(companyRepresentatives); 
     }
 
     /**

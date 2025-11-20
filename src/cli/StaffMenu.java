@@ -18,31 +18,47 @@ import src.model.user.CompanyRepresentative;
 import src.model.user.Student;
 import src.utils.Utils;
 
+/**
+ * CLI for {@link CareerCenterStaff}
+ */
 public class StaffMenu {
     private CareerCenterStaff staff;
     private UserController userController;
-    private ApplicationController appController;
+    private ApplicationController applicationController;
     private InternshipOpportunityController internshipOpportunityController;
 
+	/**
+	 * Constructs a {@link StaffMenu} for {@link src.model.user.CareerCenterStaff} from the required controllers
+	 *
+	 * @param staff the {@link src.model.user.CareerCenterStaff} that the CLI is for
+	 * @param userController the {@link src.controller.UserController} used
+	 * @param applicationController the {@link src.controller.ApplicationController} used
+	 * @param internshipOpportunityController the {@link src.controller.InternshipOpportunityController} used
+	 */
     public StaffMenu(
         CareerCenterStaff staff, 
         UserController userController,
-        ApplicationController appController,
+        ApplicationController applicationController,
         InternshipOpportunityController internshipOpportunityController
     ) {
         this.staff = staff;
         this.userController = userController;
-        this.appController = appController;
+        this.applicationController = applicationController;
         this.internshipOpportunityController = internshipOpportunityController;
     }
 
-    public User runMenu(CareerCenterStaff staff) {
+	/**
+	 * Displays the CLI menu for {@link src.model.user.CareerCenterStaff}.
+	 *
+	 * @return the {@link src.model.user.CareerCenterStaff} instance after the {@code staff} interacts with the menu.
+	 */
+    public User runMenu() {
         int choice;
         System.out.println("1) Approve/reject company representatives.");
         System.out.println("2) Approve/reject internship opportunities.");
         System.out.println("3) Approve/reject student withdrawal requests.");
         System.out.println("4) Generate internship opportunity report.");
-        System.out.println("5) Set internship opportunity report filters.");  // TODO
+        System.out.println("5) Set internship opportunity report filters.");
         System.out.println("6) View all internship applications.");  // For testing
         System.out.println("7) Change password.");
         System.out.println("8) Logout.");
@@ -267,7 +283,7 @@ public class StaffMenu {
         Utils.clear();
         while (loop) {
             ArrayList<InternshipApplication> applications = new ArrayList<>();
-            for (InternshipApplication application: appController.getInternshipApplications()) {
+            for (InternshipApplication application: applicationController.getInternshipApplications()) {
                 if (application.getWithdrawalRequested()) {
                     applications.add(application);
                 }
@@ -1156,7 +1172,7 @@ public class StaffMenu {
 
         while (loop) {
             Utils.clear();
-            ArrayList<InternshipApplication> applications = appController.getInternshipApplications();
+            ArrayList<InternshipApplication> applications = applicationController.getInternshipApplications();
 
             if (applications.isEmpty()) {
                 System.out.println("There are no internship applications yet.");

@@ -58,18 +58,13 @@ public class InternshipApplication {
     }
 
 	/**
-	 * Getter for @{code internshipOpportunity}
+	 * Getter for {@code internshipOpportunity}
 	 *
 	 * @return {@code internshipOpportunity}
 	 */
     public InternshipOpportunity getInternshipOpportunity() {
         return internshipOpportunity;
     }
-
-	// TODO: is this really necessary?
-    // public void setInternshipOpportunity(InternshipOpportunity internshipOpportunity) {
-    //     this.internshipOpportunity = internshipOpportunity;
-    // }
 
 	/**
 	 * Getter for {@code dateApplied}

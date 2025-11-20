@@ -11,24 +11,48 @@ import src.model.internship.InternshipApplication;
 import src.model.user.Student;
 import src.model.user.CompanyRepresentative;
 
+/**
+ * InternshipOpportunity Class that handles CRUD operations for {@link src.model.internship.InternshipOpportunity}.
+ */
 public class InternshipOpportunityController {
     private Database db;
 
+	/**
+	 * Constructs a {@link src.controller.InternshipOpportunityController} from the given {@link Database}.
+	 *
+	 * @param db the {@link src.controller.Database} instance
+	 */
     public InternshipOpportunityController(Database db) {
         this.db = db;
     }
 
 	// CRUD
 	// Create
+	/**
+	 * Create a {@link src.model.internship.InternshipOpportunity}
+	 *
+	 * @param opportunity the {@link src.model.internship.InternshipOpportunity} to create
+	 */
     public void createInternshipOpportunity(InternshipOpportunity opportunity) {
         db.createInternshipOpportunity(opportunity);
     }
 
 	// Read
+	/**
+	 * Get all {@link src.model.internship.InternshipOpportunity}s in the database.
+	 *
+	 * @return An {@code ArrayList} with all {@link src.model.internship.InternshipOpportunity}s in the database.
+	 */
     public ArrayList<InternshipOpportunity> getInternshipOpportunities() {
         return db.getInternshipOpportunities();
     }
 
+	/**
+	 * Get all {@link src.model.internship.InternshipOpportunity}s in the database that has a specified {@code status}.
+	 *
+	 * @param status The status of the {@link src.model.internship.InternshipOpportunity}s.
+	 * @return An {@code ArrayList} with all {@link src.model.internship.InternshipOpportunity}s in the database that satisfy the criteria.
+	 */
     public ArrayList<InternshipOpportunity> getInternshipOpportunitiesByStatus(Status status) {
         ArrayList<InternshipOpportunity> opportunities = new ArrayList<InternshipOpportunity>();
         for (InternshipOpportunity internshipOpp: db.getInternshipOpportunities()) {
@@ -36,9 +60,16 @@ public class InternshipOpportunityController {
                 opportunities.add(internshipOpp);
             }
         }
+
         return opportunities;
     }
 
+	/**
+	 * Get all {@link src.model.internship.InternshipOpportunity}s in the database that {@code student} is eligible for.
+	 *
+	 * @param student The {@link src.model.user.Student} to check against.
+	 * @return An {@code ArrayList} with all {@link src.model.internship.InternshipOpportunity}s in the database that satisfy the criteria.
+	 */
     public ArrayList<InternshipOpportunity> getInternshipOpportunitiesByStudent(Student student) {
 		// TODO: use streams instead
         InternshipLevel studentLevel;
@@ -63,6 +94,12 @@ public class InternshipOpportunityController {
         return opportunities;
     }
 
+	/**
+	 * Get all {@link src.model.internship.InternshipOpportunity}s in the database that {@code companyRepresentative} is involved in.
+	 *
+	 * @param companyRepresentative The selected {@link src.model.user.CompanyRepresentative}.
+	 * @return An {@code ArrayList} with all {@link src.model.internship.InternshipOpportunity}s in the database that satisfy the criteria.
+	 */
     public ArrayList<InternshipOpportunity> getInternshipOpportunitiesByCompanyRepresentative(CompanyRepresentative companyRepresentative) {
         ArrayList<InternshipOpportunity> opportunities = new ArrayList<InternshipOpportunity>();
         for (InternshipOpportunity internshipOpp: db.getInternshipOpportunities()) {

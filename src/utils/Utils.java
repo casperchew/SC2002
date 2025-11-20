@@ -3,9 +3,20 @@ package src.utils;
 import java.time.LocalDate;
 import java.util.Scanner;
 
+/**
+ * A Utils Class for utility functions
+ */
 public class Utils {
-	public static Scanner scanner = new Scanner(System.in);
+	private static Scanner scanner = new Scanner(System.in);
 
+	private Utils() {}
+
+	/**
+	 * Reads a String from {@code stdin}
+	 *
+	 * @param text The text displayed before reading input
+	 * @return The String from {@code stdin}
+	 */
     public static String inputString(String text) {
 		System.out.print(text);
 		String s = scanner.nextLine();
@@ -17,6 +28,12 @@ public class Utils {
 		return s;
 	}
 
+	/**
+	 * Reads an int from {@code stdin}
+	 *
+	 * @param text The text displayed before reading input
+	 * @return The int from {@code stdin}
+	 */
     public static int inputInt(String text) {
         System.out.print(text);
         int n = scanner.nextInt();
@@ -29,6 +46,12 @@ public class Utils {
         return n;
 	}
 
+	/**
+	 * Reads a date from {@code stdin}
+	 *
+	 * @param text The text displayed before reading input
+	 * @return The date from {@code stdin}
+	 */
     public static LocalDate inputDate(String text) {
         LocalDate date = null;
         while (date == null) {
@@ -39,6 +62,9 @@ public class Utils {
         return date;
     }
 
+	/**
+	 * Clears the screen
+	 */
 	public static void clear() {
 		System.out.print("\033[?1049h");
 		System.out.print("\033[2J");
