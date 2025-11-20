@@ -1,0 +1,8 @@
+src.cli
+src.controller
+src.enums
+src.main
+src.model
+src.model.internship
+src.model.user
+src.utils
