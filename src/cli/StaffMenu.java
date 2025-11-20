@@ -173,7 +173,7 @@ public class StaffMenu {
 
         while (loop) {
             Utils.clear();
-            ArrayList<InternshipOpportunity> pendingOpportunities = internshipOpportunityController.getInternshipOpportunities(Status.PENDING);
+            ArrayList<InternshipOpportunity> pendingOpportunities = internshipOpportunityController.getInternshipOpportunitiesByStatus(Status.PENDING);
 
             if (pendingOpportunities.isEmpty()) {
                 System.out.println("There are no pending internship opportunities.");
@@ -221,7 +221,7 @@ public class StaffMenu {
             System.out.println("Company name: " + chosenOpportunity.getCompanyName());
             System.out.println("Internship title: " + chosenOpportunity.getInternshipTitle());
             System.out.println("Description: " + chosenOpportunity.getDescription());
-            System.out.println("Preferred Majors: " + chosenOpportunity.getPreferredMajors().toString());
+            System.out.println("Preferred Majors: " + chosenOpportunity.getPreferredMajor().toString());
             System.out.println("Company representatives: " + companyReps);
             System.out.println("Application opening date: " + chosenOpportunity.getApplicationOpeningDate());
             System.out.println("Application closing date: " + chosenOpportunity.getApplicationClosingDate());
@@ -403,7 +403,7 @@ public class StaffMenu {
                 if (!staff.getPreferredMajorsFilter().isEmpty()) {
                     boolean majorMatch = false;
                     for (String major : staff.getPreferredMajorsFilter()) {
-                        if (opp.getPreferredMajors().contains(major)) {
+                        if (opp.getPreferredMajor().contains(major)) {
                             majorMatch = true;
                             break;
                         }
@@ -485,7 +485,7 @@ public class StaffMenu {
 
             Utils.clear();
 
-            String preferredMajors = String.join(", ", chosenOpportunity.getPreferredMajors());
+            String preferredMajor = chosenOpportunity.getPreferredMajor();
             ArrayList<String> arrReps = new ArrayList<>();
             for (CompanyRepresentative rep : chosenOpportunity.getCompanyRepresentatives()) {
                 arrReps.add(rep.getName());
@@ -495,7 +495,7 @@ public class StaffMenu {
             System.out.println("Internship title: " + chosenOpportunity.getInternshipTitle());
             System.out.println("Internship Level: " + chosenOpportunity.getInternshipLevel());
             System.out.println("Description: " + chosenOpportunity.getDescription());
-            System.out.println("Preferred Majors: " + preferredMajors);
+            System.out.println("Preferred Major: " + preferredMajor);
             System.out.println("Company representatives: " + companyReps);
             System.out.println("Application opening date: " + chosenOpportunity.getApplicationOpeningDate());
             System.out.println("Application closing date: " + chosenOpportunity.getApplicationClosingDate());

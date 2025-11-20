@@ -7,7 +7,7 @@ import src.model.internship.InternshipOpportunity;
 import src.model.user.Student;
 import src.model.user.CompanyRepresentative;
 import src.model.user.CareerCenterStaff;
-import src.test.SampleInternships;
+// import src.test.SampleInternships;
 
 // For testing
 import java.time.LocalDate;
@@ -34,7 +34,7 @@ public class Database {
 			"Title",
 			"Description",
 			InternshipLevel.BASIC,
-			new ArrayList<String>(Arrays.asList("Computer Science")),
+			"Computer Science",
 			LocalDate.parse("2020-01-01"),
 			LocalDate.parse("2030-01-01"),
 			"a",
@@ -89,7 +89,6 @@ public class Database {
 	}
 
 	// UPDATE
-
 
 	// DELETE
 	public void deleteStudent(Student student) {

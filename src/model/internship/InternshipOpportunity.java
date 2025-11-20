@@ -7,13 +7,16 @@ import src.enums.InternshipLevel;
 import src.enums.Status;
 import src.model.user.CompanyRepresentative;
 
+/** InternshipOpportunity Class */
 public class InternshipOpportunity {
+
+	/** The maximum number of slots that an internship opportunity is allowed to open. */
     public static final int MAX_NUM_SLOTS = 10;
 
     private String internshipTitle;
     private String description;
     private InternshipLevel internshipLevel;
-    private ArrayList<String> preferredMajors;  
+    private String preferredMajor;  
     private LocalDate applicationOpeningDate;
     private LocalDate applicationClosingDate;
     private Status status;
@@ -21,13 +24,27 @@ public class InternshipOpportunity {
     private ArrayList<CompanyRepresentative> companyRepresentatives;
     private int numberOfSlots;
 
-    public boolean isVisible = false;
-
+    private boolean visible = false;
+	/**
+	 * Constructs a {@code InternshipOpportunity} instance with all required fields.
+	 *
+	 * @param internshipTitle The {@code title} of the internship opportunity.
+	 * @param description The {@code description} of the internship opportunity.
+	 * @param internshipLevel The internship level of the internship opportunity.
+	 * @param preferredMajor The preferred major of the internship opportunity.
+	 * @param applicationOpeningDate The application opening date of the internship opportunity. Must not be null.
+	 * @param applicationClosingDate The application closing date of the internship opportunity. Must not be null and must be on or after the opening date.
+	 * @param companyName The name of the company offering the internship opportunity.
+	 * @param companyRepresentatives The list of company representatives associated with the internship opportunity. Can be null.
+	 * @param numberOfSlots The maximum number of slots available for this internship opportunity. Must be greater than 0 and less than or equal to {@code MAX_NUM_SLOTS}.
+	 * @throws IllegalArgumentException if the application dates are invalid (null or closing date is before opening date).
+	 * @throws IllegalArgumentException if the number of slots is outside the valid range (1 to {@code MAX_NUM_SLOTS}).
+	 */
     public InternshipOpportunity(
             String internshipTitle,
             String description,
             InternshipLevel internshipLevel,
-            ArrayList<String> preferredMajors,
+            String preferredMajor,
             LocalDate applicationOpeningDate,
             LocalDate applicationClosingDate,
             String companyName,
@@ -45,100 +62,177 @@ public class InternshipOpportunity {
         this.internshipTitle = internshipTitle;
         this.description = description;
         this.internshipLevel = internshipLevel;
-        this.preferredMajors = preferredMajors;
+        this.preferredMajor = preferredMajor;
         this.applicationOpeningDate = applicationOpeningDate;
         this.applicationClosingDate = applicationClosingDate;
         this.companyName = companyName;
         this.numberOfSlots = numberOfSlots;
 
         if (companyRepresentatives != null) {
-            this.companyRepresentatives = new ArrayList<>(companyRepresentatives);
+            companyRepresentatives = new ArrayList<CompanyRepresentative>(companyRepresentatives);
         } else {
-            this.companyRepresentatives = new ArrayList<>();
+            companyRepresentatives = new ArrayList<CompanyRepresentative>();
         }
 
-        // When first created, the status should be PENDING 
         this.status = Status.PENDING; 
     }
 
+	/**
+	 * Getter for {@code internshipTitle}
+	 *
+	 * @return {@code internshipTitle}
+	 */
     public String getInternshipTitle() {
-        return this.internshipTitle;
+        return internshipTitle;
     }
 
+	/**
+	 * Setter for {@code internshipTitle}
+	 *
+	 * @param internshipTitle the {@code internshipTitle} to set
+	 */
     public void setInternshipTitle(String internshipTitle) {
         this.internshipTitle = internshipTitle;
     }
 
 	/**
+	 * Getter for {@code description}
+	 *
 	 * @return {@code description}
 	 */
     public String getDescription() {
-        return this.description;
+        return description;
     }
 
+	/**
+	 * Setter for {@code description}
+	 *
+	 * @param description the {@code description} to set
+	 */
     public void setDescription(String description) {
         this.description = description;
     }
 
+	/**
+	 * Getter for {@code internshipLevel}
+	 *
+	 * @return {@code internshipLevel}
+	 */
     public InternshipLevel getInternshipLevel() {
-        return this.internshipLevel;
+        return internshipLevel;
     }
 
+	/**
+	 * Setter for {@code internshipLevel}
+	 *
+	 * @param internshipLevel the {@code internshipLevel} to set
+	 */
     public void setInternshipLevel(InternshipLevel internshipLevel) {
         this.internshipLevel = internshipLevel;
     }
 
-    public ArrayList<String> getPreferredMajors() {
-        return this.preferredMajors;
+	/**
+	 * Getter for {@code preferredMajor}
+	 *
+	 * @return {@code preferredMajor}
+	 */
+    public String getPreferredMajor() {
+        return preferredMajor;
     }
 
-    public void setPreferredMajors(ArrayList<String> preferredMajors) {
-        this.preferredMajors = preferredMajors;
+	/** Setter for {@code preferredMajor}
+	 *
+	 * @param preferredMajor the {@code preferredMajor} to set
+	 */
+    public void setPreferredMajor(String preferredMajor) {
+        this.preferredMajor = preferredMajor;
     }
 
+	/**
+	 * Getter for {@code applicationOpeningDate}
+	 *
+	 * @return {@code applicationOpeningDate}
+	 */
     public LocalDate getApplicationOpeningDate() {
-        return this.applicationOpeningDate;
+        return applicationOpeningDate;
     }
 
+	/**
+	 * Setter for {@code applicationOpeningDate}
+	 *
+	 * @param applicationOpeningDate the {@code applicationOpeningDate} to set
+	 */
     public void setApplicationOpeningDate(LocalDate applicationOpeningDate) {
         this.applicationOpeningDate = applicationOpeningDate;
     }
 
+	/**
+	 * Getter for {@code applicationClosingDate}
+	 *
+	 * @return {@code applicationClosingDate}
+	 */
     public LocalDate getApplicationClosingDate() {
-        return this.applicationClosingDate;
+        return applicationClosingDate;
     }
 
+	/**
+	 * Setter for {@code applicationClosingDate}
+	 *
+	 * @param applicationClosingDate the {@code applicationClosingDate} to set
+	 */
     public void setApplicationClosingDate(LocalDate applicationClosingDate) {
         this.applicationClosingDate = applicationClosingDate;
     }
 
+	/**
+	 * Getter for {@code status}
+	 * 
+	 * @return {@code status}
+	 */
     public Status getStatus() {
-        return this.status;
+        return status;
     }
 
+	/** Setter for {@code status}
+	 *
+	 * @param status the {@code status} to set
+	 */
     public void setStatus(Status status) {
         this.status = status;
     }
 
 	/**
-	 * @return companyName
+	 * Getter for {@code companyName}
+	 *
+	 * @return {@code companyName}
 	 */
     public String getCompanyName() {
-        return this.companyName;
+        return companyName;
     }
 
+	/**
+	 * Setter for {@code companyName}
+	 *
+	 * @param companyName the {@code companyName} to set
+	 */
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
 
 	/**
-	 * @return companyRepresentatives
+	 * Getter for {@code companyRepresentatives}
+	 *
+	 * @return {@code companyRepresentatives}
 	 */
     public ArrayList<CompanyRepresentative> getCompanyRepresentatives() { 
-        return new ArrayList<>(this.companyRepresentatives); 
+		// Return shallow copy
+        return new ArrayList<CompanyRepresentative>(this.companyRepresentatives); 
     }
 
     /**
+	 * Adds {@code repToAdd} to {@code companyRepresentatives}
+	 *
+	 * @param repToAdd the {@link CompanyRepresentative} to add
      * @return 0 if successful, 1 if unsuccessful
      */
     public int addCompanyRepresentative(CompanyRepresentative repToAdd) {
@@ -146,15 +240,18 @@ public class InternshipOpportunity {
             return 1;
         }
 
-        if (this.companyRepresentatives.contains(repToAdd)) {
+        if (companyRepresentatives.contains(repToAdd)) {
             return 1; 
         }
 
-        this.companyRepresentatives.add(repToAdd);
+        companyRepresentatives.add(repToAdd);
         return 0;
     }
     
     /**
+	 * Deletes {@code repToDelete} from {@code companyRepresentatives}
+	 *
+	 * @param repToDelete the {@link CompanyRepresentative} to delete
      * @return 0 if successful, 1 if unsuccessful
      */
     public int deleteCompanyRepresentative(CompanyRepresentative repToDelete) {
@@ -162,16 +259,24 @@ public class InternshipOpportunity {
             return 1;
         }
 
-        boolean removed = this.companyRepresentatives.remove(repToDelete);
+        boolean removed = companyRepresentatives.remove(repToDelete);
         return removed ? 0 : 1;
     }
 
+	/**
+	 * Getter for {@code numberOfSlots}
+	 *
+	 * @return {@code numberOfSlots}
+	 */
     public int getNumberOfSlots() {
-        return this.numberOfSlots;
+        return numberOfSlots;
     }
 
     /**
-     * @return 0 if successful, 1 if unsuccessful
+	 * Setter for {@code numberOfSlots}
+	 *
+	 * @param numberOfSlots the {@code numberOfSlots} to set. Must be between 1 and {@link MAX_NUM_SLOTS} inclusive.
+     * @return 0 if successful, 1 if unsuccessful.
      */
     public int setNumberOfSlots(int numberOfSlots) {
         if (numberOfSlots <= 0 || numberOfSlots > MAX_NUM_SLOTS) {
@@ -182,12 +287,22 @@ public class InternshipOpportunity {
         return 0;
     }
 
+	/**
+	 * Getter for {@code visible}
+	 *
+	 * @return {@code visible}
+	 */
     public boolean getVisibility() {
-        return this.isVisible;
+        return visible;
     }
 
-    public void setVisibility(boolean isVisible) {
-        this.isVisible = isVisible;
+	/**
+	 * Setter for {@code visible}
+	 *
+	 * @param visible the {@code visible} to set
+	 */
+    public void setVisibility(boolean visible) {
+        this.visible = visible;
     }
 
 }

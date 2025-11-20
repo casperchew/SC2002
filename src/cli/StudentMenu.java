@@ -87,7 +87,7 @@ public class StudentMenu {
 
         boolean loop = true;
         while (loop) {
-			List<InternshipOpportunity> internshipOpportunities = internshipOpportunityController.getInternshipOpportunities(student).stream()
+			List<InternshipOpportunity> internshipOpportunities = internshipOpportunityController.getInternshipOpportunitiesByStudent(student).stream()
 				.filter(x -> student.getInternshipLevelFilter().isEmpty() || student.getInternshipLevelFilter().contains(x.getInternshipLevel()))
 				.filter(x -> student.getCompanyNameFilter().isEmpty() || student.getCompanyNameFilter().contains(x.getCompanyName()))
 				.filter(x -> x.getApplicationOpeningDate().isAfter(student.getApplicationOpeningDateFilter()))
@@ -131,11 +131,11 @@ public class StudentMenu {
             System.out.println("Available slots: " + chosenInternshipOpp.getNumberOfSlots());
             System.out.println("Application opening date: " + chosenInternshipOpp.getApplicationOpeningDate());
             System.out.println("Application closing date: " + chosenInternshipOpp.getApplicationClosingDate());
-            System.out.println("");
+            System.out.println();
             System.out.println("1) Apply for this internship.");
             System.out.println("2) Select another internship.");
             System.out.println("3) Exit.");
-			System.out.println("");
+			System.out.println();
 
             int subChoice = Utils.inputInt("Enter an option: ");
             switch (subChoice) {
@@ -148,7 +148,7 @@ public class StudentMenu {
 
                     if (Student.MAX_APPLICATIONS > student.getInternshipApplications().size()) {
                         applicationController.createApplication(application);
-                        student.addInternshipApplications(application);
+                        student.addInternshipApplication(application);
 						System.out.println("Applied");
 						System.out.println();
                     } else {

@@ -12,11 +12,26 @@ import src.model.internship.InternshipOpportunity;
 import src.model.user.Student;
 import src.model.user.CareerCenterStaff;
 
+/**
+ * The Main class and the entrypoint of the program
+ */
 public class Main {
 	private static Database db = new Database();
 	private static UserController userController = new UserController(db);
 	private static CLI cli = new CLI(db);
 
+	/**
+	 * Default constructor
+	 */
+	public Main() {
+		// The default constructor is explicitly defined for javadoc
+	}
+
+	/**
+	 * Entrypoint of the program
+	 *
+	 * @param args Command line arguments
+	 */
 	public static void main(String[] args) {
 		init();
 		cli.main();

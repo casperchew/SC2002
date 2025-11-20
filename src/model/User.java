@@ -12,7 +12,7 @@ public abstract class User {
     }
 
 	/**
-	 * @return {@code userID}
+	 * @return userID
 	 */
     public String getUserID() {
         return userID;
@@ -26,7 +26,7 @@ public abstract class User {
     }
 
 	/**
-	 * @return {@code name}
+	 * @return name
 	 */
     public String getName() {
         return name;
@@ -40,7 +40,7 @@ public abstract class User {
     }
 
 	/**
-	 * @return {@code passwordHash}
+	 * @return passwordHash
 	 */
     public String getPasswordHash() {
         return passwordHash;

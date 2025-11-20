@@ -32,43 +32,37 @@ public class RepMenu {
     }
 
     public User runMenu() {
-        boolean loop = true;
+		System.out.println();
+		System.out.println("1) Create internship opportunity.");
+		System.out.println("2) View created internship opportunities.");
+		System.out.println("3) View student applications.");
+		System.out.println("4) Change password");
+		System.out.println("5) Log out.");
 
-        while (loop) {
-            System.out.println();
-            System.out.println("1) Create internship opportunity.");
-            System.out.println("2) View created internship opportunities.");
-            System.out.println("3) View student applications.");
-            System.out.println("4) Change password");
-            System.out.println("5) Log out.");
+		int choice = Utils.inputInt("Enter an option: ");
 
-            int choice = Utils.inputInt("Enter an option: ");
-
-            switch (choice) {
-                case 1:
-                    createInternshipOpportunity();
-                    return rep;
-                case 2:
-                    viewCreatedInternships();
-                    return rep;
-                case 3:
-                    viewStudentApplications();
-                    return rep;
-                case 4:
-                    // Changing passwords require re-logins
-                    changePassword();
-                    return null;
-                case 5:
-                    Utils.clear();
-                    System.out.println("Logging out...");
-                    loop = false;
-                    return null;
-                default:
-                    Utils.clear();
-                    System.out.println("Invalid option, please try again.");
-                    return rep;
-            } 
-        } return rep;
+		switch (choice) {
+			case 1:
+				createInternshipOpportunity();
+				return rep;
+			case 2:
+				viewCreatedInternships();
+				return rep;
+			case 3:
+				viewStudentApplications();
+				return rep;
+			case 4:
+				changePassword();
+				return null;
+			case 5:
+				Utils.clear();
+				System.out.println("Logging out...");
+				return null;
+			default:
+				Utils.clear();
+				System.out.println("Invalid option, please try again.");
+				return rep;
+		} 
     }
 
     private void changePassword() {
@@ -114,7 +108,11 @@ public class RepMenu {
         
         String description = Utils.inputString("Set the description for the internship: ");
 
-        System.out.println("\n1) Basic\n2) Intermediate\n3) Advanced");
+		System.out.println();
+        System.out.println("1) Basic");
+        System.out.println("2) Intermediate");
+        System.out.println("3) Advanced");
+		System.out.println();
         int levelChoice = Utils.inputInt("Set the internship level: ");
         InternshipLevel level = switch (levelChoice) {
             case 1 -> InternshipLevel.BASIC;
@@ -123,12 +121,7 @@ public class RepMenu {
             default -> InternshipLevel.BASIC;
         };
 
-        int numMajors = 1; // Assume only 1 preferred major per opportunity
-        ArrayList<String> preferredMajors = new ArrayList<>();
-        for (int i = 0; i < numMajors; i++) {
-            preferredMajors.add(Utils.inputString("Enter preferred major " + (i + 1) + ": "));
-        }
-
+		String preferredMajor = Utils.inputString("Enter preferred major: ");
         LocalDate openingDate = Utils.inputDate("Enter opening date (YYYY-MM-DD): ");
         LocalDate closingDate = Utils.inputDate("Enter closing date (YYYY-MM-DD): ");
         while (closingDate.isBefore(openingDate)) {
@@ -146,17 +139,25 @@ public class RepMenu {
         reps.add(rep);
 
         opportunity = new InternshipOpportunity(
-                title, description, level, preferredMajors, openingDate, closingDate,
-                rep.getCompany(), reps, numSlots
+				title,
+				description,
+				level,
+				preferredMajor,
+				openingDate,
+				closingDate,
+                rep.getCompany(),
+				reps,
+				numSlots
         );
 
         internshipOpportunityController.createInternshipOpportunity(opportunity);
-        System.out.println("\nInternship opportunity '" + title + "' created successfully!");        
+		System.out.println();
+        System.out.println("Internship opportunity '" + title + "' created successfully!");        
     }
 
     private void viewCreatedInternships() {
         Utils.clear();
-        ArrayList<InternshipOpportunity> opportunities = internshipOpportunityController.getInternshipOpportunities(rep);
+        ArrayList<InternshipOpportunity> opportunities = internshipOpportunityController.getInternshipOpportunitiesByCompanyRepresentative(rep);
         
         boolean loop = true;
         while (loop) {
@@ -190,14 +191,14 @@ public class RepMenu {
             System.out.println("Title: " + opp.getInternshipTitle());
             System.out.println("Level: " + opp.getInternshipLevel());
             System.out.println("Description: " + opp.getDescription());
-            System.out.println("Preferred Majors: " + String.join(", ", opp.getPreferredMajors()));
+            System.out.println("Preferred Major: " + opp.getPreferredMajor());
             System.out.println("Application Open: " + opp.getApplicationOpeningDate());
             System.out.println("Application Close: " + opp.getApplicationClosingDate());
             System.out.println("Slots: " + opp.getNumberOfSlots());
             System.out.println("Status: " + opp.getStatus());
             System.out.println("Visibility: " + opp.getVisibility());
-
-            System.out.println("\n1) Select another internship opportunity.");
+			System.out.println();
+            System.out.println("1) Select another internship opportunity.");
             System.out.println("2) Toggle internship visibility.");
             System.out.println("3) Exit.");
             int subChoice = Utils.inputInt("Enter an option: ");
