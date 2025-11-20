@@ -498,44 +498,6 @@ Withdrawal requested: true
 
 ```
 
-###### 2.6.2. After placement confirmation
-
-
-
-#### 3. Company Representatives
-
-##### 3.1. Registration must include a company
-
-###### 3.1.1. Can only log in once approved by a `CareerCenterStaff`
-
-##### 3.2. Create internship opportunities
-
-###### 3.2.1. Max 5
-
-##### 3.3. After an `InternshipOpportunity` is approved by a `CareerCenterStaff`,
-
-###### 3.3.1. View application details and student details for each of the `InternshipOpportunity`
-
-##### 3.4. Approve or reject intership applications
-
-##### 3.5. Toggle visibility of internship opportunity to `on` or `off`.
-
-#### 4. Career Center Staff
-
-##### 4.1. Automatic registration
-
-##### 4.2. Authorize of reject the account creation of `CompanyRepresentative`
-
-##### 4.3. Approve of reject internship opportunities submitted by `CompanyRepresentative`
-
-###### 3.1. Once approved, the internship opportunity becomes visible to eligible students
-
-##### 4.4. Approve or reject student withdrawal requests
-
-##### 4.5. Generate intership opportunity reports
-
-###### 4.5.1. Filter internship opportunities
-
 ## Database
 
 The default password to all the users is `password`.
