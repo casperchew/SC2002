@@ -48,7 +48,6 @@ public class RepMenu {
 	 * @return the {@link src.model.user.CompanyRepresentative} instance after the {@code rep} interacts with the menu.
 	 */
     public User runMenu() {
-		System.out.println();
 		System.out.println("1) Create internship opportunity.");
 		System.out.println("2) View created internship opportunities.");
 		System.out.println("3) View student applications.");
@@ -79,16 +78,6 @@ public class RepMenu {
 				System.out.println("Invalid option, please try again.");
 				return rep;
 		} 
-    }
-
-    private void changePassword() {
-        Utils.clear();
-        String newPassword = Utils.inputString("Enter your new password: ");
-        rep.setPasswordHash(newPassword);
-        Utils.clear();
-        System.out.println("Your new password has been set.");
-        System.out.println("Please re-login with your new password.");
-        System.out.println();
     }
 
     private void createInternshipOpportunity() {
@@ -174,7 +163,7 @@ public class RepMenu {
     private void viewCreatedInternships() {
         Utils.clear();
         ArrayList<InternshipOpportunity> opportunities = internshipOpportunityController.getInternshipOpportunitiesByCompanyRepresentative(rep);
-        
+
         boolean loop = true;
         while (loop) {
             if (opportunities.isEmpty()) {
@@ -183,6 +172,7 @@ public class RepMenu {
                 System.out.println();
                 break;
             }
+
             System.out.println("Created Internship Opportunities:");
             for (int i = 0; i < opportunities.size(); i++) {
                 System.out.println((i + 1) + ") " + opportunities.get(i).getInternshipTitle());
@@ -279,4 +269,15 @@ public class RepMenu {
             }
         }
     }
+
+    private void changePassword() {
+        Utils.clear();
+        String newPassword = Utils.inputString("Enter your new password: ");
+        rep.setPasswordHash(newPassword);
+        Utils.clear();
+        System.out.println("Your new password has been set.");
+        System.out.println("Please re-login with your new password.");
+        System.out.println();
+    }
+
 }

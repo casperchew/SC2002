@@ -217,7 +217,7 @@ public class Student extends User {
 	 * Removes {@code companyName} from {@code Student}'s {@code companyNameFilter}
 	 *
 	 * @param i the index of the {@code companyName} to remove
-	 * @return TODO
+	 * @return The {@code companyName} that was removed from the list, or {@code null} if the list was cleared.
 	 */
     public String removeCompanyNameFilter(int i) {
         if (i == -1) {

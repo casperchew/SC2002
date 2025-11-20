@@ -11,13 +11,13 @@ import src.model.User;
  * CareerCenterStaff Class
  */
 public class CareerCenterStaff extends User {
-    private ArrayList<InternshipLevel> internshipLevelFilter;
-    private ArrayList<String> preferredMajorsFilter; 
-    private LocalDate applicationOpeningDateFilter;
-    private LocalDate applicationClosingDateFilter;
-	private ArrayList<Status> statusFilter;
-    private ArrayList<String> companyNameFilter;
-	private ArrayList<CompanyRepresentative> companyRepresentativeFilter;
+    private ArrayList<InternshipLevel> internshipLevelFilter = new ArrayList<InternshipLevel>();
+    private ArrayList<String> preferredMajorsFilter = new ArrayList<String>(); 
+    private LocalDate applicationOpeningDateFilter = LocalDate.MIN;
+    private LocalDate applicationClosingDateFilter = LocalDate.MAX;
+	private ArrayList<Status> statusFilter = new ArrayList<Status>();
+    private ArrayList<String> companyNameFilter = new ArrayList<String>();
+	private ArrayList<CompanyRepresentative> companyRepresentativeFilter = new ArrayList<CompanyRepresentative>();
 	
 	/**
 	 * Constructs a {@code CareerCenterStaff} with the required attributes
@@ -28,15 +28,6 @@ public class CareerCenterStaff extends User {
 	 */
 	public CareerCenterStaff(String userID, String name, String passwordHash) {
 		super(userID, name, passwordHash);
-
-		// TODO: move default attributes outside constructor
-        this.internshipLevelFilter = new ArrayList<InternshipLevel>();
-		this.preferredMajorsFilter = new ArrayList<String>();
-        this.applicationOpeningDateFilter = LocalDate.MIN; 
-        this.applicationClosingDateFilter = LocalDate.MAX;
-		this.statusFilter = new ArrayList<Status>();
-        this.companyNameFilter = new ArrayList<String>();
-		this.companyRepresentativeFilter = new ArrayList<>();
 	}
 
 	// Getters and Setters
@@ -73,7 +64,7 @@ public class CareerCenterStaff extends User {
 	 * Removes {@code internshipLevel} from {@code internshipLevelFilter}
 	 *
 	 * @param i the index of the {@code internshipLevel} to remove
-	 * @return TODO
+	 * @return The {@link src.model.internshipInternshipLevel} that was removed. If the list was cleared, returns {@code null}.
 	 */
     public InternshipLevel removeInternshipLevelFilter(int i) {
         if (i == -1) {

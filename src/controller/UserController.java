@@ -121,10 +121,4 @@ public class UserController {
 
         return null;
     }
-
-		//   public void saveAllUsers() {
-		//       // TODO: write users to csv
-		// // This method should be moved to Database.java
-		//   }
-
 }
