@@ -162,10 +162,11 @@ public class RepMenu {
 
     private void viewCreatedInternships() {
         Utils.clear();
-        ArrayList<InternshipOpportunity> opportunities = internshipOpportunityController.getInternshipOpportunitiesByCompanyRepresentative(rep);
 
         boolean loop = true;
         while (loop) {
+            ArrayList<InternshipOpportunity> opportunities = internshipOpportunityController.getInternshipOpportunitiesByCompanyRepresentative(rep);
+
             if (opportunities.isEmpty()) {
                 Utils.clear();
                 System.out.println("You have not created any internship opportunities yet.");

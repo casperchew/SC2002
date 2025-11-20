@@ -1,5 +1,7 @@
 package src.model.user;
 
+import java.util.Objects;
+
 import src.enums.Status;
 import src.model.User;
 
@@ -63,4 +65,18 @@ public class CompanyRepresentative extends User {
 		this.status = status;
 	}
 	// -------------------
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (obj == null || getClass() != obj.getClass()) return false;
+		CompanyRepresentative other = (CompanyRepresentative) obj;
+		return Objects.equals(this.getUserID(), other.getUserID());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getUserID());
+	}
+
 }
