@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import src.controller.UserController;
 import src.controller.ApplicationController;
 import src.controller.InternshipOpportunityController;
@@ -168,7 +167,7 @@ public class RepMenu {
 
         boolean loop = true;
         while (loop) {
-            ArrayList<InternshipOpportunity> opportunities = internshipOpportunityController.getInternshipOpportunitiesByCompanyRepresentative(rep);
+            List<InternshipOpportunity> opportunities = internshipOpportunityController.getInternshipOpportunitiesByCompanyRepresentative(rep);
             if (opportunities.isEmpty()) {
                 Utils.clear();
                 System.out.println("You have not created any internship opportunities yet.");
@@ -236,7 +235,7 @@ public class RepMenu {
         while (loop) {
 
             // Get only opportunities that belong to this representative
-            ArrayList<InternshipOpportunity> repOpps =
+            List<InternshipOpportunity> repOpps =
                 internshipOpportunityController.getInternshipOpportunitiesByCompanyRepresentative(rep);
 
             // Build pending applications list ONLY by scanning opportunities (NOT manually scanning all apps)
