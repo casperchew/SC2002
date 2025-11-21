@@ -7,136 +7,283 @@ import src.enums.Status;
 import src.enums.InternshipLevel;
 import src.model.User;
 
+/**
+ * CareerCenterStaff Class
+ */
 public class CareerCenterStaff extends User {
-
-	// filters (can add more filters as necessary)
-    ArrayList<InternshipLevel> internshipLevelFilter;
-    ArrayList<String> companyNameFilter;
-    private ArrayList<String> preferredMajorsFilter; 
-    private LocalDate applicationOpeningDateFilter;
-    private LocalDate applicationClosingDateFilter;
-	private ArrayList<Status> statusFilter;
-	private ArrayList<CompanyRepresentative> companyRepresentativeFilter;
-
+    private ArrayList<InternshipLevel> internshipLevelFilter = new ArrayList<InternshipLevel>();
+    private ArrayList<String> preferredMajorsFilter = new ArrayList<String>(); 
+    private LocalDate applicationOpeningDateFilter = LocalDate.MIN;
+    private LocalDate applicationClosingDateFilter = LocalDate.MAX;
+	private ArrayList<Status> statusFilter = new ArrayList<Status>();
+    private ArrayList<String> companyNameFilter = new ArrayList<String>();
+	private ArrayList<CompanyRepresentative> companyRepresentativeFilter = new ArrayList<CompanyRepresentative>();
 	
+	/**
+	 * Constructs a {@code CareerCenterStaff} with the required attributes
+	 *
+	 * @param userID the NTU account of the career center staff
+	 * @param name the {@code name} of the career center staff
+	 * @param passwordHash the {@code passwordHash} of the career center staff
+	 */
 	public CareerCenterStaff(String userID, String name, String passwordHash) {
 		super(userID, name, passwordHash);
-
-        this.internshipLevelFilter = new ArrayList<InternshipLevel>();
-        this.companyNameFilter = new ArrayList<String>();
-		this.preferredMajorsFilter = new ArrayList<String>();
-		this.statusFilter = new ArrayList<Status>();
-		this.companyRepresentativeFilter = new ArrayList<>();
-        // At initialization, we set these such that all dates fall within the range of the date filters
-        this.applicationOpeningDateFilter = LocalDate.MIN; 
-        this.applicationClosingDateFilter = LocalDate.MAX;
 	}
 
-	public void AddInternshipLevelFilter(InternshipLevel internshipLevel) {
-        this.internshipLevelFilter.add(internshipLevel);
-    }
-    public void RemoveInternshipLevelFilter(InternshipLevel internshipLevel) {
-        this.internshipLevelFilter.remove(internshipLevel);
-    }
-    // overload
-    public InternshipLevel RemoveInternshipLevelFilter(int i) {
-        if (i == -1) {
-            this.internshipLevelFilter.clear();
-            return null;
-        }
-        return this.internshipLevelFilter.remove(i);
-    }   
+	// Getters and Setters
+	// -------------------
+	// internshipLevelFilter
+	/**
+	 * Getter for {@code internshipLevelFilter}
+	 *
+	 * @return {@code internshipLevelFilter}
+	 */
     public ArrayList<InternshipLevel> getInternshipLevelFilter() {
         return internshipLevelFilter;
     }
 
-    public void AddCompanyNameFilter(String companyName) {
-        this.companyNameFilter.add(companyName);
+	/**
+	 * Adds {@code internshipLevel} to {@code internshipLevelFilter}
+	 *
+	 * @param internshipLevel the {@code internshipLevel} to add
+	 */
+	public void addInternshipLevelFilter(InternshipLevel internshipLevel) {
+        internshipLevelFilter.add(internshipLevel);
     }
-    public void RemoveCompanyNameFilter(String companyName) {
-        this.companyNameFilter.remove(companyName);
+
+	/**
+	 * Removes {@code internshipLevel} from {@code internshipLevelFilter}
+	 *
+	 * @param internshipLevel the {@code internshipLevel} to remove
+	 */
+    public void removeInternshipLevelFilter(InternshipLevel internshipLevel) {
+        internshipLevelFilter.remove(internshipLevel);
     }
-    // overload
-    public String RemoveCompanyNameFilter(int i) {
+
+	/**
+	 * Removes {@code internshipLevel} from {@code internshipLevelFilter}
+	 *
+	 * @param i the index of the {@code internshipLevel} to remove
+	 * @return The {@link src.enums.InternshipLevel} that was removed. If the list was cleared, returns {@code null}.
+	 */
+    public InternshipLevel removeInternshipLevelFilter(int i) {
         if (i == -1) {
-            this.companyNameFilter.clear();
+            internshipLevelFilter.clear();
             return null;
         }
-        return this.companyNameFilter.remove(i);
+
+        return internshipLevelFilter.remove(i);
     }   
-    public ArrayList<String> getCompanyNameFilter() {
-        return companyNameFilter;
-    }
 
-    public void setApplicationOpeningDateFilter(LocalDate applicationOpeningDateFilter) {
-        this.applicationOpeningDateFilter = applicationOpeningDateFilter;
-    }
-    public LocalDate getApplicationOpeningDateFilter() {
-        return applicationOpeningDateFilter;
-    }
-
-    public void setApplicationClosingDateFilter(LocalDate applicationClosingDateFilter) {
-        this.applicationClosingDateFilter = applicationClosingDateFilter;
-    }
-    public LocalDate getApplicationClosingDateFilter() {
-        return applicationClosingDateFilter;
-    }
-
-	public void AddPreferredMajorFilter(String major) {
-        this.preferredMajorsFilter.add(major);
-    }
-    public void RemovePreferredMajorFilter(String major) {
-        this.preferredMajorsFilter.remove(major);
-    }
-    // overload
-    public String RemovePreferredMajorFilter(int i) {
-        if (i == -1) {
-            this.preferredMajorsFilter.clear();
-            return null;
-        }
-        return this.preferredMajorsFilter.remove(i);
-    }
+	// preferredMajorFilter
+	/**
+	 * Getter for {@code preferredMajorsFilter}
+	 *
+	 * @return {@code preferredMajorsFilter}
+	 */
     public ArrayList<String> getPreferredMajorsFilter() {
         return preferredMajorsFilter;
     }
 
-    public void AddStatusFilter(Status status) {
-        this.statusFilter.add(status);
+	/**
+	 * Adds {@code major} to {@code preferredMajorsFilter}
+	 *
+	 * @param major the {@code major} to add
+	 */
+	public void addPreferredMajorFilter(String major) {
+        preferredMajorsFilter.add(major);
     }
-    public void RemoveStatusFilter(Status status) {
-        this.statusFilter.remove(status);
+
+	/**
+	 * Adds {@code major} to {@code preferredMajorsFilter}
+	 *
+	 * @param major the {@code major} to remove
+	 */
+    public void removePreferredMajorFilter(String major) {
+        preferredMajorsFilter.remove(major);
     }
-    // overload
-    public Status RemoveStatusFilter(int i) {
+
+	/**
+	 * Removes the preferred major at the specified position in the preferredMajorFilter list. Shifts any subsequent elements to the left (subtracts one from their indices).
+	 * <br><br>
+	 * Overloads the {@code removePreferredMajor} function.
+	 *
+	 * @param i the index of the {@code major} to remove. If {@code i} is -1, the {@code preferredMajorFilter} list is cleared
+	 * @return TODO
+	 */
+    public String removePreferredMajorFilter(int i) {
         if (i == -1) {
-            this.statusFilter.clear();
+            preferredMajorsFilter.clear();
             return null;
         }
-        return this.statusFilter.remove(i);
+
+        return preferredMajorsFilter.remove(i);
     }
+
+	// applicationOpeningDateFilter
+	/**
+	 * Getter for {@code applicationOpeningDateFilter}
+	 *
+	 * @return {@code applicationOpeningDateFilter}
+	 */
+    public LocalDate getApplicationOpeningDateFilter() {
+        return applicationOpeningDateFilter;
+    }
+
+	/**
+	 * Setter for {@code applicationOpeningDateFilter}
+	 *
+	 * @param applicationOpeningDateFilter the {@code applicationOpeningDateFilter} to set
+	 */
+    public void setApplicationOpeningDateFilter(LocalDate applicationOpeningDateFilter) {
+        this.applicationOpeningDateFilter = applicationOpeningDateFilter;
+    }
+
+	// applicationClosingDateFilter
+	/**
+	 * Getter for {@code applicationClosingDateFilter}
+	 *
+	 * @return {@code applicationClosingDateFilter}
+	 */
+    public LocalDate getApplicationClosingDateFilter() {
+        return applicationClosingDateFilter;
+    }
+
+	/**
+	 * Setter for {@code applicationClosingDateFilter}
+	 *
+	 * @param applicationClosingDateFilter the {@code applicationClosingDateFilter} to set
+	 */
+    public void setApplicationClosingDateFilter(LocalDate applicationClosingDateFilter) {
+        this.applicationClosingDateFilter = applicationClosingDateFilter;
+    }
+
+	// statusFilter
+	/**
+	 * Getter for {@code statusFilter}
+	 *
+	 * @return {@code statusFilter}
+	 */
     public ArrayList<Status> getStatusFilter() {
         return statusFilter;
     }
 
+	/**
+	 * Adds {@code status} to {@code statusFilter}
+	 *
+	 * @param status the {@code status} to add
+	 */
+    public void addStatusFilter(Status status) {
+        this.statusFilter.add(status);
+    }
 
-    public void AddCompanyRepresentativeFilter(CompanyRepresentative rep) {
-        this.companyRepresentativeFilter.add(rep);
+	/**
+	 * Removes {@code status} from {@code statusFilter}
+	 *
+	 * @param status the {@code status} to remove
+	 */
+    public void removeStatusFilter(Status status) {
+        this.statusFilter.remove(status);
     }
-    public void RemoveCompanyRepresentativeFilter(CompanyRepresentative rep) {
-        this.companyRepresentativeFilter.remove(rep);
-    }
-    // overload
-    public CompanyRepresentative RemoveCompanyRepresentativeFilter(int i) {
+
+	/**
+	 * Removes {@code status} from {@code statusFilter}
+	 *
+	 * @param i the index of the {@code status} to remove
+	 * @return TODO
+	 */
+    public Status removeStatusFilter(int i) {
         if (i == -1) {
-            this.companyRepresentativeFilter.clear();
+            this.statusFilter.clear();
             return null;
         }
-        return this.companyRepresentativeFilter.remove(i);
+
+        return statusFilter.remove(i);
     }
 
+	// companyNameFilter
+	/**
+	 * Getter for {@code companyNameFilter}
+	 *
+	 * @return {@code companyNameFilter}
+	 */
+    public ArrayList<String> getCompanyNameFilter() {
+        return companyNameFilter;
+    }
+
+	/**
+	 * Adds {@code companyName} to {@code companyNameFilter}
+	 *
+	 * @param companyName the {@code companyName} to add
+	 */
+    public void addCompanyNameFilter(String companyName) {
+        companyNameFilter.add(companyName);
+    }
+
+	/**
+	 * Removes {@code companyName} from {@code companyNameFilter}
+	 *
+	 * @param companyName the {@code companyName} to remove
+	 */
+    public void removeCompanyNameFilter(String companyName) {
+        companyNameFilter.remove(companyName);
+    }
+
+	/**
+	 * Removes {@code companyName} from {@code companyNameFilter}
+	 *
+	 * @param i the index of the {@code companyName} to remove
+	 * @return TODO
+	 */
+    public String removeCompanyNameFilter(int i) {
+        if (i == -1) {
+            companyNameFilter.clear();
+            return null;
+        }
+
+        return companyNameFilter.remove(i);
+    }   
+
+	// companyRepresentativeFilter
+	/**
+	 * Getter for companyRepresentativeFilter
+	 *
+	 * @return {@code companyRepresentativeFilter}
+	 */
     public ArrayList<CompanyRepresentative> getCompanyRepresentativeFilter() {
         return companyRepresentativeFilter;
     }
 
-}
+	/**
+	 * Adds {@code rep} to {@code companyRepresentativeFilter}
+	 *
+	 * @param rep the {@code rep} to add
+	 */
+    public void addCompanyRepresentativeFilter(CompanyRepresentative rep) {
+        companyRepresentativeFilter.add(rep);
+    }
 
+	/**
+	 * Removes {@code rep} from {@code companyRepresentativeFilter}
+	 *
+	 * @param rep the {@code rep} to remove
+	 */
+    public void removeCompanyRepresentativeFilter(CompanyRepresentative rep) {
+        companyRepresentativeFilter.remove(rep);
+    }
+
+	/**
+	 * Removes {@code rep} from {@code companyRepresentativeFilter}
+	 *
+	 * @param i the index of the {@code rep} to remove
+	 * @return TODO
+	 */
+    public CompanyRepresentative removeCompanyRepresentativeFilter(int i) {
+        if (i == -1) {
+            companyRepresentativeFilter.clear();
+            return null;
+        }
+
+        return companyRepresentativeFilter.remove(i);
+    }
+}

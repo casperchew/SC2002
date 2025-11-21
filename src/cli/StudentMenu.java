@@ -2,8 +2,10 @@ package src.cli;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import src.controller.UserController;
 import src.controller.ApplicationController;
@@ -16,35 +18,48 @@ import src.model.internship.InternshipOpportunity;
 import src.model.user.Student;
 import src.utils.Utils;
 
+/**
+ * CLI for {@link src.model.user.Student}
+ */
 public class StudentMenu {
-    private static Scanner sc = new Scanner(System.in);
-
     private Student student;
     private UserController userController;
-    private ApplicationController appController;
+    private ApplicationController applicationController;
     private InternshipOpportunityController internshipOpportunityController;
 
-
+	/**
+	 * Constructs a {@link StudentMenu} for {@link src.model.user.Student} from the required controllers
+	 *
+	 * @param student the {@link src.model.user.Student} that the CLI is for
+	 * @param userController the {@link src.controller.UserController} used
+	 * @param applicationController the {@link src.controller.ApplicationController} used
+	 * @param internshipOpportunityController the {@link src.controller.InternshipOpportunityController} used
+	 */
     public StudentMenu(
         Student student,
         UserController userController,
-        ApplicationController appController,
+        ApplicationController applicationController,
         InternshipOpportunityController internshipOpportunityController
     ) {
         this.student = student;
         this.userController = userController;
-        this.appController = appController;
+        this.applicationController = applicationController;
         this.internshipOpportunityController = internshipOpportunityController;
     }
-   
+
+	/**
+	 * Displays the CLI menu for {@link src.model.user.Student}.
+	 *
+	 * @return the {@link src.model.user.Student} instance after the {@code student} interacts with the menu.
+	 */
     public User runMenu() {
         int choice;
 
-        System.out.println("\t1) Apply for internship."); 
-        System.out.println("\t2) View internship applications."); 
-        System.out.println("\t3) Set filters."); 
-        System.out.println("\t4) Change Password.");
-        System.out.println("\t5) Logout."); 
+        System.out.println("1) Apply for internship."); 
+        System.out.println("2) View internship applications."); 
+        System.out.println("3) Set filters."); 
+        System.out.println("4) Change Password.");
+        System.out.println("5) Logout."); 
         System.out.println("");
         choice = Utils.inputInt("Enter an option: ");
         switch (choice) {
@@ -57,12 +72,10 @@ public class StudentMenu {
                 return student;
 
             case 3:
-				// Utils.clear();
                 setFilter();
                 return student;
 
             case 4:
-				// We need to prompt re-login
                 changePassword();
 				return null;
 
@@ -90,56 +103,24 @@ public class StudentMenu {
 
         boolean loop = true;
         while (loop) {
-            // Utils.clear();
-            ArrayList<InternshipOpportunity> opportunities = internshipOpportunityController.getInternshipOpportunities(student);
-            ArrayList<InternshipOpportunity> filtered = new ArrayList<>();
+			List<InternshipOpportunity> internshipOpportunities = internshipOpportunityController.getInternshipOpportunitiesByStudent(student).stream()
+				.filter(x -> student.getInternshipLevelFilter().isEmpty() || student.getInternshipLevelFilter().contains(x.getInternshipLevel()))
+				.filter(x -> student.getCompanyNameFilter().isEmpty() || student.getCompanyNameFilter().contains(x.getCompanyName()))
+				.filter(x -> x.getApplicationOpeningDate().isAfter(student.getApplicationOpeningDateFilter()))
+				.filter(x -> x.getApplicationClosingDate().isBefore(student.getApplicationClosingDateFilter()))
+				.filter(x -> Objects.equals(x.getStatus(), Status.APPROVED))
+				.collect(Collectors.toList());
 
-            // This loop is added for the filtering
-            for (InternshipOpportunity opp : opportunities) {
+			if (internshipOpportunities.isEmpty()) {
+				Utils.clear();
+				System.out.println("There are currently no available internship opportunities for you.");
+				System.out.println("");
+				break;
+			}
 
-                // Filter by internship level
-                if (!student.getInternshipLevelFilter().isEmpty()) {
-                    if (!student.getInternshipLevelFilter().contains(opp.getInternshipLevel())) {
-                        continue;
-                    }
-                }
-
-                // Filter by company name
-                if (!student.getCompanyNameFilter().isEmpty()) {
-                    if (!student.getCompanyNameFilter().contains(opp.getCompanyName())) {
-                        continue;
-                    }
-                }
-
-                // Filter by opening/closing date
-                if (opp.getApplicationOpeningDate().isBefore(student.getApplicationOpeningDateFilter())) {
-                    continue;
-                }
-                if (opp.getApplicationClosingDate().isAfter(student.getApplicationClosingDateFilter())) {
-                    continue;
-                }
-
-                filtered.add(opp);
-            }
-
-            if (filtered.isEmpty()) {
-                Utils.clear();
-                System.out.println("There are currently no available internship opportunities for you.");
-                System.out.println("");
-                break;
-            }
-
-            ArrayList<InternshipOpportunity> approvedList = new ArrayList<>();
-            
-            System.out.println("Select an internship opportunity to apply for: ");
-            for (InternshipOpportunity internshipOpp: filtered) {
-                if (Objects.equals(internshipOpp.getStatus(), Status.APPROVED)) {
-                    approvedList.add(internshipOpp);
-                }
-            }
-
-            for (int i = 0; i < approvedList.size(); i++) {
-                System.out.println((i + 1) + ") " + approvedList.get(i).getInternshipTitle());
+			System.out.println("Internship opportunities found based on your eligibility and filters: ");
+            for (int i = 0; i < internshipOpportunities.size(); i++) {
+                System.out.println((i + 1) + ") " + internshipOpportunities.get(i).getInternshipTitle());
             }
 
             System.out.println();
@@ -150,28 +131,30 @@ public class StudentMenu {
                 break;
             }
 
-            if (choice < 1 || choice > approvedList.size()) {
+            if (choice < 1 || choice > internshipOpportunities.size()) {
+				Utils.clear();
                 System.out.println("Please select a valid internship opportunity.");
                 System.out.println();
                 continue;
             }
 
-            InternshipOpportunity chosenInternshipOpp = approvedList.get(choice - 1);
+            InternshipOpportunity chosenInternshipOpp = internshipOpportunities.get(choice - 1);
 
             System.out.println("Title: " + chosenInternshipOpp.getInternshipTitle());
             System.out.println("Company name: " + chosenInternshipOpp.getCompanyName());
             System.out.println("Internship level: " + chosenInternshipOpp.getInternshipLevel());
             System.out.println("Description: " + chosenInternshipOpp.getDescription());
-            System.out.println("Available slots: " + chosenInternshipOpp.getNumberOfSlots());
+            System.out.println("Total available slots: " + chosenInternshipOpp.getNumberOfSlots());
+            System.out.println("Applicants accepted: " + (chosenInternshipOpp.getNumberOfSlots() - chosenInternshipOpp.getSlotsLeft()));
             System.out.println("Application opening date: " + chosenInternshipOpp.getApplicationOpeningDate());
             System.out.println("Application closing date: " + chosenInternshipOpp.getApplicationClosingDate());
-
             System.out.println();
             System.out.println("1) Apply for this internship.");
             System.out.println("2) Select another internship.");
             System.out.println("3) Exit.");
-            int subChoice = Utils.inputInt("Enter an option: ");
+			System.out.println();
 
+            int subChoice = Utils.inputInt("Enter an option: ");
             switch (subChoice) {
                 case 1:
                     Utils.clear();
@@ -181,8 +164,10 @@ public class StudentMenu {
                     );
 
                     if (Student.MAX_APPLICATIONS > student.getInternshipApplications().size()) {
-                        appController.createApplication(application);
-                        student.addInternshipApplications(application);
+                        applicationController.createApplication(application);
+                        student.addInternshipApplication(application);
+						System.out.println("Applied");
+						System.out.println();
                     } else {
                         System.out.println("You already have 3 applications pending.");
                         System.out.println();
@@ -249,6 +234,8 @@ public class StudentMenu {
             System.out.println("Internship title: " + chosenInternshipApplication.getInternshipOpportunity().getInternshipTitle());
             System.out.println("Internship description: " + chosenInternshipApplication.getInternshipOpportunity().getDescription());
             System.out.println("Status: " + chosenInternshipApplication.getStatus());
+            System.out.println("Total available slots: " + chosenInternshipApplication.getInternshipOpportunity().getNumberOfSlots());
+            System.out.println("Applicants accepted: " + (chosenInternshipApplication.getInternshipOpportunity().getNumberOfSlots() - chosenInternshipApplication.getInternshipOpportunity().getSlotsLeft()));
             System.out.println("Placement confimed: " + chosenInternshipApplication.getPlacementConfirmed());
             System.out.println("Withdrawal requested: " + chosenInternshipApplication.getWithdrawalRequested());
 
@@ -261,7 +248,6 @@ public class StudentMenu {
                 case 1:
                     // If a student chooses an internship opportunity, we set the other applications to rejected and delete them from student.internshipOpportunities
                     // The selected internship opportunity must not be deleted yet because he can still request withdrawal
-                    chosenInternshipApplication.setStatus(Status.APPROVED);
                     if (Objects.equals(chosenInternshipApplication.getStatus(), Status.APPROVED)) {
                         student.setInternship(chosenInternshipApplication.getInternshipOpportunity());
                         for (InternshipApplication application: student.getInternshipApplications()) {
@@ -278,7 +264,7 @@ public class StudentMenu {
                         loop = false;
                     } else {
                         Utils.clear();
-                        System.out.println("Your application has not yet been approved");
+                        System.out.println("Your application has not yet been approved or there are no more slots");
                         System.out.println();
                     }
                     break;
@@ -360,7 +346,7 @@ public class StudentMenu {
 
                     // Add only if it has not already be added (TODO: this should probably be handled within student.AddInternshipLevelFilter)
                     if (!student.getInternshipLevelFilter().contains(levelToAdd)) {
-                        student.AddInternshipLevelFilter(levelToAdd);
+                        student.addInternshipLevelFilter(levelToAdd);
                         Utils.clear();
                     } else {
                         Utils.clear();
@@ -392,7 +378,7 @@ public class StudentMenu {
                         break;
                     }
 
-                    InternshipLevel removedLvl = student.RemoveInternshipLevelFilter(lvlRemoveChoice - 1);
+                    InternshipLevel removedLvl = student.removeInternshipLevelFilter(lvlRemoveChoice - 1);
                     System.out.println("Removed: " + removedLvl + "\n");
                     break;
 
@@ -400,7 +386,7 @@ public class StudentMenu {
                     String companyName = Utils.inputString("Enter company name to add: ");
                     // TODO: Likewise, these checks should probably also be handled within student.AddCompanyNameFilter()
                     if (!student.getCompanyNameFilter().contains(companyName)) {
-                        student.AddCompanyNameFilter(companyName);
+                        student.addCompanyNameFilter(companyName);
                         Utils.clear();
                         System.out.println("Company added.\n");
                         System.out.println();
@@ -435,7 +421,7 @@ public class StudentMenu {
                         break;
                     }
 
-                    String removedCompany = student.RemoveCompanyNameFilter(companyRemoveChoice - 1);
+                    String removedCompany = student.removeCompanyNameFilter(companyRemoveChoice - 1);
                     Utils.clear();
                     System.out.println("Removed: " + removedCompany + "\n");
                     System.out.println();
@@ -482,8 +468,8 @@ public class StudentMenu {
                     break;
 
                 case 7:
-                    student.RemoveInternshipLevelFilter(-1);
-                    student.RemoveCompanyNameFilter(-1);
+                    student.removeInternshipLevelFilter(-1);
+                    student.removeCompanyNameFilter(-1);
                     student.setApplicationOpeningDateFilter(LocalDate.MIN);
                     student.setApplicationClosingDateFilter(LocalDate.MAX);
                     Utils.clear();

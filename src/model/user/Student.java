@@ -8,71 +8,117 @@ import src.model.User;
 import src.model.internship.InternshipApplication;
 import src.model.internship.InternshipOpportunity; 
 
+/**
+ * Student class
+ */
 public class Student extends User {
+	/** The maximum number of internship opportunities a {@code Student} can apply for at once. */
     public static final int MAX_APPLICATIONS = 3;
 
-    private int YearOfStudy;
-    private String Major;
-    InternshipOpportunity internship;
+    private int yearOfStudy;
+    private String major;
+    private InternshipOpportunity internship;
     private ArrayList<InternshipApplication> internshipApplications = new ArrayList<InternshipApplication>();
 
-    // Filters
-    ArrayList<InternshipLevel> internshipLevelFilter;
-    ArrayList<String> companyNameFilter;
-    private LocalDate applicationOpeningDateFilter;
-    private LocalDate applicationClosingDateFilter;
+    private ArrayList<InternshipLevel> internshipLevelFilter = new ArrayList<InternshipLevel>();
+    private ArrayList<String> companyNameFilter = new ArrayList<String>();
+    private LocalDate applicationOpeningDateFilter = LocalDate.MIN;
+    private LocalDate applicationClosingDateFilter = LocalDate.MAX;
 
-    public Student(String userID, String name, String passwordHash, int YearOfStudy, String Major, InternshipOpportunity internship) {
+	/**
+	 * Constructs a Student constructor with required attributes
+	 *
+	 * @param userID the matriculation number of the Student
+	 * @param name the {@code name} of the {@code Student}
+	 * @param passwordHash the {@code passwordHash} of the {@code Student}
+	 * @param yearOfStudy the {@code yearOfStudy} of the {@code Student}
+	 * @param major the {@code major} of the {@code Student}
+	 * @param internship the {@code internship} of the {@code Student}
+	 */
+    public Student(String userID, String name, String passwordHash, int yearOfStudy, String major, InternshipOpportunity internship) {
         super(userID, name, passwordHash);
 
-        this.YearOfStudy = YearOfStudy;
-        this.Major = Major;
+        this.yearOfStudy = yearOfStudy;
+        this.major = major;
         this.internship = internship;
-
-        this.internshipLevelFilter = new ArrayList<InternshipLevel>();
-        this.companyNameFilter = new ArrayList<String>();
-        this.applicationOpeningDateFilter = LocalDate.MIN; 
-        this.applicationClosingDateFilter = LocalDate.MAX;
     }
 
 	// Getters and Setters
 	// -------------------
-	// YearOfStudy
+	// yearOfStudy
+	/**
+	 * Getter for {@code yearOfStudy}
+	 *
+	 * @return yearOfStudy
+	 */
     public int getYearOfStudy() {
-        return YearOfStudy;
+        return yearOfStudy;
     }
 
+	/**
+	 * Setter for {@code yearOfStudy}
+	 *
+	 * @param yearOfStudy the {@code yearOfStudy} to set
+	 */
     public void setYearOfStudy(int yearOfStudy) {
-        YearOfStudy = yearOfStudy;
+        this.yearOfStudy = yearOfStudy;
     }
 
-	// Major
+	// major
+	/**
+	 * Getter for {@code major}
+	 *
+	 * @return major
+	 */
     public String getMajor() {
-        return Major;
+        return major;
     }
 
+	/**
+	 * Setter for {@code major}
+	 *
+	 * @param major the {@code major} to set
+	 */
     public void setMajor(String major) {
-        Major = major;
+        this.major = major;
     }
 
-	// Internship
+	// internship
+	/**
+	 * Getter for {@code internship}
+	 *
+	 * @return internship
+	 */
     public InternshipOpportunity getInternship() {
-        return this.internship;
+        return internship;
     }
 
+	/**
+	 * Setter for {@code internship}
+	 *
+	 * @param internship the {@code internship} to set
+	 */
     public void setInternship(InternshipOpportunity internship) {
         this.internship = internship;
     }
 
-	// InternshipApplications
+	// internshipApplications
+	/**
+	 * Getter for {@code internshipApplications}
+	 *
+	 * @return internshipApplications
+	 */
     public ArrayList<InternshipApplication> getInternshipApplications() {
-        return new ArrayList<>(internshipApplications);
+        return internshipApplications;
     }
 
 	/** 
+	 * Adds {@code internshipApplication} to {@code Student}'s {@code internshipApplications}
+	 *
+	 * @param internshipApplication the {@code internshipApplication} to delete
 	 * @return 0 if success, 1 if error
 	 */
-    public int addInternshipApplications(InternshipApplication internshipApplication) {
+    public int addInternshipApplication(InternshipApplication internshipApplication) {
         if (internshipApplications.size() < MAX_APPLICATIONS) {
             internshipApplications.add(internshipApplication);
             return 0; 
@@ -82,74 +128,140 @@ public class Student extends User {
     }
 
 	/**
+	 * Deletes {@code internshipApplication} from {@code Student}'s {@code internshipApplications}
+	 *
+	 * @param internshipApplication the {@code internshipApplication} to delete
 	 * @return 0 if success, 1 if error
 	 */
-    public int deleteInternshipApplication(InternshipApplication application) {
-        if (application == null) {
+    public int deleteInternshipApplication(InternshipApplication internshipApplication) {
+        if (internshipApplication == null) {
             return 1; 
         }
 
-        boolean removed = this.internshipApplications.remove(application);
+        boolean removed = this.internshipApplications.remove(internshipApplication);
 		return removed ? 0 : 1;
     }
 
 	// InternshipLevelFilter
+	/**
+	 * Getter for {@code internshipLevelFilter}
+	 *
+	 * @return internshipLevelFilter
+	 */
     public ArrayList<InternshipLevel> getInternshipLevelFilter() {
         return internshipLevelFilter;
     }
 
-    public void AddInternshipLevelFilter(InternshipLevel internshipLevel) {
-        this.internshipLevelFilter.add(internshipLevel);
+	/**
+	 * Adds {@code internshipLevel} to {@code Student}'s {@code internshipLevelFilter}
+	 *
+	 * @param internshipLevel the {@code internshipLevel} to add
+	 */
+    public void addInternshipLevelFilter(InternshipLevel internshipLevel) {
+        internshipLevelFilter.add(internshipLevel);
     }
 
-    public void RemoveInternshipLevelFilter(InternshipLevel internshipLevel) {
-        this.internshipLevelFilter.remove(internshipLevel);
+	/**
+	 * Removes {@code internshipLevel} from {@code Student}'s {@code internshipLevelFilter}
+	 *
+	 * @param internshipLevel the {@code internshipLevel} to remove
+	 */
+    public void removeInternshipLevelFilter(InternshipLevel internshipLevel) {
+        internshipLevelFilter.remove(internshipLevel);
     }
 
-    public InternshipLevel RemoveInternshipLevelFilter(int i) {
+	/**
+	 * Removes {@code internshipLevel} from {@code Student}'s {@code internshipLevelFilter}.
+	 *
+	 * @param i the index of the {@code internshipLevel} to remove.
+	 * @return The {@link src.enums.InternshipLevel} that was from removed from the list, or {@code null} if the filter was cleared.
+	 */
+    public InternshipLevel removeInternshipLevelFilter(int i) {
         if (i == -1) {
-            this.internshipLevelFilter.clear();
+            internshipLevelFilter.clear();
             return null;
         }
-        return this.internshipLevelFilter.remove(i);
+
+        return internshipLevelFilter.remove(i);
     }   
 
 	// CompanyNameFilter
+	/**
+	 * Getter for companyNameFilter
+	 *
+	 * @return companyNameFilter
+	 */
     public ArrayList<String> getCompanyNameFilter() {
         return companyNameFilter;
     }
 
-    public void AddCompanyNameFilter(String companyName) {
-        this.companyNameFilter.add(companyName);
+	/**
+	 * Adds {@code companyName} to {@code Student}'s {@code companyNameFilter}
+	 *
+	 * @param companyName the {@code companyName} to add
+	 */
+    public void addCompanyNameFilter(String companyName) {
+        companyNameFilter.add(companyName);
     }
 
-    public void RemoveCompanyNameFilter(String companyName) {
-        this.companyNameFilter.remove(companyName);
+	/**
+	 * Removes {@code companyName} from {@code Student}'s {@code companyNameFilter}
+	 *
+	 * @param companyName the {@code companyName} to remove
+	 */
+    public void removeCompanyNameFilter(String companyName) {
+        companyNameFilter.remove(companyName);
     }
 
-    public String RemoveCompanyNameFilter(int i) {
+	/**
+	 * Removes {@code companyName} from {@code Student}'s {@code companyNameFilter}
+	 *
+	 * @param i the index of the {@code companyName} to remove
+	 * @return The {@code companyName} that was removed from the list, or {@code null} if the list was cleared.
+	 */
+    public String removeCompanyNameFilter(int i) {
         if (i == -1) {
-            this.companyNameFilter.clear();
+            companyNameFilter.clear();
             return null;
         }
 
-        return this.companyNameFilter.remove(i);
+        return companyNameFilter.remove(i);
     }   
 
 	// OpeningDateFilter
+	/**
+	 * Getter for {@code applicationOpeningDateFilter}
+	 *
+	 * @return applicationOpeningDateFilter
+	 */
     public LocalDate getApplicationOpeningDateFilter() {
         return applicationOpeningDateFilter;
     }
 
+	/**
+	 * Setter for {@code applicationOpeningDateFilter}
+	 *
+	 * @param applicationOpeningDateFilter the {@code applicationOpeningDateFitlter} to set
+	 */
     public void setApplicationOpeningDateFilter(LocalDate applicationOpeningDateFilter) {
         this.applicationOpeningDateFilter = applicationOpeningDateFilter;
     }
 
 	// ClosingDateFilter
+	/**
+	 * Getter for {@code applicationClosingDateFilter}
+	 *
+	 * @return applicationClosingDate
+	 */
     public LocalDate getApplicationClosingDateFilter() {
         return applicationClosingDateFilter;
     }
 
+	/**
+	 * Getter for {@code applicationClosingDateFilter}
+	 *
+	 * @param applicationClosingDateFilter the {@code applicationClosingDateFitlter} to set
+	 */
     public void setApplicationClosingDateFilter(LocalDate applicationClosingDateFilter) {
         this.applicationClosingDateFilter = applicationClosingDateFilter;
     }

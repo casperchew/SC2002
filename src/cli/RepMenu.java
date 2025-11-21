@@ -2,7 +2,8 @@ package src.cli;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-
+import java.util.List;
+import java.util.Objects;
 import src.controller.UserController;
 import src.controller.ApplicationController;
 import src.controller.InternshipOpportunityController;
@@ -15,71 +16,69 @@ import src.model.User;
 import src.utils.Utils;
 import src.enums.Status;
 
+/**
+ * CLI for {@link src.model.user.CompanyRepresentative}
+ */
 public class RepMenu {
     private CompanyRepresentative rep;
-    private ApplicationController appController;
+    private ApplicationController applicationController;
     private InternshipOpportunityController internshipOpportunityController;
 
+	/**
+	 * Constructs a {@link RepMenu} for a {@link src.model.user.CompanyRepresentative} from the required controllers
+	 *
+	 * @param rep the {@link src.model.user.CompanyRepresentative} that the CLI is for
+	 * @param userController the {@link src.controller.UserController} used
+	 * @param applicationController the {@link src.controller.ApplicationController} used
+	 * @param internshipOpportunityController the {@link src.controller.InternshipOpportunityController} used
+	 */
     public RepMenu(
             CompanyRepresentative rep,
             UserController userController,
-            ApplicationController appController,
+            ApplicationController applicationController,
             InternshipOpportunityController internshipOpportunityController
     ) {
         this.rep = rep;
-        this.appController = appController;
+        this.applicationController = applicationController;
         this.internshipOpportunityController = internshipOpportunityController;
     }
 
-    public User runMenu(CompanyRepresentative rep) {
-        boolean loop = true;
+	/**
+	 * Displays the CLI menu for {@link src.model.user.CompanyRepresentative}.
+	 *
+	 * @return the {@link src.model.user.CompanyRepresentative} instance after the {@code rep} interacts with the menu.
+	 */
+    public User runMenu() {
+		System.out.println("1) Create internship opportunity.");
+		System.out.println("2) View created internship opportunities.");
+		System.out.println("3) View student applications.");
+		System.out.println("4) Change password");
+		System.out.println("5) Log out.");
 
-        while (loop) {
-            // Utils.clear();
-            System.out.println();
-            System.out.println("1) Create internship opportunity.");
-            System.out.println("2) View created internship opportunities.");
-            System.out.println("3) View student applications.");
-            System.out.println("4) Change password");
-            System.out.println("5) Log out.");
+		int choice = Utils.inputInt("Enter an option: ");
 
-            int choice = Utils.inputInt("Enter an option: ");
-
-            switch (choice) {
-                case 1:
-                    createInternshipOpportunity();
-                    return rep;
-                case 2:
-                    viewCreatedInternships();
-                    return rep;
-                case 3:
-                    viewStudentApplications();
-                    return rep;
-                case 4:
-                    // Changing passwords require re-logins
-                    changePassword();
-                    return null;
-                case 5:
-                    Utils.clear();
-                    System.out.println("Logging out...");
-                    loop = false;
-                    return null;
-                default:
-                    Utils.clear();
-                    System.out.println("Invalid option, please try again.");
-                    return rep;
-            } 
-        } return rep;
-    }
-
-    private void changePassword() {
-        Utils.clear();
-        String newPassword = Utils.inputString("Enter your new password: ");
-        rep.setPasswordHash(newPassword);
-        Utils.clear();
-        System.out.println("Your new password has been set.");
-        System.out.println("Please re-login with your new password.");
-        System.out.println();
+		switch (choice) {
+			case 1:
+				createInternshipOpportunity();
+				return rep;
+			case 2:
+				viewCreatedInternships();
+				return rep;
+			case 3:
+				viewStudentApplications();
+				return rep;
+			case 4:
+				changePassword();
+				return null;
+			case 5:
+				Utils.clear();
+				System.out.println("Logging out...");
+				return null;
+			default:
+				Utils.clear();
+				System.out.println("Invalid option, please try again.");
+				return rep;
+		} 
     }
 
     private void createInternshipOpportunity() {
@@ -107,7 +106,8 @@ public class RepMenu {
         InternshipOpportunity opportunity;
         for (InternshipOpportunity existingOpp: existingOpps) {
             if (existingOpp.getInternshipTitle().equals(title) && existingOpp.getCompanyName().equals(rep.getCompany())) {
-                existingOpp.getCompanyRepresentatives().add(rep);
+                // existingOpp.getCompanyRepresentatives().add(rep);
+                existingOpp.addCompanyRepresentative(rep);
                 System.out.println("You have been added as a representative for the internship opportunity successfully!");
                 return;
             }
@@ -115,7 +115,11 @@ public class RepMenu {
         
         String description = Utils.inputString("Set the description for the internship: ");
 
-        System.out.println("\n1) Basic\n2) Intermediate\n3) Advanced");
+		System.out.println();
+        System.out.println("1) Basic");
+        System.out.println("2) Intermediate");
+        System.out.println("3) Advanced");
+		System.out.println();
         int levelChoice = Utils.inputInt("Set the internship level: ");
         InternshipLevel level = switch (levelChoice) {
             case 1 -> InternshipLevel.BASIC;
@@ -124,12 +128,7 @@ public class RepMenu {
             default -> InternshipLevel.BASIC;
         };
 
-        int numMajors = 1; // Assume only 1 preferred major per opportunity
-        ArrayList<String> preferredMajors = new ArrayList<>();
-        for (int i = 0; i < numMajors; i++) {
-            preferredMajors.add(Utils.inputString("Enter preferred major " + (i + 1) + ": "));
-        }
-
+		String preferredMajor = Utils.inputString("Enter preferred major: ");
         LocalDate openingDate = Utils.inputDate("Enter opening date (YYYY-MM-DD): ");
         LocalDate closingDate = Utils.inputDate("Enter closing date (YYYY-MM-DD): ");
         while (closingDate.isBefore(openingDate)) {
@@ -147,26 +146,36 @@ public class RepMenu {
         reps.add(rep);
 
         opportunity = new InternshipOpportunity(
-                title, description, level, preferredMajors, openingDate, closingDate,
-                rep.getCompany(), reps, numSlots
+				title,
+				description,
+				level,
+				preferredMajor,
+				openingDate,
+				closingDate,
+                rep.getCompany(),
+				reps,
+				numSlots
         );
 
         internshipOpportunityController.createInternshipOpportunity(opportunity);
-        System.out.println("\nInternship opportunity '" + title + "' created successfully!");        
+        Utils.clear();   
+        System.out.println("Internship opportunity '" + title + "' created successfully!");   
+		System.out.println();
     }
 
     private void viewCreatedInternships() {
         Utils.clear();
-        ArrayList<InternshipOpportunity> opportunities = internshipOpportunityController.getInternshipOpportunities(rep);
-        
+
         boolean loop = true;
         while (loop) {
+            List<InternshipOpportunity> opportunities = internshipOpportunityController.getInternshipOpportunitiesByCompanyRepresentative(rep);
             if (opportunities.isEmpty()) {
                 Utils.clear();
                 System.out.println("You have not created any internship opportunities yet.");
                 System.out.println();
                 break;
             }
+
             System.out.println("Created Internship Opportunities:");
             for (int i = 0; i < opportunities.size(); i++) {
                 System.out.println((i + 1) + ") " + opportunities.get(i).getInternshipTitle());
@@ -191,14 +200,14 @@ public class RepMenu {
             System.out.println("Title: " + opp.getInternshipTitle());
             System.out.println("Level: " + opp.getInternshipLevel());
             System.out.println("Description: " + opp.getDescription());
-            System.out.println("Preferred Majors: " + String.join(", ", opp.getPreferredMajors()));
+            System.out.println("Preferred Major: " + opp.getPreferredMajor());
             System.out.println("Application Open: " + opp.getApplicationOpeningDate());
             System.out.println("Application Close: " + opp.getApplicationClosingDate());
             System.out.println("Slots: " + opp.getNumberOfSlots());
             System.out.println("Status: " + opp.getStatus());
             System.out.println("Visibility: " + opp.getVisibility());
-
-            System.out.println("\n1) Select another internship opportunity.");
+			System.out.println();
+            System.out.println("1) Select another internship opportunity.");
             System.out.println("2) Toggle internship visibility.");
             System.out.println("3) Exit.");
             int subChoice = Utils.inputInt("Enter an option: ");
@@ -222,45 +231,129 @@ public class RepMenu {
 
     private void viewStudentApplications() {
         Utils.clear();
-        ArrayList<InternshipApplication> allApplications;
-        allApplications = appController.getInternshipApplications();
+        boolean loop = true;
 
-        int count = 0;
+        while (loop) {
 
-        // Filters through internship applications for which the representative is in charge of
-        for (InternshipApplication application: allApplications) {
-            InternshipOpportunity opp = application.getInternshipOpportunity();
-            int numOfSlots = opp.getNumberOfSlots();
-            if (opp.getCompanyRepresentatives().contains(rep)
-                && numOfSlots > 0
-                && application.getStatus() == Status.PENDING) {
-                count ++;
+            List<InternshipOpportunity> repOpps =
+                internshipOpportunityController.getInternshipOpportunitiesByCompanyRepresentative(rep);
 
-                System.out.println("Application " + count);
-                System.out.println("Title: " + opp.getInternshipTitle());
+            ArrayList<InternshipApplication> allApps = applicationController.getInternshipApplications();
+            ArrayList<InternshipApplication> pendingApps = new ArrayList<>();
 
-                Student applicant = application.getApplicant();
-                System.out.println("Student name: " + applicant.getName());
-                System.out.println("Major: " + applicant.getMajor());
-                System.out.println("Year of study: " + applicant.getYearOfStudy());
+            for (InternshipApplication app : allApps) {
 
-                int choice  = Utils.inputInt("Approve (1) or reject (0): ");
-                
-                switch (choice) {
-                    case 0:
-                        // Rejected
-                        application.setStatus(Status.REJECTED);
-                        break;
-                    case 1:
-                        // Approved
-                        application.setStatus(Status.SUCCESSFUL);
-                        opp.setNumberOfSlots(numOfSlots - 1);
-                        if (opp.getNumberOfSlots() == 0) {
-                            opp.setStatus(Status.FILLED);
-                        }
-                        break;
+                InternshipOpportunity opp = app.getInternshipOpportunity();
+
+                if (!repOpps.contains(opp)) {
+                    continue;
                 }
+                if (opp.getSlotsLeft() <= 0) {
+                    continue;
+                }
+                if (app.getWithdrawalApproved()) {
+                    continue;
+                }
+                if (app.getStatus() != Status.PENDING) {
+                    continue;
+                }
+                pendingApps.add(app);
+            }
+
+            if (pendingApps.isEmpty()) {
+                Utils.clear();
+                System.out.println("There are no pending student internship applications.");
+                System.out.println();
+                break;
+            }
+
+            System.out.println("Pending Internship Applications:");
+            for (int i = 0; i < pendingApps.size(); i++) {
+                InternshipApplication app = pendingApps.get(i);
+                InternshipOpportunity opp = app.getInternshipOpportunity();
+                Student student = app.getApplicant();
+
+                System.out.println((i + 1) + ") " + student.getName() +
+                                " (" + opp.getInternshipTitle() + ")");
+            }
+            System.out.println();
+
+            int choice = Utils.inputInt("Enter the number of an application to view options (or -1 to exit): ");
+            if (choice == -1) {
+                break;
+            }
+
+            InternshipApplication chosenApp = null;
+            try {
+                chosenApp = pendingApps.get(choice - 1);
+            } catch (IndexOutOfBoundsException e) {
+                Utils.clear();
+                System.out.println("Invalid selection. Please enter a valid number (1 to " + pendingApps.size() + ").");
+                System.out.println();
+                continue;
+            }
+
+            Utils.clear();
+
+            InternshipOpportunity opp = chosenApp.getInternshipOpportunity();
+            Student applicant = chosenApp.getApplicant();
+
+            System.out.println("Application " + choice);
+            System.out.println("Title: " + opp.getInternshipTitle());
+            System.out.println("Student name: " + applicant.getName());
+            System.out.println("Major: " + applicant.getMajor());
+            System.out.println("Year of study: " + applicant.getYearOfStudy());
+            System.out.println();
+
+            System.out.println("1) Approve this application.");
+            System.out.println("2) Reject this application.");
+            System.out.println("3) Select another application.");
+            System.out.println("4) Exit.");
+
+            int subChoice = Utils.inputInt("Enter an option: ");
+
+            switch (subChoice) {
+                case 1:
+                    // Approved 
+                    chosenApp.setStatus(Status.APPROVED);
+                    opp.decrementSlotsLeft();
+                    if (opp.getSlotsLeft() == 0) {
+                        opp.setStatus(Status.FILLED);
+                    }
+                    Utils.clear();
+                    System.out.println("The application has been approved.");
+                    System.out.println();
+                    break;
+
+                case 2:
+                    // Rejected (original logic)
+                    chosenApp.setStatus(Status.REJECTED);
+                    Utils.clear();
+                    System.out.println("The application has been rejected.");
+                    System.out.println();
+                    break;
+
+                case 3:
+                    Utils.clear();
+                    continue;
+
+                case 4:
+                    Utils.clear();
+                    loop = false;
+                    break;
             }
         }
     }
+
+
+    private void changePassword() {
+        Utils.clear();
+        String newPassword = Utils.inputString("Enter your new password: ");
+        rep.setPasswordHash(newPassword);
+        Utils.clear();
+        System.out.println("Your new password has been set.");
+        System.out.println("Please re-login with your new password.");
+        System.out.println();
+    }
+
 }
