@@ -489,7 +489,7 @@ public String getCompany() {
     }
 ```
 
-### Polymorphism (this might need to be adjusted depending on how login() is changed)
+### Polymorphism
 
 This is an example of where polymorphism is used and can be found in `UserController.java`:
 
@@ -504,8 +504,6 @@ public User login(String userID, String passwordHash) {
 ```
 
 Different users have differently formatted UserIDs. Since the method body of `getUserID()` is dynamically binded during runtime, this allows the program to treat all these subclasses as a User while still preserving their specific behaviors. This keeps the `User.java` class and its subclasses maintainable and extensible.
-
-## Coupling and cohesion
 
 ## Design princples used
 
