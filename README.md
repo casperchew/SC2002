@@ -6,7 +6,7 @@
 
 ### Class Diagram
 
-![alt text](diagrams/src.main.jpg)
+![alt text](diagrams/src.jpg)
 
 ### Sequence Diagrams
 
